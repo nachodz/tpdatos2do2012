@@ -10,7 +10,7 @@
 using namespace std;
 
 int main() {
-	cout << "!!!Soy Nacho!!!, soy Fran!!" <<
+	cout << "!!!Soy Nacho!!!, soy Fran, prueba desde eclipse!!" <<
 	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
 	return 0;
 }
