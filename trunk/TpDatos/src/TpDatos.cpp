@@ -31,7 +31,7 @@ void menuDiccionario(){
 			case 1: cout << "TODO: " << MD_OP1 << endl;break;
 			case 2: cout << "TODO: " << MD_OP2 << endl;break;
 			case 3: ejecutando = false;break;
-			default: /*no hago nada*/;
+			default: /*no hago nada*/;break;
 		}
 	}
 }
