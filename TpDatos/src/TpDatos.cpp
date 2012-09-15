@@ -12,8 +12,6 @@ void menuDiccionario(){
 
 	int op;
 	bool ejecutando = true;
-	char rutaDiccionario[] = "/home/francisco/diccionario"; //Dps va a ser mejor pasarla como parametro del prog asi es mas generico
-
 
 	while(ejecutando){
 
@@ -35,8 +33,11 @@ void menuDiccionario(){
 		switch(op){
 			case 1: {
 					cout << "TODO: " << MD_OP1 << endl;
+					char s[256];
+					cout<<"Ingrese ruta del archivo diccionario";
+					cin>>s;
 					Normalizador unNormalizador;
-					unNormalizador.normalizarArchivo(rutaDiccionario);
+					unNormalizador.normalizarArchivo(s);
 					unNormalizador.~Normalizador();
 			}
 			break;

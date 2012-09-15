@@ -18,12 +18,15 @@ Normalizador::~Normalizador(){
 	// TODO Auto-generated destructor stub
 }
 
-void Normalizador::normalizarArchivo(char rutaEntrada[]){
+void Normalizador::normalizarArchivo(char rutaEntrada[]){;
 	ifstream diccionario (rutaEntrada);
-	ofstream diccionarioNormalizado ("/home/francisco/normalizado");
+	char s[256];
+	cout<<"Ingrese ruta de destino para el diccionario normalizado";
+	cin>>s;
+	ofstream diccionarioNormalizado (s);
 	string palabraDiccionario;
 
-	if (diccionario){
+	if ((diccionario) && (diccionarioNormalizado)){
 		diccionario>>palabraDiccionario;
 		this->normalizarPalabra(&palabraDiccionario);
 		while (!diccionario.eof()) {
@@ -33,9 +36,10 @@ void Normalizador::normalizarArchivo(char rutaEntrada[]){
 		}
 		diccionario.close();
 		diccionarioNormalizado.close();
+		cout<<"Diccionario normalizado correctamente";
 	}
 	else
-		cout<<"error al abrir el diccionario";
+		cout<<"error al abrir el diccionario o al buscar carpeta destino";
 }
 
 void Normalizador::normalizarPalabra(string *unaPalabra){
