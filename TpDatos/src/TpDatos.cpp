@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include "Normalizador.h"
+#include "RegistroNormalizado.h"
 #include "Constantes.h"
 #include "stdio.h"
 #include "stdlib.h"
@@ -9,6 +12,8 @@ void menuDiccionario(){
 
 	int op;
 	bool ejecutando = true;
+	char rutaDiccionario[] = "/home/francisco/diccionario"; //Dps va a ser mejor pasarla como parametro del prog asi es mas generico
+
 
 	while(ejecutando){
 
@@ -28,7 +33,13 @@ void menuDiccionario(){
 		}
 
 		switch(op){
-			case 1: cout << "TODO: " << MD_OP1 << endl;break;
+			case 1: {
+					cout << "TODO: " << MD_OP1 << endl;
+					Normalizador unNormalizador;
+					unNormalizador.normalizarArchivo(rutaDiccionario);
+					unNormalizador.~Normalizador();
+			}
+			break;
 			case 2: cout << "TODO: " << MD_OP2 << endl;break;
 			case 3: ejecutando = false;break;
 			default: /*no hago nada*/;break;
