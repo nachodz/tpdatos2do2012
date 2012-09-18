@@ -23,7 +23,7 @@ void Normalizador::normalizarArchivo(char rutaEntrada[]){;
 	char s[256];
 	cout<<"Ingrese ruta de destino para el diccionario normalizado";
 	cin>>s;
-	ofstream diccionarioNormalizado (s);
+	ofstream diccionarioNormalizado(s);
 	string palabraDiccionario;
 
 	if ((diccionario) && (diccionarioNormalizado)){
