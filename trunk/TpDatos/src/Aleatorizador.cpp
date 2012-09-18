@@ -21,11 +21,12 @@ void Aleatorizador::aleatorizarArchivo(char ruta[]) {
 	string cadenaNormal;
 
 	ifstream diccionarioNormalizado(ruta);
-	//ingeso de las rutas de archivos
-	ofstream archivoAuxiliar("/home/francisco/tabulado");
+	char s[256];
+	cout<<"Ingrese ruta destino del diccionario tabulado";
+	cin>>s;
+	ofstream archivoAuxiliar(s);
 	int aleatorio,aux;
 	srand(time(NULL));
-	char rutaBin[] = "/home/francisco/binario";
 
 	if(diccionarioNormalizado && archivoAuxiliar){
 
@@ -43,7 +44,7 @@ void Aleatorizador::aleatorizarArchivo(char ruta[]) {
 
 		diccionarioNormalizado.close();
 		archivoAuxiliar.close();
-
+		cout<<"Archivo aleatorizado correctamente";
 	}
 	else
 		cout<<"error al aleatorizar el archivo o al buscar carpeta destino";
