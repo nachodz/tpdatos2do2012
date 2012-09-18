@@ -18,7 +18,7 @@ Normalizador::~Normalizador(){
 	// TODO Auto-generated destructor stub
 }
 
-void Normalizador::normalizarArchivo(char rutaEntrada[]){;
+void Normalizador::normalizarArchivo(char rutaEntrada[]) {
 	ifstream diccionario (rutaEntrada);
 	char s[256];
 	cout<<"Ingrese ruta de destino para el diccionario normalizado";
@@ -37,7 +37,6 @@ void Normalizador::normalizarArchivo(char rutaEntrada[]){;
 		diccionario.close();
 		diccionarioNormalizado.close();
 		cout<<"Diccionario normalizado correctamente";
-		rutaEntrada = s;
 	}
 	else
 		cout<<"error al abrir el diccionario o al buscar carpeta destino";

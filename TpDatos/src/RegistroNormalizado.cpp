@@ -26,13 +26,17 @@ int RegistroNormalizado::getID() {
 	return this->ID;
 }
 
-void RegistroNormalizado::guardar() {
-
+void RegistroNormalizado::guardar(ofstream *binario) {
+	binario->write((char*)&(this->ID),4);
+	binario->write((char*)&(this->tamPalabra),4);
+	binario->write((char*)&(this->termino),(this->tamPalabra));
 }
 
 
-void RegistroNormalizado::recuperar() {
-
+void RegistroNormalizado::recuperar(ifstream *binario) {
+	binario->read((char*)&(this->ID),4);
+	binario->read((char*)&(this->tamPalabra),4);
+	binario->read((char*)&(this->termino),(this->tamPalabra));
 }
 
 
