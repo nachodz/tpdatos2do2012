@@ -26,8 +26,8 @@ public:
 	virtual ~RegistroNormalizado();
 	string getTermino();
 	int getID();
-	void guardar();
-	void recuperar();
+	void guardar(ofstream *binario);
+	void recuperar(ifstream *binario);
 };
 
 #endif /* REGISTRONORMALIZADO_H_ */

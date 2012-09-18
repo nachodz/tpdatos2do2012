@@ -48,13 +48,14 @@ void menuDiccionario(){
 					char ruta[256];
 					cout<<"Ingrese ruta del archivo normalizado";
 					cin>>ruta;
-					Aleatorizador unAleatorizador;
+				    Aleatorizador unAleatorizador;
 					unAleatorizador.aleatorizarArchivo(ruta);
 					unAleatorizador.~Aleatorizador();
 			}
 			break;
 
 			case 3: ejecutando = false;break;
+
 			default: /*no hago nada*/;break;
 		}
 	}
