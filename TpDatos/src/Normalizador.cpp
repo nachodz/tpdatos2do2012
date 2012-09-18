@@ -37,6 +37,7 @@ void Normalizador::normalizarArchivo(char rutaEntrada[]){;
 		diccionario.close();
 		diccionarioNormalizado.close();
 		cout<<"Diccionario normalizado correctamente";
+		rutaEntrada = s;
 	}
 	else
 		cout<<"error al abrir el diccionario o al buscar carpeta destino";
