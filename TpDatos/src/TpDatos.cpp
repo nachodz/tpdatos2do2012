@@ -182,7 +182,7 @@ void menuComponenteEstadisticas(){
 	}
 }
 
-int main() {
+int mai() {
 
 	int op;
 	bool ejecutando = true;
