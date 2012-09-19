@@ -43,8 +43,7 @@ void Aleatorizador::aleatorizarArchivo(char ruta[]) {
 		while (!diccionarioNormalizado.eof()){
 
 			reg.id = 100000000+rand()%(200000001);
-			binario.write((char*)&reg.id,4);
-			binario.write((char*)&reg.termino,25);
+			binario.write((char*)&reg,29);
 			archivoAuxiliar<<reg.id<<"  "<<reg.termino<<endl;
 			diccionarioNormalizado>>reg.termino;
 		}
