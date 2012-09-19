@@ -21,7 +21,7 @@ void Aleatorizador::aleatorizarArchivo(char ruta[]) {
 
 	struct registro{
 		int id;
-		char termino[20];
+		char termino[25];
 	};
 
 	srand(time(NULL));
@@ -36,7 +36,7 @@ void Aleatorizador::aleatorizarArchivo(char ruta[]) {
 
 	registro reg;
 
-	if(diccionarioNormalizado && archivoAuxiliar){
+	if(diccionarioNormalizado && archivoAuxiliar && binario){
 
 		diccionarioNormalizado>>reg.termino;
 
@@ -44,13 +44,14 @@ void Aleatorizador::aleatorizarArchivo(char ruta[]) {
 
 			reg.id = 100000000+rand()%(200000001);
 			binario.write((char*)&reg.id,4);
-			binario.write((char*)&reg.termino,20);
+			binario.write((char*)&reg.termino,25);
 			archivoAuxiliar<<reg.id<<"  "<<reg.termino<<endl;
 			diccionarioNormalizado>>reg.termino;
 		}
 
 		diccionarioNormalizado.close();
 		archivoAuxiliar.close();
+		binario.close();
 		cout<<"Archivo aleatorizado correctamente"<<endl;
 	}
 	else
