@@ -18,28 +18,36 @@ Normalizador::~Normalizador(){
 	// TODO Auto-generated destructor stub
 }
 
-void Normalizador::normalizarArchivo(char rutaEntrada[]) {
-	ifstream diccionario (rutaEntrada);
-	char s[256];
-	cout<<"Ingrese ruta de destino para el diccionario normalizado";
-	cin>>s;
-	ofstream diccionarioNormalizado(s);
+void Normalizador::normalizarArchivo() {
+
+	char rutaDic[] = "diccionario.txt", rutaNor[] = "normalizado.txt";
+
+	ifstream diccionario(rutaDic);
+	ofstream diccionarioNormalizado(rutaNor);
+
 	string palabraDiccionario;
 
 	if ((diccionario) && (diccionarioNormalizado)){
+
 		diccionario>>palabraDiccionario;
 		this->normalizarPalabra(&palabraDiccionario);
+
 		while (!diccionario.eof()) {
-			diccionarioNormalizado<<palabraDiccionario<<endl;
+
+			if (!(this->esStopword(palabraDiccionario))) {
+
+				diccionarioNormalizado<<palabraDiccionario<<endl;
+			}
 			diccionario>>palabraDiccionario;
 			this->normalizarPalabra(&palabraDiccionario);
 		}
+
 		diccionario.close();
 		diccionarioNormalizado.close();
-		cout<<"Diccionario normalizado correctamente";
+		cout<<"Diccionario normalizado correctamente"<<endl;
 	}
 	else
-		cout<<"error al abrir el diccionario o al buscar carpeta destino";
+		cout<<"error al normalizar el diccionario"<<endl;
 }
 
 void Normalizador::normalizarPalabra(string *unaPalabra){
@@ -103,5 +111,28 @@ void Normalizador::cambiarLetra(string *unaPalabra, char L, int pos){
 	default: break;
 	}
 }
+
+bool Normalizador::esStopword(string unaPalabra) {
+
+	ifstream words("stopwords.txt");
+
+	string stopword;
+
+	words >> stopword;
+
+	while(!words.eof()) {
+
+		if (stopword == unaPalabra){
+			return true;
+		}
+		else
+			words >> stopword;
+	}
+
+return false;
+}
+
+
+
 
 

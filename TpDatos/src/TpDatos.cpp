@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include "Normalizador.h"
-#include "RegistroNormalizado.h"
 #include "Constantes.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,22 +33,16 @@ void menuDiccionario(){
 		switch(op){
 			case 1: {
 					cout << "TODO: " << MD_OP1 << endl;
-					char ruta[256];
-					cout<<"Ingrese ruta del archivo diccionario";
-					cin>>ruta;
 					Normalizador unNormalizador;
-					unNormalizador.normalizarArchivo(ruta);
+					unNormalizador.normalizarArchivo();
 					unNormalizador.~Normalizador();
 			}
 			break;
 
 			case 2: {
 					cout << "TODO: " << MD_OP2 << endl;
-					char ruta[256];
-					cout<<"Ingrese ruta del archivo normalizado";
-					cin>>ruta;
 				    Aleatorizador unAleatorizador;
-					unAleatorizador.aleatorizarArchivo(ruta);
+					unAleatorizador.aleatorizarArchivo();
 					unAleatorizador.~Aleatorizador();
 			}
 			break;

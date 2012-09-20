@@ -21,13 +21,14 @@ class Normalizador {
 	public:
 		Normalizador();
 		virtual ~Normalizador();
-		void normalizarArchivo(char rutaEntrada[]);
+		void normalizarArchivo();
 		void cortarPalabra(string *unaPalabra);
 		void sacarAcentos(string *unaPalabra);
 		void sacarMayusculas(string *unaPalabra);
 		void normalizarPalabra(string *unaPalabra);
 		int posicionCaracter(string unaPalabra, char L);
 		void cambiarLetra(string *unaPalabra, char L, int pos);
+		bool esStopword(string unaPalabra);
 };
 
 #endif /* NORMALIZADOR_H_ */

@@ -17,47 +17,58 @@ Aleatorizador::~Aleatorizador() {
 	// TODO Auto-generated destructor stub
 }
 
-void Aleatorizador::aleatorizarArchivo(char ruta[]) {
-
-	struct registro{
-		int id;
-		char termino[25];
-	};
+void Aleatorizador::aleatorizarArchivo() {
 
 	srand(time(NULL));
 
+	char ruta[] = "normalizado.txt";
+
 	ifstream diccionarioNormalizado(ruta);
 
-	char s[256];
-	cout<<"Ingrese ruta destino del diccionario tabulado";
-	cin>>s;
-
-	ofstream archivoAuxiliar(s),binario("/home/francisco/binario",ios::binary);
+	ofstream binario("diccionario.dat",ios::binary);
 
 	registro reg;
 
-	if(diccionarioNormalizado && archivoAuxiliar && binario){
+	if(diccionarioNormalizado && binario){
 
 		diccionarioNormalizado>>reg.termino;
 
 		while (!diccionarioNormalizado.eof()){
 
-			reg.id = 100000000+rand()%(200000001);
+			reg.ID = 100000000+rand()%(200000001);
 			binario.write((char*)&reg,29);
-			archivoAuxiliar<<reg.id<<"  "<<reg.termino<<endl;
 			diccionarioNormalizado>>reg.termino;
 		}
 
 		diccionarioNormalizado.close();
-		archivoAuxiliar.close();
 		binario.close();
+		this->generarAchivoTabulado();
+		this->sortExterno();
 		cout<<"Archivo aleatorizado correctamente"<<endl;
 	}
 	else
-		cout<<"error al aleatorizar el archivo o al buscar carpeta destino";
+		cout<<"Error al aleatorizar el archivo";
 }
 
+void Aleatorizador::generarAchivoTabulado() {
+
+	ifstream entrada("diccionario.dat", ios::binary);
+	ofstream salida("tabulado.txt");
+
+	registro reg;
+
+	salida<<"DICCIONARIO TABULADO"<<endl;
+	salida<<" "<<endl;
+
+	entrada.read((char*)&reg,29);
+
+		while(!entrada.eof()){
+
+			salida<<reg.ID<<"  "<<reg.termino<<endl;
+			entrada.read((char*)&reg,29);
+		}
+}
 
 void Aleatorizador::sortExterno() {
-
+	cout<<"ordenamiento"<<endl;
 }
