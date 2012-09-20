@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include "Normalizador.h"
 #include "Constantes.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "Aleatorizador.h"
+#include "Aleatorizador/Aleatorizador.h"
+#include "Normalizador/Normalizador.h"
 
 using namespace std;
 
