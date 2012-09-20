@@ -15,9 +15,13 @@
 #include <ctype.h>
 #include <time.h>
 #include <stdio.h>
-#include "RegistroNormalizado.h"
 
 using namespace std;
+
+struct registro{
+		int ID;
+		char termino[25];
+	};
 
 class Aleatorizador {
 private:
@@ -25,7 +29,8 @@ private:
 public:
 	Aleatorizador();
 	virtual ~Aleatorizador();
-	void aleatorizarArchivo(char ruta[]);
+	void aleatorizarArchivo();
+	void generarAchivoTabulado();
 	void sortExterno();
 };
 
