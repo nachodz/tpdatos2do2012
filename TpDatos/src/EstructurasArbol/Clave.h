@@ -2,7 +2,7 @@
 #ifndef CLAVE_H_
 #define CLAVE_H_
 #include "../Persistencia/Serializable.h"
-#include "../Comunes/Constantes.h"
+#include "../Constantes.h"
 #include <string.h>
 
 class Clave : public Serializable{
