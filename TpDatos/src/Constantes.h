@@ -8,6 +8,14 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
 
+//******************** Path de Archivos ***************************
+#define PATH_ARCHIVO_NORMALIZADO "normalizado.txt"
+//#define PATH_ARCHIVO_ALEATORIZADO
+#define PATH_DICCIONARIO "diccionario.txt"
+#define PATH_STOPWORDS "stopwords.txt"
+#define PATH_ARCHIVO_TABULADO "tabulado.txt"
+
+//******************** Menu ***************************
 #define MP "MENU PRINCIPAL"
 #define MP_OP1 "1) Operaciones sobre Diccionario"
 #define MP_OP2 "2) Organización de Archivo"
@@ -43,5 +51,27 @@
 
 #define ERR_RANGO "ERROR: Ingrese un número válido"
 #define INF_ERR_RANGO "Usted ingresó: "
+
+/**********************Arbol B+ ***************************/
+#define POTENCIA 0
+#define TAM_LONG_REGISTRO sizeof(int)
+#define TAM_LONG_CLAVE sizeof(char)
+#define TAM_LONG_DATO sizeof(int)
+#define CONST_VACIO 0x00
+#define PORC_TAMANIO_NODO 50
+#define TAM_TOTAL_NODO 256
+#define TAM_CONTROL_NODO 24
+#define TAM_CONTROL_OVERFLOW 20
+#define TAM_EFECTIVO_NODO (TAM_TOTAL_NODO - TAM_CONTROL_NODO)
+#define PORCENTAJE_NODO 50
+//#define BUFFER_NODOS_LIBRES 256
+#define TAM_CONTROL_REGISTRO 10
+
+/************************ Hash ************************/
+#define TAM_CUBO 4096
+#define NOM_TEMP "Temp"
+
+/***********************Comunes************************/
+#define ERROR -1
 
 #endif /* CONSTANTES_H_ */
