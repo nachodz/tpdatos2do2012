@@ -25,10 +25,11 @@ void Aleatorizador::aleatorizarArchivo() {
 
 	ifstream diccionarioNormalizado(ruta);
 
-	ofstream binario("diccionario.dat",ios::binary);
+	ofstream binario(PATH_ARCHIVO_ALEATORIZADO,ios::binary);
 
 	registro reg;
 
+	cout<<MSJ_PROCESANDO<<endl;
 	if(diccionarioNormalizado && binario){
 
 		diccionarioNormalizado>>reg.termino;
@@ -52,7 +53,7 @@ void Aleatorizador::aleatorizarArchivo() {
 
 void Aleatorizador::generarAchivoTabulado() {
 
-	ifstream entrada("diccionario.dat", ios::binary);
+	ifstream entrada(PATH_ARCHIVO_ALEATORIZADO, ios::binary);
 	ofstream salida(PATH_ARCHIVO_TABULADO);
 
 	registro reg;
@@ -70,5 +71,5 @@ void Aleatorizador::generarAchivoTabulado() {
 }
 
 void Aleatorizador::sortExterno() {
-	cout<<"ordenamiento"<<endl;
+	cout<<"TODO: ordenamiento"<<endl;
 }
