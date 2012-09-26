@@ -74,4 +74,7 @@
 /***********************Comunes************************/
 #define ERROR -1
 
+/***********************Avisos*************************/
+#define MSJ_PROCESANDO "Procesando"
+
 #endif /* CONSTANTES_H_ */
