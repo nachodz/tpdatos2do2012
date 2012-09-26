@@ -32,7 +32,7 @@ void Normalizador::normalizarArchivo() {
 		diccionario>>palabraDiccionario;
 		this->normalizarPalabra(&palabraDiccionario);
 
-		cout<<MSJ_PROCESANDO<<endl;
+		cout << MSJ_PROCESANDO << endl;
 		while (!diccionario.eof()) {
 
 			if (!(this->esStopword(palabraDiccionario))) {
