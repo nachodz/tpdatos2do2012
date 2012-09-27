@@ -11,7 +11,6 @@
 #include "RegistroHoja.h"
 #include "clave.h"
 
-
 using namespace std;
 
 class frontCoding {
@@ -24,9 +23,9 @@ public:
 
 	virtual ~frontCoding();
 
-	void pasarAfrontCoding(string palabras[], int numElem);
+	void pasarAfrontCoding(clave claves[], int numElem, RegistroHoja registros[]);
 
-	void sacarFrontCoding();
+	void sacarFrontCoding(RegistroHoja registros[], int numElem, clave claves[]);
 
 	int LetrasIguales(string palabra1, string palabra2);
 

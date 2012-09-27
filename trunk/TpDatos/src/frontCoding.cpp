@@ -7,7 +7,6 @@
 
 #include "frontCoding.h"
 
-
 frontCoding::frontCoding() {
 	// TODO Auto-generated constructor stub
 
@@ -17,49 +16,65 @@ frontCoding::~frontCoding() {
 	// TODO Auto-generated destructor stub
 }
 
-void frontCoding::pasarAfrontCoding(string palabras[], int numElem) {
+void frontCoding::pasarAfrontCoding(clave claves[], int numElem, RegistroHoja registros[]) {
 
-	int i, j, coincidencias, diferencias;
+	int i, coincidencias, diferencias;
 	string palabra;
 
-	for (i = 0, j = 0; i < numElem; i++,j++) {
+	for (i = 0; i < numElem; i++) {
 
 		if (i == 0) {
 
-			palabra = palabras[i];
-			RegistroHoja registro(-1,palabra.size(),palabra,j,0);
-			//Aca meteria el registro en el nodo.
+			palabra = (claves[i]).getTermino();
+			RegistroHoja registro(-1,palabra.size(),palabra,(claves[i]).getPosicion(),0);
+			registros[i] = registro;
 		}
 		else
 		{
-			coincidencias = (this->LetrasIguales(palabras[i-1],palabras[i]));
+			coincidencias = (this->LetrasIguales(claves[i-1].getTermino(), claves[i].getTermino()));
 
 			if (coincidencias != 0) {
 
-				if ((palabras[i-1].size()) >= (palabras[i].size())){
-
-					palabra = "";
-					RegistroHoja registro(coincidencias,0,palabra,j,0);
-					//Aca  se mete el registro en el nodo.
-				}
-				else
-				{
-					palabra = (this->letrasDistintas(palabras[i], coincidencias));
-					diferencias = palabra.size();
-					RegistroHoja registro(coincidencias,diferencias,palabra,j,0);
-					//Aca se mete el registro en el nodo.
-				}
+				palabra = (this->letrasDistintas(claves[i].getTermino(), coincidencias));
+				diferencias = palabra.size();
+				RegistroHoja registro(coincidencias,diferencias,palabra,(claves[i]).getPosicion(),0);
+				registros[i] = registro;
 			}
 			else
 			{
-				palabra = palabras[i];
+				palabra = (claves[i].getTermino());
 				diferencias = palabra.size();
-				RegistroHoja registro(coincidencias,diferencias,palabra,j,0);
-				//Aca se mete el registro en el nodo.
-				cout << "  " << (registro.getLetrasIguales()) << "  " << (registro.getLetrasDistintas()) << "  " << (registro.getPalabra()) << "  " << (registro.getPosicion()) << "  " << (registro.getFantasma()) << " |";
+				RegistroHoja registro(coincidencias,diferencias,palabra,(claves[i]).getPosicion(),0);
+				registros[i] = registro;
 			}
 		}
 	}
+}
+
+void frontCoding::sacarFrontCoding(RegistroHoja registros[], int numElem, clave claves[]) {
+
+	int i, coincidencias;
+	string palabra, cadenaAux;
+
+	for (i = 0; i < numElem; i++) {
+
+		if ((i == 0) || ((registros[i].getLetrasIguales()) == 0)) {
+
+			palabra = ((registros[i]).getPalabra());
+			clave unaClave(palabra,((registros[i]).getPosicion()),((registros[i]).getFantasma()));
+			claves[i] = unaClave;
+		}
+		else
+		{
+			coincidencias = (registros[i].getLetrasIguales());
+			palabra = (registros[i].getPalabra());
+			cadenaAux = (claves[i-1].getTermino()).substr(0,coincidencias);
+			palabra = cadenaAux += palabra;
+			clave unaClave(palabra,((registros[i]).getPosicion()),((registros[i]).getFantasma()));
+			claves[i] = unaClave;
+		}
+	}
+
 }
 
 
