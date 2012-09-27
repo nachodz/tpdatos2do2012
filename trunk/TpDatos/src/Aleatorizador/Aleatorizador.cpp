@@ -25,7 +25,7 @@ void Aleatorizador::aleatorizarArchivo() {
 
 	ifstream diccionarioNormalizado(ruta);
 
-	ofstream binario(PATH_ARCHIVO_ALEATORIZADO,ios::binary);
+	ofstream binario(PATH_ARCHIVO_A_ALEATORIZAR,ios::binary);
 
 	registro reg;
 
@@ -53,7 +53,7 @@ void Aleatorizador::aleatorizarArchivo() {
 
 void Aleatorizador::generarAchivoTabulado() {
 
-	ifstream entrada(PATH_ARCHIVO_ALEATORIZADO, ios::binary);
+	ifstream entrada(PATH_ARCHIVO_A_ALEATORIZAR, ios::binary);
 	ofstream salida(PATH_ARCHIVO_TABULADO);
 
 	registro reg;
