@@ -7,6 +7,7 @@
 
 #include "frontCoding.h"
 
+
 frontCoding::frontCoding() {
 	// TODO Auto-generated constructor stub
 
