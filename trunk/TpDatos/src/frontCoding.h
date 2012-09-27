@@ -9,6 +9,8 @@
 #define FRONTCODING_H_
 
 #include "RegistroHoja.h"
+#include "clave.h"
+
 
 using namespace std;
 

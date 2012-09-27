@@ -10,7 +10,7 @@
 
 //******************** Path de Archivos ***************************
 #define PATH_ARCHIVO_NORMALIZADO "normalizado.txt"
-//#define PATH_ARCHIVO_ALEATORIZADO
+#define PATH_ARCHIVO_A_ALEATORIZAR "diccionario.dat"
 #define PATH_DICCIONARIO "diccionario.txt"
 #define PATH_STOPWORDS "stopwords.txt"
 #define PATH_ARCHIVO_TABULADO "tabulado.txt"
