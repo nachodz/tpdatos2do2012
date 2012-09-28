@@ -44,6 +44,7 @@ public:
     void achicarMonticulo (tReg *bufferSort,int tamHeap,ofstream *salida);
     void copiarReg (tReg* regDestino,tReg* regOrigen);
     string IntToStr(int n);
+    void correrBuffer (tReg* bufNuevo, tReg* bufViejo, int cantaPasar);
 
 
 };
