@@ -38,7 +38,6 @@ void menuDiccionario(){
 
 		switch(op){
 			case 1: {
-					cout << "TODO: " << MD_OP1 << endl;
 					Normalizador unNormalizador;
 					unNormalizador.normalizarArchivo();
 					unNormalizador.~Normalizador();
@@ -46,8 +45,7 @@ void menuDiccionario(){
 			break;
 
 			case 2: {
-					cout << "TODO: " << MD_OP2 << endl;
-				    Aleatorizador unAleatorizador;
+					Aleatorizador unAleatorizador;
 					unAleatorizador.aleatorizarArchivo();
 					unAleatorizador.~Aleatorizador();
 			}
