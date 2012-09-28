@@ -75,6 +75,15 @@ void Ordenador::copiarReg (tReg* regDestino,tReg* regOrigen){
 	strcpy (regDestino->termino,regOrigen->termino);
 };
 
+void Ordenador::correrBuffer (tReg* bufNuevo, tReg* bufViejo, int cantaPasar){
+
+
+	for (int i = 0,j = (tamBufOrd-cantaPasar); i < cantaPasar; i++,j++)
+	{
+		this->copiarReg(&(bufNuevo[i]),&(bufViejo[j]));
+	}
+};
+
 void Ordenador::ordenar (ifstream *arch, int cantReg){
 
 	tamBufOrd = cantReg*10;
@@ -111,6 +120,7 @@ void Ordenador::ordenar (ifstream *arch, int cantReg){
 		    partNro[nroPart].write((char*)&(bufferSort[0]),sizeof(tReg));
 
             if (reg.id > ultimoID) this->copiarReg(&(bufferSort[0]),&reg);
+
             else {
              	bufferSort[0] = bufferSort[tamHeap-1];
              	this->copiarReg(&(bufferSort[tamHeap-1]),&reg);
@@ -151,9 +161,14 @@ void Ordenador::ordenar (ifstream *arch, int cantReg){
 	string filename = PATH + IntToStr(nroPart);
     partNro[nroPart].open(filename.c_str(),ios::out | ios::binary);
 
- 	this->achicarMonticulo(bufferSort,tamUltHeap,&(partNro[nroPart]));
+    tReg *bufferUltHeap = new tReg [tamUltHeap];
+
+    this->correrBuffer (bufferUltHeap,bufferSort,tamUltHeap);
+    this->myheapsort(bufferUltHeap,tamHeap);
+ 	this->achicarMonticulo(bufferUltHeap,tamUltHeap,&(partNro[nroPart]));
 
  	delete []bufferSort;
+ 	delete []bufferUltHeap;
  	delete []partNro;
    }
   }
