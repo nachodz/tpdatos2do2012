@@ -20,13 +20,9 @@ Aleatorizador::~Aleatorizador() {
 void Aleatorizador::aleatorizarArchivo() {
 
 	srand(time(NULL));
-
-	int i = 0, cantRegistros = 0;
-
+	int indiceBuffer = 0, cantRegistros = 0;
 	ifstream diccionarioNormalizado(PATH_ARCHIVO_NORMALIZADO);
-
 	ofstream binario(PATH_ARCHIVO_A_ALEATORIZAR,ios::binary);
-
 	registroNormalizado *bufferEscritura = new registroNormalizado[TAM_BUFFER_LECT_ESC], registro;
 
 	cout<< MSJ_PROCESANDO <<endl;
@@ -37,26 +33,26 @@ void Aleatorizador::aleatorizarArchivo() {
 
 		while (!diccionarioNormalizado.eof()) {
 
-			while ((i < TAM_BUFFER_LECT_ESC) && (!diccionarioNormalizado.eof())) {
+			while ((indiceBuffer < TAM_BUFFER_LECT_ESC) && (!diccionarioNormalizado.eof())) {
 
 				registro.ID = 100000000+rand()%(200000001);
-				bufferEscritura[i] = registro;
+				bufferEscritura[indiceBuffer] = registro;
 				diccionarioNormalizado>>registro.termino;
-				i++;
+				indiceBuffer++;
 			}
 
-			if (i == TAM_BUFFER_LECT_ESC) {
+			if (indiceBuffer == TAM_BUFFER_LECT_ESC) {
 
-					binario.write((char*)bufferEscritura,(sizeof(registroNormalizado) * TAM_BUFFER_LECT_ESC));
-					cantRegistros = cantRegistros + TAM_BUFFER_LECT_ESC;
+				binario.write((char*)bufferEscritura,(sizeof(registroNormalizado) * TAM_BUFFER_LECT_ESC));
+				cantRegistros = cantRegistros + TAM_BUFFER_LECT_ESC;
 			}
 			else
 			{
-					binario.write((char*)bufferEscritura,(sizeof(registroNormalizado) * i));
-					cantRegistros = cantRegistros + i;
+				binario.write((char*)bufferEscritura,(sizeof(registroNormalizado) * indiceBuffer));
+				cantRegistros = cantRegistros + indiceBuffer;
 			}
 
-			i = 0;
+			indiceBuffer = 0;
 		}
 
 		delete[] bufferEscritura;
@@ -74,9 +70,7 @@ void Aleatorizador::generarAchivoTabulado(int cantRegistros) {
 
 	ifstream entrada(PATH_ARCHIVO_A_ALEATORIZAR, ios::binary);
 	ofstream salida(PATH_ARCHIVO_TABULADO);
-
-	int i = 0;
-
+	int indiceBuffer = 0;
 	registroNormalizado *bufferLectura = new registroNormalizado[TAM_BUFFER_LECT_ESC];
 
 	salida<<"DICCIONARIO TABULADO"<<endl;
@@ -87,13 +81,13 @@ void Aleatorizador::generarAchivoTabulado(int cantRegistros) {
 		entrada.read((char*)bufferLectura,(sizeof(registroNormalizado) * TAM_BUFFER_LECT_ESC));
 		cantRegistros = cantRegistros - TAM_BUFFER_LECT_ESC;
 
-		while (i < TAM_BUFFER_LECT_ESC) {
+		while (indiceBuffer < TAM_BUFFER_LECT_ESC) {
 
-			salida << bufferLectura[i].ID << "  " << bufferLectura[i].termino << endl;
-			i++;
+			salida << bufferLectura[indiceBuffer].ID << "  " << bufferLectura[indiceBuffer].termino << endl;
+			indiceBuffer++;
 	 	}
 
-		i = 0;
+		indiceBuffer = 0;
 	}
 
 	if (cantRegistros != 0) {
