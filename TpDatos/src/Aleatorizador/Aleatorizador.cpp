@@ -8,6 +8,7 @@
 
 #include "Aleatorizador.h"
 
+
 Aleatorizador::Aleatorizador() {
 	// TODO Auto-generated constructor stub
 
@@ -59,7 +60,8 @@ void Aleatorizador::aleatorizarArchivo() {
 		diccionarioNormalizado.close();
 		binario.close();
 		this->generarAchivoTabulado(cantRegistros);
-		this->sortExterno();
+		ifstream archivoAordenar(PATH_ARCHIVO_A_ALEATORIZAR,ios::binary);
+		this->sortExterno(&archivoAordenar,cantRegistros);
 		cout<<"Archivo aleatorizado correctamente"<<endl;
 	}
 	else
@@ -102,6 +104,12 @@ void Aleatorizador::generarAchivoTabulado(int cantRegistros) {
 	delete[] bufferLectura;
 }
 
-void Aleatorizador::sortExterno() {
-	cout<<"TODO: ordenamiento"<<endl;
+void Aleatorizador::sortExterno(ifstream *archivoAordenar, int cantRegistros) {
+
+	mkdir(DIRECTORIO_PARTICIONES, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+	Ordenador unOrdenador;
+
+	unOrdenador.ordenar(archivoAordenar, BUFFER_LEC_ESC_SORT);
+
 }
