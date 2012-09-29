@@ -16,6 +16,10 @@
 #include <time.h>
 #include <stdio.h>
 #include "../Constantes.h"
+#include <sys/stat.h>
+#include <sys/types.h>
+#include "Ordenador.h"
+
 
 using namespace std;
 
@@ -32,7 +36,7 @@ public:
 	virtual ~Aleatorizador();
 	void aleatorizarArchivo();
 	void generarAchivoTabulado(int cantRegistros);
-	void sortExterno();
+	void sortExterno(ifstream *archivoAordenar, int cantRegistros);
 };
 
 #endif /* ALEATORIZADOR_H_ */
