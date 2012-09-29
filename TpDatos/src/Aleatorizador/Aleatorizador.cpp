@@ -21,29 +21,48 @@ void Aleatorizador::aleatorizarArchivo() {
 
 	srand(time(NULL));
 
-	char ruta[] = PATH_ARCHIVO_NORMALIZADO;
+	int i = 0, cantRegistros = 0;
 
-	ifstream diccionarioNormalizado(ruta);
+	ifstream diccionarioNormalizado(PATH_ARCHIVO_NORMALIZADO);
 
 	ofstream binario(PATH_ARCHIVO_A_ALEATORIZAR,ios::binary);
 
-	registro reg;
+	registroNormalizado *bufferEscritura = new registroNormalizado[TAM_BUFFER_LECT_ESC], registro;
 
-	cout<<MSJ_PROCESANDO<<endl;
+	cout<< MSJ_PROCESANDO <<endl;
+
 	if(diccionarioNormalizado && binario){
 
-		diccionarioNormalizado>>reg.termino;
+		diccionarioNormalizado>>registro.termino;
 
-		while (!diccionarioNormalizado.eof()){
+		while (!diccionarioNormalizado.eof()) {
 
-			reg.ID = 100000000+rand()%(200000001);
-			binario.write((char*)&reg,29);
-			diccionarioNormalizado>>reg.termino;
+			while ((i < TAM_BUFFER_LECT_ESC) && (!diccionarioNormalizado.eof())) {
+
+				registro.ID = 100000000+rand()%(200000001);
+				bufferEscritura[i] = registro;
+				diccionarioNormalizado>>registro.termino;
+				i++;
+			}
+
+			if (i == TAM_BUFFER_LECT_ESC) {
+
+					binario.write((char*)bufferEscritura,(sizeof(registroNormalizado) * TAM_BUFFER_LECT_ESC));
+					cantRegistros = cantRegistros + TAM_BUFFER_LECT_ESC;
+			}
+			else
+			{
+					binario.write((char*)bufferEscritura,(sizeof(registroNormalizado) * i));
+					cantRegistros = cantRegistros + i;
+			}
+
+			i = 0;
 		}
 
+		delete[] bufferEscritura;
 		diccionarioNormalizado.close();
 		binario.close();
-		this->generarAchivoTabulado();
+		this->generarAchivoTabulado(cantRegistros);
 		this->sortExterno();
 		cout<<"Archivo aleatorizado correctamente"<<endl;
 	}
@@ -51,23 +70,42 @@ void Aleatorizador::aleatorizarArchivo() {
 		cout<<"Error al aleatorizar el archivo";
 }
 
-void Aleatorizador::generarAchivoTabulado() {
+void Aleatorizador::generarAchivoTabulado(int cantRegistros) {
 
 	ifstream entrada(PATH_ARCHIVO_A_ALEATORIZAR, ios::binary);
 	ofstream salida(PATH_ARCHIVO_TABULADO);
 
-	registro reg;
+	int i = 0;
+
+	registroNormalizado *bufferLectura = new registroNormalizado[TAM_BUFFER_LECT_ESC];
 
 	salida<<"DICCIONARIO TABULADO"<<endl;
 	salida<<" "<<endl;
 
-	entrada.read((char*)&reg,29);
+	while(cantRegistros >= TAM_BUFFER_LECT_ESC){
 
-		while(!entrada.eof()){
+		entrada.read((char*)bufferLectura,(sizeof(registroNormalizado) * TAM_BUFFER_LECT_ESC));
+		cantRegistros = cantRegistros - TAM_BUFFER_LECT_ESC;
 
-			salida<<reg.ID<<"  "<<reg.termino<<endl;
-			entrada.read((char*)&reg,29);
+		while (i < TAM_BUFFER_LECT_ESC) {
+
+			salida << bufferLectura[i].ID << "  " << bufferLectura[i].termino << endl;
+			i++;
+	 	}
+
+		i = 0;
+	}
+
+	if (cantRegistros != 0) {
+
+		entrada.read((char*)bufferLectura,(sizeof(registroNormalizado) * cantRegistros));
+
+		for (int j=0; j<cantRegistros; j++) {
+			salida << bufferLectura[j].ID << "  " << bufferLectura[j].termino << endl;
 		}
+	}
+
+	delete[] bufferLectura;
 }
 
 void Aleatorizador::sortExterno() {

@@ -15,14 +15,14 @@
 #include <ctype.h>
 #include <time.h>
 #include <stdio.h>
-#include "../Constantes.h"
+#include "Constantes.h"
 
 using namespace std;
 
-struct registro{
+struct registroNormalizado{
 		int ID;
 		char termino[25];
-	};
+	}__attribute__((packed));
 
 class Aleatorizador {
 private:
@@ -31,7 +31,7 @@ public:
 	Aleatorizador();
 	virtual ~Aleatorizador();
 	void aleatorizarArchivo();
-	void generarAchivoTabulado();
+	void generarAchivoTabulado(int cantRegistros);
 	void sortExterno();
 };
 
