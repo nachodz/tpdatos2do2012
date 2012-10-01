@@ -14,6 +14,8 @@
 #define PATH_DICCIONARIO "diccionario.txt"
 #define PATH_STOPWORDS "stopwords.txt"
 #define PATH_ARCHIVO_TABULADO "tabulado.txt"
+#define PATH_PARTICION "Particiones/particion"
+#define DIRECTORIO_PARTICIONES "Particiones"
 
 //******************** Menu ***************************
 #define MP "MENU PRINCIPAL"
@@ -73,6 +75,9 @@
 
 /***********************Comunes************************/
 #define ERROR -1
+#define TAM_BUFFER_LECT_ESC 1000
+#define CANT_PARTICIONES 400
+#define BUFFER_LEC_ESC_SORT 50
 
 /***********************Avisos*************************/
 #define MSJ_PROCESANDO "Procesando"
