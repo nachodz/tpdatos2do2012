@@ -20,24 +20,24 @@
 //******************** Menu ***************************
 #define MP "MENU PRINCIPAL"
 #define MP_OP1 "1) Operaciones sobre Diccionario"
-#define MP_OP2 "2) Organización de Archivo"
+#define MP_OP2 "2) Organizacion de Archivo"
 #define MP_OP3 "3) Componente de Estadísticas"
 
 #define SALIR "Salir"
-#define INGRESO "Por favor, ingresar una opción: "
+#define INGRESO "Por favor, ingresar una opcion: "
 
 #define MD "MENU DICCIONARIO"
 #define MD_OP1 "1) Normalizar Diccionario"
 #define MD_OP2 "2) Aleatorizar Diccionario"
 
 #define MOAA "MENU ORGANIZACION DE ARCHIVO"
-#define MOAA_OP1 "1) Crear Árbol B+"
-#define MOAA_OP2 "2) Operaciones sobre Árbol B+"
-#define MOAA_OP3 "3) Operaciones Dispersión Extensible"
+#define MOAA_OP1 "1) Crear arbol B+"
+#define MOAA_OP2 "2) Operaciones sobre arbol B+"
+#define MOAA_OP3 "3) Operaciones Dispersion Extensible"
 
 #define MA "MENU ARBOL B+"
-#define MA_OP1 "1) Buscar término"
-#define MA_OP2 "2) Reportar contenido del Árbol B+"
+#define MA_OP1 "1) Buscar termino"
+#define MA_OP2 "2) Reportar contenido del arbol B+"
 
 #define MDE "MENU DISPERSION EXTENSIBLE"
 #define MDE_OP1 "1) Incorporar un registro"
@@ -46,13 +46,13 @@
 #define MDE_OP4 "4) Listar contenido del archivo"
 
 #define MCE "MENU COMPONENTE ESTADISTICAS"
-#define MCE_OP1 "1) Cantidad de términos promedio por frase"
+#define MCE_OP1 "1) Cantidad de terminos promedio por frase"
 #define MCE_OP2 "2) Tasa de fallos de términos"
-#define MCE_OP3 "3) Lista de términos no encontrados"
-#define MCE_OP4 "4) Ranking de los N términos más populares"
+#define MCE_OP3 "3) Lista de terminos no encontrados"
+#define MCE_OP4 "4) Ranking de los N terminos mas populares"
 
-#define ERR_RANGO "ERROR: Ingrese un número válido"
-#define INF_ERR_RANGO "Usted ingresó: "
+#define ERR_RANGO "ERROR: Ingrese un numero válido"
+#define INF_ERR_RANGO "Usted ingreso: "
 
 /**********************Arbol B+ ***************************/
 #define POTENCIA 0
