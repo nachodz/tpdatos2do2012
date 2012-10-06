@@ -20,25 +20,36 @@ Normalizador::~Normalizador(){
 
 void Normalizador::normalizarArchivo() {
 
-	char rutaDic[] = PATH_DICCIONARIO, rutaNor[] = PATH_ARCHIVO_NORMALIZADO;
+	ifstream diccionario(PATH_DICCIONARIO), stopwords(PATH_STOPWORDS);
 
-	ifstream diccionario(rutaDic);
-	ofstream diccionarioNormalizado(rutaNor);
+	ofstream diccionarioNormalizado(PATH_ARCHIVO_NORMALIZADO);
 
-	string palabraDiccionario;
+	string palabraDiccionario, palabraStopword;
 
-	if ((diccionario) && (diccionarioNormalizado)){
+	if ((diccionario) && (diccionarioNormalizado) && (stopwords)){
 
 		diccionario>>palabraDiccionario;
 		this->normalizarPalabra(&palabraDiccionario);
+		stopwords>>palabraStopword;
 
 		cout << MSJ_PROCESANDO << endl;
+
 		while (!diccionario.eof()) {
 
-			if (!(this->esStopword(palabraDiccionario))) {
-
-				diccionarioNormalizado<<palabraDiccionario<<endl;
+			if (palabraDiccionario == palabraStopword) {
+				stopwords>>palabraStopword;
 			}
+			else
+			{
+				if (this->esMayor(palabraDiccionario,palabraStopword) && (!stopwords.eof())){
+					stopwords>>palabraStopword;
+				}
+				else
+				{
+					diccionarioNormalizado<<palabraDiccionario<<endl;
+				}
+			}
+
 			diccionario>>palabraDiccionario;
 			this->normalizarPalabra(&palabraDiccionario);
 		}
@@ -52,18 +63,25 @@ void Normalizador::normalizarArchivo() {
 }
 
 void Normalizador::normalizarPalabra(string *unaPalabra){
-	this->cortarPalabra(unaPalabra);
 	this->sacarAcentos(unaPalabra);
 	this->sacarMayusculas(unaPalabra);
+	this->cortarPalabra(unaPalabra);
 }
 
 
 void Normalizador::cortarPalabra(string *unaPalabra){
-	int posicion;
 
-	posicion = this->posicionCaracter(*unaPalabra,'/');
-	unaPalabra->erase(posicion,unaPalabra->size());
+	if ((unaPalabra->at(0)) == '-'){
+		unaPalabra->erase(0);
+	}
+	else
+	{
+		if ((unaPalabra->at(unaPalabra->size() - 1) == '-')){
+			unaPalabra->erase(unaPalabra->size() - 1);
+		}
+	}
 }
+
 
 void Normalizador::sacarAcentos(string *unaPalabra){
 	char letra;
@@ -80,19 +98,6 @@ void Normalizador::sacarAcentos(string *unaPalabra){
 
 void Normalizador::sacarMayusculas(string *unaPalabra){
 	transform(unaPalabra->begin(), unaPalabra->end(), unaPalabra->begin(), (int( * )(int))std::tolower);
-}
-
-
-int Normalizador::posicionCaracter(string unaPalabra, char L){
-	int posicion = 0, tamanioPalabra = unaPalabra.size();
-	char letraExtraida;
-
-	letraExtraida = unaPalabra.at(posicion);
-	while ((letraExtraida != L) && (posicion != (tamanioPalabra - 1))){
-		posicion++;
-		letraExtraida = unaPalabra.at(posicion);
-	}
-	return posicion;
 }
 
 
@@ -113,24 +118,43 @@ void Normalizador::cambiarLetra(string *unaPalabra, char L, int pos){
 	}
 }
 
-bool Normalizador::esStopword(string unaPalabra) {
+bool Normalizador::esMayor(string palabra1,string palabra2) {
 
-	ifstream words(PATH_STOPWORDS);
+	char A,B;
 
-	string stopword;
+	unsigned int i = 0;
 
-	words >> stopword;
+	A = palabra1[i];
+	B = palabra2[i];
+	i++;
 
-	while(!words.eof()) {
+	while ((A == B) && (i < palabra1.size()) && (i < palabra2.size())) {
 
-		if (stopword == unaPalabra){
-			return true;
-		}
-		else
-			words >> stopword;
+		A = palabra1[i];
+		B = palabra2[i];
+		i++;
 	}
 
-return false;
+	if (A > B) {
+		return true;
+	}
+	else
+	{
+		if (B > A) {
+			return false;
+		}
+		else
+		{
+			if (palabra1.size() > palabra2.size()){
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+	}
 }
 
 
