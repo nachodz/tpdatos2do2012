@@ -29,7 +29,7 @@ class Normalizador {
 		void normalizarPalabra(string *unaPalabra);
 		int posicionCaracter(string unaPalabra, char L);
 		void cambiarLetra(string *unaPalabra, char L, int pos);
-		bool esStopword(string unaPalabra);
+		bool esMayor(string palabra1,string palabra2);
 };
 
 #endif /* NORMALIZADOR_H_ */
