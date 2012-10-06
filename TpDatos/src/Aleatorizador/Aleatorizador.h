@@ -16,10 +16,10 @@
 #include <time.h>
 #include <stdio.h>
 #include "../Constantes.h"
+#include "Aleatorizador.h"
 #include <sys/stat.h>
 #include <sys/types.h>
-#include "Ordenador.h"
-
+#include "../Ordenador/Ordenador.h"
 
 using namespace std;
 
