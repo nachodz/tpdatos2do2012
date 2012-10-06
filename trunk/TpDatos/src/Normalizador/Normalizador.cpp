@@ -72,7 +72,7 @@ void Normalizador::normalizarPalabra(string *unaPalabra){
 void Normalizador::cortarPalabra(string *unaPalabra){
 
 	if ((unaPalabra->at(0)) == '-'){
-		unaPalabra->erase(0);
+		unaPalabra->erase(0,1);
 	}
 	else
 	{
