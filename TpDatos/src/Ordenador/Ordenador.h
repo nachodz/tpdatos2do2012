@@ -17,10 +17,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <sstream>
-
-#define PATH "/home/nachodz/Escritorio/Workspace/Prueba/Particiones/part"
-#define CANTPARTES 400
-
+#include "../Constantes.h"
 
 
 using namespace std;
@@ -33,18 +30,23 @@ struct tReg{
 class Ordenador {
 
 private:
-    int tamBufOrd;
+
+    int tamBufOrd, tamBufLec_Esc;
+
 public:
-	Ordenador ();
+
+    Ordenador (int tamBufLec_Esc);
 	virtual ~Ordenador ();
 	void intercambio (tReg *buf, int a, int b);
-	void ordenar (ifstream *archIn,int cantReg);
+	void ordenar (ifstream *archIn,int cantRegistrosArchivo);
 	void cargaInicial (ifstream *archIn, tReg *buffer);
     void myheapsort (tReg *buffer,int tamHeap);
     void achicarMonticulo (tReg *bufferSort,int tamHeap,ofstream *salida);
     void copiarReg (tReg* regDestino,tReg* regOrigen);
     string IntToStr(int n);
     void correrBuffer (tReg* bufNuevo, tReg* bufViejo, int cantaPasar);
+    void cargaBufferLectura (ifstream *archIn, tReg *buffer, int reg);
+    void grabarBufferEscritura (ofstream *archIn, tReg *buffer, int reg);
 
 
 };
