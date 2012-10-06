@@ -39,6 +39,7 @@ atras
 aun
 aunque
 ayer
+b
 bajo
 bien
 buen
@@ -46,6 +47,7 @@ buena
 buenas
 bueno
 buenos
+c
 cabe
 cada
 casi
@@ -82,6 +84,7 @@ cuatro
 cuatrocientas
 cuatrocientos
 cuyo
+d
 de
 decimocuarta
 decimocuarto
@@ -150,6 +153,7 @@ este
 esto
 estos
 excepto
+f
 fue
 fuera
 fuera
@@ -172,6 +176,8 @@ fui
 fuimos
 fuiste
 fuisteis
+g
+h
 ha
 habed
 habéis
@@ -226,9 +232,13 @@ hubimos
 hubiste
 hubisteis
 hubo
+i
 inclusive
 incluso
+j
 junto
+k
+l
 la
 las
 le
@@ -238,6 +248,7 @@ lo
 los
 luego
 lugar
+m
 mal
 manera
 mas
@@ -272,6 +283,7 @@ muchisimos
 mucho
 muchos
 muy
+n
 nada
 nadie
 ni
@@ -307,6 +319,7 @@ otra
 otras
 otro
 otros
+p
 para
 parte
 pero
@@ -328,6 +341,7 @@ primero
 primeros
 pronto
 pues
+q
 que
 quien
 quienes
@@ -339,9 +353,11 @@ quinientos
 quinta
 quinto
 quiza
+r
 rapido
 recien
 respecto
+s
 salvo
 se
 se
@@ -393,6 +409,7 @@ suya
 suyas
 suyo
 suyos
+t
 tal
 tambien
 tampoco
@@ -434,6 +451,7 @@ uno
 unos
 usted
 ustedes
+v
 varias
 varios
 veinte
@@ -452,6 +470,9 @@ vez
 vos
 vosotras
 vosotros
+w
+x
 y
 ya
 yo
+z

@@ -1,5 +1,5 @@
 a-
-aarónico
+-aarónico
 aaronita
 aba
 ababa
@@ -1216,7 +1216,6 @@ aclorhídrico
 acmé
 acné
 -aco
--'aco
 acobambino
 acobardado
 acobardamiento
@@ -21727,7 +21726,6 @@ cojutepequense
 cok
 col
 cola
--'cola
 colaboración
 colaboracionista
 colaborador
@@ -35715,7 +35713,6 @@ enzurizar
 enzurronar
 enzurronarse
 -eo
--'eo
 eocénico
 eoceno
 eólico
@@ -39870,7 +39867,6 @@ fermosura
 Fernambuco
 fernandina
 fernandino
--'fero
 ferocidad
 ferodo
 feróstico
@@ -40028,7 +40024,6 @@ ficha
 fichaje
 fichar
 fichero
--'fico
 ficoideo
 ficticio
 fictivo
@@ -40696,7 +40691,6 @@ fluyente
 fo
 fobia
 fóbico
--'fobo
 foca
 focal
 focalización
@@ -40973,7 +40967,6 @@ fornir
 fornitura
 forno
 foro
--'foro
 forofo
 forqueta
 forración
@@ -41627,7 +41620,6 @@ fugible
 fúgido
 fugir
 fugitivo
--'fugo
 fuguillas
 fuidizo
 fuimiento
@@ -42851,7 +42843,6 @@ genitura
 geniudo
 genízaro
 geno
--'geno
 genocida
 genocidio
 genol
@@ -43399,7 +43390,6 @@ gongorismo
 gongorista
 gongorizar
 goniómetro
--'gono
 gonococia
 gonocócico
 gonococo
@@ -43545,7 +43535,6 @@ gradiente
 gradilla
 gradíolo
 grado
--'grado
 gradoso
 graduable
 graduación
@@ -43571,8 +43560,6 @@ grafismo
 grafista
 grafito
 grafo
--'grafo
-grafo-
 grafología
 grafológico
 grafólogo
@@ -46856,7 +46843,6 @@ icnografía
 icnográfico
 icnología
 -ico
--'ico
 -icón
 icónico
 icono
@@ -46945,7 +46931,6 @@ idiotismo
 idiotizar
 ido
 -ido
--'ido
 idólatra
 idolatrar
 idolatría
@@ -47032,7 +47017,6 @@ ijujú
 ikastola
 ikurriña
 -il
--'il
 ilación
 ilapso
 ilativo
@@ -52569,7 +52553,6 @@ lisina
 lisión
 lisis
 -lisis
--'lisis
 lislique
 liso
 lisol
@@ -52913,7 +52896,6 @@ logis
 logista
 logística
 logístico
--'logo
 logogrífico
 logogrifo
 logomaquia
@@ -54474,7 +54456,6 @@ manjuarí
 manlevar
 manlieva
 mano
--'mano
 maño
 manobre
 manobrero
@@ -56361,7 +56342,6 @@ metrificatura
 metrista
 metritis
 metro
--'metro
 metrología
 metrónomo
 metrópoli
@@ -62343,7 +62323,6 @@ parnasiano
 parnaso
 parné
 paro
--'paro
 parodia
 parodiador
 parodiar
@@ -79493,7 +79472,6 @@ ticera
 ticero
 ticinense
 tico
--'tico
 ticónico
 tictac
 ticuco
@@ -81788,7 +81766,6 @@ trócola
 trofeo
 -trofia
 trófico
--'trofo
 trofología
 trofólogo
 troglodita
@@ -84583,7 +84560,6 @@ vorahúnda
 voraz
 vorazmente
 vormela
--'voro
 vórtice
 vortiginoso
 vos
