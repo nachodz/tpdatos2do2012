@@ -1,3 +1,4 @@
+
 #include "HandlerBloques.h"
 
 HandlerBloques::HandlerBloques() : tam_bloque(-1) {}

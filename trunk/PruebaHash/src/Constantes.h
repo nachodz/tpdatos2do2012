@@ -1,16 +1,32 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
 
+/**********************Arbol B+ ***************************/
+#define POTENCIA 0
+#define TAM_LONG_REGISTRO sizeof(int)
+//#define TAM_LONG_CLAVE sizeof(char)
+#define TAM_LONG_DATO sizeof(int)
+#define CONST_VACIO 0x00
+#define PORC_TAMANIO_NODO 50
+#define TAM_TOTAL_NODO 256
+#define TAM_CONTROL_NODO 24
+#define TAM_CONTROL_OVERFLOW 20
+#define TAM_EFECTIVO_NODO (TAM_TOTAL_NODO - TAM_CONTROL_NODO)
+#define PORCENTAJE_NODO 50
+//#define BUFFER_NODOS_LIBRES 256
+#define TAM_CONTROL_REGISTRO 10
+#define PATH_IDS "Ids_Terminos.txt"
+#define PATH_IDS_BORRAR "No_sirve.txt"
 
 //********************Hash******************************
 #define TAM_CUBO 4096
 #define TAM_LONG_REGISTRO sizeof(int)
 #define TAM_LONG_CLAVE sizeof(int)
 #define NOM_TEMP "Temp"
-#define NOM_TABLA_PALABRA "TablaHash"
-#define NOM_ESP_LIBRE_PALABRA "EspLibreHash"
-#define NOM_BLOQUES_PALABRA "BloquesHash"
-#define NOM_SALIDA_PALABRA "SalidaHash"
+#define NOM_TABLA "TablaHash"
+#define NOM_ESP_LIBRE "EspLibreHash"
+#define NOM_BLOQUES "BloquesHash"
+#define NOM_SALIDA "SalidaHash"
 
 
 //******************** Menu ***************************

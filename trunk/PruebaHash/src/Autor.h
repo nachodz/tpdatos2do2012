@@ -1,9 +1,3 @@
-/*
- * Autor.h
- *
- *  Created on: 07/10/2012
- *      Author: nacho
- */
 
 #ifndef AUTOR_H_
 #define AUTOR_H_

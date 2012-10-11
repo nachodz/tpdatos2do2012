@@ -1,9 +1,3 @@
-/*
- * Hash.h
- *
- *  Created on: 07/10/2012
- *      Author: nacho
- */
 
 #ifndef HASHPALABRA_H_
 #define HASHPALABRA_H_

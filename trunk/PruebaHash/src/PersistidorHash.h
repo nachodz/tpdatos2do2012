@@ -1,9 +1,3 @@
-/*
- * PersistidorHash.h
- *
- *  Created on: 07/10/2012
- *      Author: nacho
- */
 
 #ifndef PERSISTIDORHASH_H_
 #define PERSISTIDORHASH_H_
