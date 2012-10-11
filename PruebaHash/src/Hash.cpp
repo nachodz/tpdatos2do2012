@@ -1,9 +1,3 @@
-/*
- * Hash.cpp
- *
- *  Created on: 07/10/2012
- *      Author: nacho
- */
 
 #include "Hash.h"
 #include "Constantes.h"
@@ -403,13 +397,3 @@ void Hash::mostrar(const string& nombre_arch) {
 void Hash::mostrar() {
 	this->mostrar(cout);
 }
-
-/*int Hash::funcionHash(const string& str) {
-
-	int clave = 0;
-	for (unsigned int i = 0; i < str.size(); ++ i)
-		clave += ((int)str[i]) * i;
-
-	//cout << str << " = " << clave;
-	return clave;
-}*/

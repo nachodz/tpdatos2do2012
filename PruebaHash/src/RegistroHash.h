@@ -1,9 +1,3 @@
-/*
- * RegistroHash.h
- *
- *  Created on: 07/10/2012
- *      Author: nacho
- */
 
 #ifndef REGISTROHASH_H_
 #define REGISTROHASH_H_
