@@ -1,0 +1,20 @@
+NodoHoja.o: src/Arbol/NodoHoja.cpp src/Arbol/NodoHoja.h src/Arbol/Nodo.h \
+ src/Arbol/../EstructurasArbol/Clave.h \
+ src/Arbol/../EstructurasArbol/../Persistencia/Serializable.h \
+ src/Arbol/../EstructurasArbol/../Persistencia/Persistencia.h \
+ src/Arbol/../EstructurasArbol/../Persistencia/../EstructurasArbol/FrontCoding.h \
+ src/Arbol/../EstructurasArbol/../Comunes/Constantes.h
+
+src/Arbol/NodoHoja.h:
+
+src/Arbol/Nodo.h:
+
+src/Arbol/../EstructurasArbol/Clave.h:
+
+src/Arbol/../EstructurasArbol/../Persistencia/Serializable.h:
+
+src/Arbol/../EstructurasArbol/../Persistencia/Persistencia.h:
+
+src/Arbol/../EstructurasArbol/../Persistencia/../EstructurasArbol/FrontCoding.h:
+
+src/Arbol/../EstructurasArbol/../Comunes/Constantes.h:

@@ -1,0 +1,3 @@
+Ocurrencia.o: src/Comunes/Ocurrencia.cpp src/Comunes/Ocurrencia.h
+
+src/Comunes/Ocurrencia.h:

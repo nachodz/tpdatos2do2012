@@ -1,0 +1,13 @@
+Elemento.o: src/EstructurasHash/Elemento.cpp \
+ src/EstructurasHash/Elemento.h \
+ src/EstructurasHash/../Persistencia/Serializable.h \
+ src/EstructurasHash/../Persistencia/Persistencia.h \
+ src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h
+
+src/EstructurasHash/Elemento.h:
+
+src/EstructurasHash/../Persistencia/Serializable.h:
+
+src/EstructurasHash/../Persistencia/Persistencia.h:
+
+src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h:

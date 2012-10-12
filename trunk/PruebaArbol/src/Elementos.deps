@@ -1,0 +1,18 @@
+Elementos.o: src/EstructurasArbol/Elementos.cpp \
+ src/EstructurasArbol/Elementos.h src/EstructurasArbol/Clave.h \
+ src/EstructurasArbol/../Persistencia/Serializable.h \
+ src/EstructurasArbol/../Persistencia/Persistencia.h \
+ src/EstructurasArbol/../Persistencia/../EstructurasArbol/FrontCoding.h \
+ src/EstructurasArbol/../Comunes/Constantes.h
+
+src/EstructurasArbol/Elementos.h:
+
+src/EstructurasArbol/Clave.h:
+
+src/EstructurasArbol/../Persistencia/Serializable.h:
+
+src/EstructurasArbol/../Persistencia/Persistencia.h:
+
+src/EstructurasArbol/../Persistencia/../EstructurasArbol/FrontCoding.h:
+
+src/EstructurasArbol/../Comunes/Constantes.h:

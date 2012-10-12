@@ -1,0 +1,200 @@
+HandlerComandos.o: src/Handlers/HandlerComandos.cpp \
+ src/Handlers/HandlerComandos.h src/Handlers/HandlerArchivoRLV.h \
+ src/Handlers/../Comunes/Constantes.h src/Handlers/HandlerArchivoLog.h \
+ src/Handlers/HandlerArchivoOcurrencias.h \
+ src/Handlers/../Comunes/Ocurrencia.h src/Handlers/../Gamma/CodigoGamma.h \
+ src/Handlers/../Comunes/Palabra.h src/Handlers/../Comunes/Aparicion.h \
+ src/Handlers/../Comunes/Posicion.h src/Handlers/../Comunes/Aparicion.h \
+ src/Handlers/../Procesadores/ProcesadorOcurrencia.h \
+ src/Handlers/../Procesadores/../Parser/Parser.h \
+ src/Handlers/../Procesadores/../Parser/../Comunes/Constantes.h \
+ src/Handlers/../Procesadores/../Comunes/Ocurrencia.h \
+ src/Handlers/../Procesadores/../Comunes/Termino.h \
+ src/Handlers/../Procesadores/../Procesadores/ProcesadorNorma.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/ArbolBMas.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Elementos.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Clave.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Persistencia/Serializable.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Persistencia/Persistencia.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Persistencia/../EstructurasArbol/FrontCoding.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Comunes/Constantes.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/NodoInterior.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/Nodo.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Clave.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/PersistorArbol.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/Persistencia.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/../Handlers/HandlerBloques.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/../Handlers/HandlerEspLibre.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/../Handlers/../Comunes/Constantes.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Solucion.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Arbol/NodoHoja.h \
+ src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Arbol/Nodo.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/HashTitulo.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../Persistencia/PersistorHash.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../Persistencia/Persistencia.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../Persistencia/../Handlers/HandlerBloques.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/Bucket.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/RegTitulo.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/Elemento.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Persistencia/Serializable.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/HandlerTabla.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/../EstructurasHash/Bloque.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/../EstructurasHash/../Persistencia/Serializable.h \
+ src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/../Comunes/Constantes.h \
+ src/Handlers/../Procesadores/ProcesadorConsulta.h \
+ src/Handlers/../Procesadores/../Comunes/Palabra.h \
+ src/Handlers/../Procesadores/../Comunes/Aparicion.h \
+ src/Handlers/../Procesadores/../Comunes/Posicion.h \
+ src/Handlers/../Procesadores/../Comunes/Distancia.h \
+ src/Handlers/../Procesadores/../Arbol/ArbolBMas.h \
+ src/Handlers/../Procesadores/../Handlers/HandlerArchivoOcurrencias.h \
+ src/Handlers/../Procesadores/../Hash/HashPalabra.h \
+ src/Handlers/../Procesadores/../Hash/../Persistencia/PersistorHash.h \
+ src/Handlers/../Procesadores/../Hash/../EstructurasHash/Cubo.h \
+ src/Handlers/../Procesadores/../Hash/../EstructurasHash/RegPalabra.h \
+ src/Handlers/../Procesadores/../Hash/../EstructurasHash/../Persistencia/Serializable.h \
+ src/Handlers/../Procesadores/../Hash/../EstructurasHash/../Hash/HandlerTabla.h \
+ src/Handlers/../Procesadores/../Hash/HashTitulo.h \
+ src/Handlers/../Procesadores/../NormasAInfinito/CalculadorDePesoGlobal.h \
+ src/Handlers/../Procesadores/../NormasAInfinito/../Comunes/Constantes.h \
+ src/Handlers/../Parser/ParserDeLibros.h \
+ src/Handlers/../Parser/../Comunes/Constantes.h \
+ src/Handlers/../Parser/../Comunes/RegistroLibro.h \
+ src/Handlers/../Parser/Parser.h \
+ src/Handlers/../NormasAInfinito/CalculadorDePesoGlobal.h
+
+src/Handlers/HandlerComandos.h:
+
+src/Handlers/HandlerArchivoRLV.h:
+
+src/Handlers/../Comunes/Constantes.h:
+
+src/Handlers/HandlerArchivoLog.h:
+
+src/Handlers/HandlerArchivoOcurrencias.h:
+
+src/Handlers/../Comunes/Ocurrencia.h:
+
+src/Handlers/../Gamma/CodigoGamma.h:
+
+src/Handlers/../Comunes/Palabra.h:
+
+src/Handlers/../Comunes/Aparicion.h:
+
+src/Handlers/../Comunes/Posicion.h:
+
+src/Handlers/../Comunes/Aparicion.h:
+
+src/Handlers/../Procesadores/ProcesadorOcurrencia.h:
+
+src/Handlers/../Procesadores/../Parser/Parser.h:
+
+src/Handlers/../Procesadores/../Parser/../Comunes/Constantes.h:
+
+src/Handlers/../Procesadores/../Comunes/Ocurrencia.h:
+
+src/Handlers/../Procesadores/../Comunes/Termino.h:
+
+src/Handlers/../Procesadores/../Procesadores/ProcesadorNorma.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/ArbolBMas.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Elementos.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Clave.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Persistencia/Serializable.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Persistencia/Persistencia.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Persistencia/../EstructurasArbol/FrontCoding.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Comunes/Constantes.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/NodoInterior.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/Nodo.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Clave.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/PersistorArbol.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/Persistencia.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/../Handlers/HandlerBloques.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/../Handlers/HandlerEspLibre.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../Persistencia/../Handlers/../Comunes/Constantes.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/Solucion.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Arbol/NodoHoja.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Arbol/../EstructurasArbol/../Arbol/Nodo.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/HashTitulo.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../Persistencia/PersistorHash.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../Persistencia/Persistencia.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../Persistencia/../Handlers/HandlerBloques.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/Bucket.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/RegTitulo.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/Elemento.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Persistencia/Serializable.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/HandlerTabla.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/../EstructurasHash/Bloque.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/../EstructurasHash/../Persistencia/Serializable.h:
+
+src/Handlers/../Procesadores/../Procesadores/../Hash/../EstructurasHash/../Hash/../Comunes/Constantes.h:
+
+src/Handlers/../Procesadores/ProcesadorConsulta.h:
+
+src/Handlers/../Procesadores/../Comunes/Palabra.h:
+
+src/Handlers/../Procesadores/../Comunes/Aparicion.h:
+
+src/Handlers/../Procesadores/../Comunes/Posicion.h:
+
+src/Handlers/../Procesadores/../Comunes/Distancia.h:
+
+src/Handlers/../Procesadores/../Arbol/ArbolBMas.h:
+
+src/Handlers/../Procesadores/../Handlers/HandlerArchivoOcurrencias.h:
+
+src/Handlers/../Procesadores/../Hash/HashPalabra.h:
+
+src/Handlers/../Procesadores/../Hash/../Persistencia/PersistorHash.h:
+
+src/Handlers/../Procesadores/../Hash/../EstructurasHash/Cubo.h:
+
+src/Handlers/../Procesadores/../Hash/../EstructurasHash/RegPalabra.h:
+
+src/Handlers/../Procesadores/../Hash/../EstructurasHash/../Persistencia/Serializable.h:
+
+src/Handlers/../Procesadores/../Hash/../EstructurasHash/../Hash/HandlerTabla.h:
+
+src/Handlers/../Procesadores/../Hash/HashTitulo.h:
+
+src/Handlers/../Procesadores/../NormasAInfinito/CalculadorDePesoGlobal.h:
+
+src/Handlers/../Procesadores/../NormasAInfinito/../Comunes/Constantes.h:
+
+src/Handlers/../Parser/ParserDeLibros.h:
+
+src/Handlers/../Parser/../Comunes/Constantes.h:
+
+src/Handlers/../Parser/../Comunes/RegistroLibro.h:
+
+src/Handlers/../Parser/Parser.h:
+
+src/Handlers/../NormasAInfinito/CalculadorDePesoGlobal.h:

@@ -1,0 +1,22 @@
+HandlerArchivoOcurrencias.o: src/Handlers/HandlerArchivoOcurrencias.cpp \
+ src/Handlers/HandlerArchivoOcurrencias.h \
+ src/Handlers/../Comunes/Ocurrencia.h \
+ src/Handlers/../Comunes/Constantes.h src/Handlers/../Gamma/CodigoGamma.h \
+ src/Handlers/../Comunes/Palabra.h src/Handlers/../Comunes/Aparicion.h \
+ src/Handlers/../Comunes/Posicion.h src/Handlers/../Comunes/Aparicion.h
+
+src/Handlers/HandlerArchivoOcurrencias.h:
+
+src/Handlers/../Comunes/Ocurrencia.h:
+
+src/Handlers/../Comunes/Constantes.h:
+
+src/Handlers/../Gamma/CodigoGamma.h:
+
+src/Handlers/../Comunes/Palabra.h:
+
+src/Handlers/../Comunes/Aparicion.h:
+
+src/Handlers/../Comunes/Posicion.h:
+
+src/Handlers/../Comunes/Aparicion.h:

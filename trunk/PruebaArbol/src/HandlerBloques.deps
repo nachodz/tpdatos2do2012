@@ -1,0 +1,9 @@
+HandlerBloques.o: src/Handlers/HandlerBloques.cpp \
+ src/Handlers/HandlerBloques.h src/Handlers/HandlerEspLibre.h \
+ src/Handlers/../Comunes/Constantes.h
+
+src/Handlers/HandlerBloques.h:
+
+src/Handlers/HandlerEspLibre.h:
+
+src/Handlers/../Comunes/Constantes.h:

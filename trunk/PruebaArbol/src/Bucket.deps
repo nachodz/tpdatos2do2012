@@ -1,0 +1,29 @@
+Bucket.o: src/EstructurasHash/Bucket.cpp src/EstructurasHash/Bucket.h \
+ src/EstructurasHash/RegTitulo.h src/EstructurasHash/Elemento.h \
+ src/EstructurasHash/../Persistencia/Serializable.h \
+ src/EstructurasHash/../Persistencia/Persistencia.h \
+ src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h \
+ src/EstructurasHash/../Hash/HandlerTabla.h \
+ src/EstructurasHash/../Hash/../EstructurasHash/Bloque.h \
+ src/EstructurasHash/../Hash/../EstructurasHash/../Persistencia/Serializable.h \
+ src/EstructurasHash/../Hash/../Comunes/Constantes.h
+
+src/EstructurasHash/Bucket.h:
+
+src/EstructurasHash/RegTitulo.h:
+
+src/EstructurasHash/Elemento.h:
+
+src/EstructurasHash/../Persistencia/Serializable.h:
+
+src/EstructurasHash/../Persistencia/Persistencia.h:
+
+src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h:
+
+src/EstructurasHash/../Hash/HandlerTabla.h:
+
+src/EstructurasHash/../Hash/../EstructurasHash/Bloque.h:
+
+src/EstructurasHash/../Hash/../EstructurasHash/../Persistencia/Serializable.h:
+
+src/EstructurasHash/../Hash/../Comunes/Constantes.h:

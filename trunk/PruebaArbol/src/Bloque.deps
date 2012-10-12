@@ -1,0 +1,12 @@
+Bloque.o: src/EstructurasHash/Bloque.cpp src/EstructurasHash/Bloque.h \
+ src/EstructurasHash/../Persistencia/Serializable.h \
+ src/EstructurasHash/../Persistencia/Persistencia.h \
+ src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h
+
+src/EstructurasHash/Bloque.h:
+
+src/EstructurasHash/../Persistencia/Serializable.h:
+
+src/EstructurasHash/../Persistencia/Persistencia.h:
+
+src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h:
