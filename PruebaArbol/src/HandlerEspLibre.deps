@@ -1,0 +1,6 @@
+HandlerEspLibre.o: src/Handlers/HandlerEspLibre.cpp \
+ src/Handlers/HandlerEspLibre.h src/Handlers/../Comunes/Constantes.h
+
+src/Handlers/HandlerEspLibre.h:
+
+src/Handlers/../Comunes/Constantes.h:

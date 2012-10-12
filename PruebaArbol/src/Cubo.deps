@@ -1,0 +1,27 @@
+Cubo.o: src/EstructurasHash/Cubo.cpp src/EstructurasHash/Cubo.h \
+ src/EstructurasHash/RegPalabra.h \
+ src/EstructurasHash/../Persistencia/Serializable.h \
+ src/EstructurasHash/../Persistencia/Persistencia.h \
+ src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h \
+ src/EstructurasHash/../Hash/HandlerTabla.h \
+ src/EstructurasHash/../Hash/../EstructurasHash/Bloque.h \
+ src/EstructurasHash/../Hash/../EstructurasHash/../Persistencia/Serializable.h \
+ src/EstructurasHash/../Hash/../Comunes/Constantes.h
+
+src/EstructurasHash/Cubo.h:
+
+src/EstructurasHash/RegPalabra.h:
+
+src/EstructurasHash/../Persistencia/Serializable.h:
+
+src/EstructurasHash/../Persistencia/Persistencia.h:
+
+src/EstructurasHash/../Persistencia/../EstructurasArbol/FrontCoding.h:
+
+src/EstructurasHash/../Hash/HandlerTabla.h:
+
+src/EstructurasHash/../Hash/../EstructurasHash/Bloque.h:
+
+src/EstructurasHash/../Hash/../EstructurasHash/../Persistencia/Serializable.h:
+
+src/EstructurasHash/../Hash/../Comunes/Constantes.h:
