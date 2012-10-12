@@ -1,4 +1,0 @@
-FrontCoding.o: src/EstructurasArbol/FrontCoding.cpp \
- src/EstructurasArbol/FrontCoding.h
-
-src/EstructurasArbol/FrontCoding.h:

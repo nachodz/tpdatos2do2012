@@ -1,6 +1,0 @@
-HandlerArchivoRLV.o: src/Handlers/HandlerArchivoRLV.cpp \
- src/Handlers/HandlerArchivoRLV.h src/Handlers/../Comunes/Constantes.h
-
-src/Handlers/HandlerArchivoRLV.h:
-
-src/Handlers/../Comunes/Constantes.h:

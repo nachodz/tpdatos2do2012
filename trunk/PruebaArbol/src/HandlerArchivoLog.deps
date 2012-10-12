@@ -1,6 +1,0 @@
-HandlerArchivoLog.o: src/Handlers/HandlerArchivoLog.cpp \
- src/Handlers/HandlerArchivoLog.h src/Handlers/../Comunes/Constantes.h
-
-src/Handlers/HandlerArchivoLog.h:
-
-src/Handlers/../Comunes/Constantes.h:

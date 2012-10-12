@@ -1,7 +1,0 @@
-Persistencia.o: src/Persistencia/Persistencia.cpp \
- src/Persistencia/Persistencia.h \
- src/Persistencia/../EstructurasArbol/FrontCoding.h
-
-src/Persistencia/Persistencia.h:
-
-src/Persistencia/../EstructurasArbol/FrontCoding.h:
