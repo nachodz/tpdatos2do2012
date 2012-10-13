@@ -57,6 +57,7 @@
 #define PATH_ID_PESOS "Ids_Pesos_Globales.txt"
 #define PATH_IDS "Ids_Terminos.txt"
 #define PATH_IDS_BORRAR "No_sirve.txt"
+#define PATH_ARBOL "ARBOLB+"
 
 /************************ Hash ************************/
 #define TAM_CUBO 4096

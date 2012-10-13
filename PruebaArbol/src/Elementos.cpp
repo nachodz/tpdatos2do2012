@@ -21,7 +21,7 @@ Elementos::Elementos(Clave* clave, Persistencia* datos, Persistencia* n,Persiste
 	this->enteroFantasma = enteroFantasma;
 }
 
-
+//TODO: ver no se llama nunca!
 Persistencia Elementos::Serializar()
 {
 	Persistencia cadena;
@@ -58,7 +58,7 @@ Persistencia Elementos::Serializar()
 	return cadena;
 }
 
-
+//TODO: ver no se llama nunca!
 bool Elementos::Hidratar(Persistencia &cadena){
 	bool exito;
 	//el tamaño debe ser al menos el tamaño de la longitud del registro y la clave
