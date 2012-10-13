@@ -22,7 +22,7 @@ Persistencia NodoHoja::Serializar() {
 	cadena.agregarAlFinal(&nivel,sizeof(nivel));
 	cadena.agregarAlFinal(&cantidadClaves, sizeof(cantidadClaves));
 	for (int posicion = 0; posicion < cantidadClaves; ++posicion) {
-		cadena.agregarAlFinal(claves[posicion].Serializar());
+		//cadena.agregarAlFinal(claves[posicion].Serializar());
 		int tamanioDato = datos[posicion].getTamanio();
 		cadena.agregarAlFinal(&tamanioDato,sizeof(tamanioDato));
 		cadena.agregarAlFinal(datos[posicion]);
@@ -60,13 +60,13 @@ bool NodoHoja::Hidratar(Persistencia & cadena) {
 
 		for (int posicion = 0; posicion < cantidadClaves; ++posicion) {
 
-			char tamanioClave;
+			/*char tamanioClave;
 			cadena.leer(&tamanioClave,offset,TAM_LONG_CLAVE);
 			Persistencia cadenaClave = cadena.leer(offset, TAM_LONG_CLAVE + tamanioClave);
 			Clave unaClave;
 			unaClave.Hidratar(cadenaClave);
 			claves[posicion] = unaClave;
-			offset += TAM_LONG_CLAVE + tamanioClave;
+			offset += TAM_LONG_CLAVE + tamanioClave;*/
 
 			int tamanioDato = cadena.leerEntero(offset);
 			offset += TAM_LONG_DATO;
@@ -74,6 +74,11 @@ bool NodoHoja::Hidratar(Persistencia & cadena) {
 			unDato.agregarAlFinal(cadena.leer(offset,tamanioDato));
 			datos[posicion] = unDato;
 			offset += tamanioDato;
+
+			Persistencia cadenaClave = datos[posicion].datosSinFrontCoding(datos[0].toString(),PATH_ARBOL);
+			Clave unaClave;
+			unaClave.Hidratar(cadenaClave);
+			claves[posicion] = unaClave;
 
 			/*int tamanioID = cadena.leerEntero(offset);
 			offset += TAM_LONG_DATO;
@@ -96,7 +101,8 @@ bool NodoHoja::Hidratar(Persistencia & cadena) {
 			enterosFantasmas[posicion] = unEnteroFantasma;
 			offset += tamanioEnteroFantasma;
 
-			espacioOcupado += tamanioClave + tamanioDato + tamanioN + tamanioEnteroFantasma + TAM_CONTROL_REGISTRO;
+			//espacioOcupado += tamanioClave + tamanioDato + tamanioN + tamanioEnteroFantasma + TAM_CONTROL_REGISTRO;
+			espacioOcupado +=  tamanioDato + tamanioN + tamanioEnteroFantasma + TAM_CONTROL_REGISTRO;
 		}
 		hojaSiguiente = cadena.leerEntero(offset);
 	}
