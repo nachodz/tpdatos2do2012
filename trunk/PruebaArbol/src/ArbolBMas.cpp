@@ -191,7 +191,7 @@ void ArbolBMas::mostrar(){
 	string ruta = this->persistor->getRuta() + "_Salida.txt";
 	fo.open(ruta.c_str(), ios_base::out);
 	fo << "********************************************************************************" << endl << endl;
-	fo << "		                   Arbol B+ de "; fo << this->persistor->getRuta() << "                    " << endl << endl;
+	fo << "		                    " << fo << this->persistor->getRuta() << "                    " << endl << endl;
 	fo << "********************************************************************************" << endl << endl;
 	if (raiz){
 		fo << "Tamanio de Nodo:  " << TAM_TOTAL_NODO << endl;
@@ -267,6 +267,61 @@ Nodo* ArbolBMas::leerNodo(int numeroDeNodo) {
 	return hidratarNodo(numeroDeNodo);
 }
 
+
+
+NodoHoja* ArbolBMas::obtenerPrimeraHoja(){
+
+	Nodo *unNodo = raiz;
+	Clave* clave = new Clave("a"); //primera clave.
+	if (unNodo){
+
+		while (!unNodo->isNodoHoja()) {
+			NodoInterior *unNodoInterior = static_cast<NodoInterior*> (unNodo);
+			int posicion = obtenerPosicion(unNodoInterior, *clave);
+			unNodo = hidratarNodo(unNodoInterior->hijos[posicion]);
+			if (unNodoInterior != raiz)
+				liberarMemoriaNodo(unNodoInterior);
+		}
+
+		NodoHoja *unNodoHoja = static_cast<NodoHoja*> (unNodo);
+		return unNodoHoja;
+	}
+
+	return NULL;
+}
+
+void ArbolBMas::mostrarTodosTerminos(){
+
+	NodoHoja *hoja = this->obtenerPrimeraHoja();
+	bool mostrando = true;
+	int nroHojaSiguiente;
+
+	ofstream fo;
+	string ruta = this->persistor->getRuta() + "_TodosTerminos.txt";
+	fo.open(ruta.c_str(), ios_base::out);
+
+	fo << "********************************************************************************" << endl << endl;
+	fo << "		                    " << this->persistor->getRuta() << "                    " << endl << endl;
+	fo << "                              Lista de términos                                 " << endl << endl;
+	fo << "********************************************************************************" << endl << endl;
+
+	while(mostrando){
+
+		for (int posicion = 0; posicion < hoja->cantidadClaves; ++posicion){
+			Clave clave = hoja->claves[posicion].toString();
+			fo << clave.getClave() << endl;
+		}
+
+		nroHojaSiguiente = hoja->getHojaSiguiente();
+		if(nroHojaSiguiente != 0)
+			hoja =  static_cast<NodoHoja*> (this->leerNodo(nroHojaSiguiente));
+		else
+			mostrando = false;
+	}
+
+	fo.flush();
+	fo.close();
+}
 
 /***************** Metodos Privados **********************/
 
@@ -1278,6 +1333,36 @@ void ArbolBMas::buscar(list<Elementos*>* listaElementos, Clave* clave){
 
 }
 
+Elementos* ArbolBMas::buscar(Clave* clave){
+
+	Nodo *unNodo = raiz;
+	if (unNodo){
+
+		while (!unNodo->isNodoHoja()) {
+			NodoInterior *unNodoInterior = static_cast<NodoInterior*> (unNodo);
+			int posicion = obtenerPosicion(unNodoInterior, *(clave));
+			unNodo = hidratarNodo(unNodoInterior->hijos[posicion]);
+			if (unNodoInterior != raiz)
+				liberarMemoriaNodo(unNodoInterior);
+		}
+
+		NodoHoja *unNodoHoja = static_cast<NodoHoja*> (unNodo);
+		int posicion = obtenerPosicion(unNodoHoja, *(clave));
+
+		this->sacarFrontCodingNodoHoja(&unNodoHoja);
+		for (int i = posicion; (i < unNodoHoja->cantidadClaves); ++i){
+			if (unNodoHoja->claves[i].getClave() == clave->getClave() || unNodoHoja->claves[i].getClave() >= clave->getClave()){
+					Clave* unaClave = new Clave(unNodoHoja->claves[i]);
+					Elementos* elemento = new Elementos(unaClave, new Persistencia(unNodoHoja->datos[i].toString()), new Persistencia(unNodoHoja->ns[i].toString()), new Persistencia(unNodoHoja->enterosFantasmas[i].toString()));
+					return elemento;
+			}
+		}
+	}
+	return NULL;
+
+}
+
+
 void ArbolBMas::llenarListadeBusqueda(list<Elementos*>* listaElementos, NodoHoja* nodo, int posicion, Clave* clave){
 	bool distinto = false;
 	this->sacarFrontCodingNodoHoja(&nodo);
@@ -1285,6 +1370,7 @@ void ArbolBMas::llenarListadeBusqueda(list<Elementos*>* listaElementos, NodoHoja
 		if (nodo->claves[i].getClave() == clave->getClave()){
 			//TODO: cambiar el constructor de Elemento
 			//Elementos* elemento = new Elementos(clave, new Persistencia(nodo->datos[i].toString()), new Persistencia(nodo->Ids[i].toString()));
+			Clave unaClave = nodo->claves[i];
 			Elementos* elemento = new Elementos(clave, new Persistencia(nodo->datos[i].toString()), new Persistencia(nodo->ns[i].toString()), new Persistencia(nodo->enterosFantasmas[i].toString()));
 			listaElementos->push_back(elemento);
 		}else{

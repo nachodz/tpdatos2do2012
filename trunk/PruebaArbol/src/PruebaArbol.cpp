@@ -7,6 +7,11 @@
 //============================================================================
 
 #include "ArbolBMas.h"
+//TODO: sacar ***********
+#include "Clave.h"
+#include "Elementos.h"
+#include <iterator>
+//***********************
 #include <iostream>
 
 using namespace std;
@@ -37,15 +42,23 @@ int main() {
 	arbol->insertar(elemento5);
 	cout << "INGRESO ELEMENTO 5 " << endl;
 
-	Elementos* elemento6 = new Elementos(new Clave("arboleda"), new Persistencia("arbol"), new Persistencia("12"), new Persistencia("0"));
+	/*Elementos* elemento6 = new Elementos(new Clave("arboleda"), new Persistencia("arbol"), new Persistencia("12"), new Persistencia("0"));
 	arbol->borrar(elemento6);
-	cout << "BORRO ELEMENTO 2 " << endl;
+	cout << "BORRO ELEMENTO 2 " << endl;*/
 
 	arbol->mostrar();
 
 	Elementos* elemento7 = new Elementos(new Clave("arbitro"), new Persistencia("arbitro"), new Persistencia("9999"), new Persistencia("0"));
 	arbol->modificar(elemento7);
 
+	Clave* unaClave = new Clave("arbolesT");
+	Elementos* unElemento = arbol->buscar(unaClave);
+
+	cout << unElemento->toString() << endl;
+
+	arbol->mostrarTodosTerminos();
+
 	cout << "FIN: PRUEBA ARBOLB+ " << endl;
 	return 0;
 }
+

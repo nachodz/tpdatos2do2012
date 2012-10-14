@@ -179,15 +179,16 @@ Elementos::~Elementos() {
 
 string Elementos::toString(){
 	string cadena;
-	cadena += "Clave: ";
+	cadena += " Clave: ";
 	cadena += this->clave->toString();
 	cadena += " | ";
-	cadena += "Dato : ";
+	cadena += " Dato : ";
 	cadena += this->datos->toString();
 	cadena += " | ";
-	cadena += "N: ";
+	cadena += " N: ";
 	cadena += this->n->toString();
-	cadena += "EnteroFantasma: ";
+	cadena += " | ";
+	cadena += " EnteroFantasma: ";
 	cadena += this->enteroFantasma->toString();
 	return cadena;
 }

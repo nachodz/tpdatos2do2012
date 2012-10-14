@@ -59,11 +59,16 @@ public:
 
 	void mostrar();
 
+	void mostrarTodosTerminos();
+
 	Nodo* leerNodo(int numeroDeNodo);
 
 	int getCantidadBloques();
 
 	void buscar(list<Elementos*>* listaElementos, Clave* clave);
+	//TODO: sacar! el que va es este!!
+	Elementos* buscar(Clave* clave);
+
 
 private:
 
@@ -128,6 +133,8 @@ private:
 	Solucion buscarSecuencialClave(int nodo, Elementos* elemento, int posicion);
 
 	Persistencia obtenerNuevoId(string path);
+
+	NodoHoja* obtenerPrimeraHoja();
 
 };
 
