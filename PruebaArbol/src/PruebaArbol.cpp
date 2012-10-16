@@ -38,7 +38,7 @@ int main() {
 	arbol->insertar(elemento4);
 	cout << "INGRESO ELEMENTO 4 " << endl;
 
-	Elementos* elemento5 = new Elementos(new Clave("arbitro"), new Persistencia("arbitro"), new Persistencia("3"), new Persistencia("0"));
+	Elementos* elemento5 = new Elementos(new Clave("arbitro"), new Persistencia("arbitro"), new Persistencia("156"), new Persistencia("0"));
 	arbol->insertar(elemento5);
 	cout << "INGRESO ELEMENTO 5 " << endl;
 
@@ -48,8 +48,8 @@ int main() {
 
 	arbol->mostrar();
 
-	Elementos* elemento7 = new Elementos(new Clave("arbitro"), new Persistencia("arbitro"), new Persistencia("9999"), new Persistencia("0"));
-	arbol->modificar(elemento7);
+/*	Elementos* elemento7 = new Elementos(new Clave("arbolitos"), new Persistencia("arbolitos"), new Persistencia("9999"), new Persistencia("0"));
+	arbol->modificar(elemento7);*/
 
 	Clave* unaClave = new Clave("arbolesT");
 	Elementos* unElemento = arbol->buscar(unaClave);
