@@ -114,6 +114,8 @@ void Ordenador::correrBuffer (tReg* bufNuevo, tReg* bufViejo, int cantaPasar){
 
 void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
 
+	ofstream informes (PATH_INFORMES,ios::app);
+
 	int tamHeap = this->tamBufOrd;
 	int ultimoID,tamUltHeap;
 	int nroPart = 0;
@@ -150,6 +152,7 @@ void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
 
  					this->copiarReg(&(bufferEscritura[esc]),&(bufferSort[0]));
  					esc++;
+
 
  					if (esc == BUFFER_LEC_ESC_SORT) {
 						this->grabarBufferEscritura(&(partNro[nroPart]),bufferEscritura,esc);
@@ -200,8 +203,10 @@ void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
 
  						this->copiarReg(&(bufferEscritura[esc]),&(bufferSort[0]));
  						esc++;
+
  						this->grabarBufferEscritura(&(partNro[nroPart]),bufferEscritura,esc);
  						esc = 0;
+
  						partNro[nroPart].close();
  						nroPart++;
 
@@ -253,7 +258,7 @@ void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
  				else
  				    tamUltHeap = this->tamBufOrd;
 
- 				cout << tamUltHeap << endl;
+ 				cout << tamUltHeap << endl;   //esto habria que sacarlo
 
  				this->grabarBufferEscritura(&(partNro[nroPart]),bufferEscritura,esc);
  				esc = 0;
@@ -270,11 +275,14 @@ void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
  				this->myheapsort(bufferUltHeap,tamUltHeap);
  				this->achicarMonticulo(bufferUltHeap,tamUltHeap,&(partNro[nroPart]));
 
+                informes << "Cantidad de particiones generadas:  " << nroPart << endl;
+
  				delete []bufferSort;
  				delete []bufferUltHeap;
  				delete []partNro;
  				delete []bufferLectura;
  				delete []bufferEscritura;
+ 				informes.close();
  			}
  		}
  }
