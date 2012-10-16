@@ -191,7 +191,7 @@ void ArbolBMas::mostrar(){
 	string ruta = this->persistor->getRuta() + "_Salida.txt";
 	fo.open(ruta.c_str(), ios_base::out);
 	fo << "********************************************************************************" << endl << endl;
-	fo << "		                    " << fo << this->persistor->getRuta() << "                    " << endl << endl;
+	fo << "		                   " << this->persistor->getRuta() << "                    " << endl << endl;
 	fo << "********************************************************************************" << endl << endl;
 	if (raiz){
 		fo << "Tamanio de Nodo:  " << TAM_TOTAL_NODO << endl;
@@ -466,11 +466,12 @@ bool ArbolBMas::insertarRecursivo(Nodo* nodoCorriente, Clave clave, Persistencia
 
 		/* TODO: ver!!
 		if (this->tipoDeArbol == 1){
-			// chequea que no exista la clave
-			if (posicion < nodoHojaCorriente->cantidadClaves && claveIgual(clave, nodoHojaCorriente->claves[posicion])) {
-				*idInsertado = nodoHojaCorriente->Ids[posicion];
-				return false;
-			}
+			// chequea que no exista la clave*/
+		if (posicion <= nodoHojaCorriente->cantidadClaves && claveIgual(clave, nodoHojaCorriente->claves[posicion])) {
+			refactorizarNodoFrontCoding(&nodoHojaCorriente);
+			//*idInsertado = nodoHojaCorriente->Ids[posicion];
+			return false;
+		}/*
 		}
 		*/
 

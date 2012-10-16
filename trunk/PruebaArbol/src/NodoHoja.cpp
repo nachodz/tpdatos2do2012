@@ -75,10 +75,13 @@ bool NodoHoja::Hidratar(Persistencia & cadena) {
 			datos[posicion] = unDato;
 			offset += tamanioDato;
 
-			Persistencia cadenaClave = datos[posicion].datosSinFrontCoding(datos[0].toString(),PATH_ARBOL);
-			Clave unaClave;
-			unaClave.Hidratar(cadenaClave);
-			claves[posicion] = unaClave;
+			//Persistencia cadenaClave = datos[posicion].datosSinFrontCoding(PATH_ARBOL);
+			Persistencia cadenaClave = Persistencia(datos[posicion]);
+			Persistencia claveString = cadenaClave.datosSinFrontCoding(PATH_ARBOL);
+			Clave* unaClave = new Clave(claveString.toString());
+			//unaClave.Hidratar(cadenaClave);
+			claves[posicion] = *unaClave;
+			delete(unaClave);
 
 			/*int tamanioID = cadena.leerEntero(offset);
 			offset += TAM_LONG_DATO;
@@ -97,7 +100,7 @@ bool NodoHoja::Hidratar(Persistencia & cadena) {
 			int tamanioEnteroFantasma = cadena.leerEntero(offset);
 			offset += sizeof(int);
 			Persistencia unEnteroFantasma;
-			unN.agregarAlFinal(cadena.leer(offset,tamanioEnteroFantasma));
+			unEnteroFantasma.agregarAlFinal(cadena.leer(offset,tamanioEnteroFantasma));
 			enterosFantasmas[posicion] = unEnteroFantasma;
 			offset += tamanioEnteroFantasma;
 

@@ -71,14 +71,16 @@ void Persistencia::sacarElFrontCoding(string palabra, string ruta){
 }
 
 //para volver a generar la clave del registro
-Persistencia Persistencia::datosSinFrontCoding(string palabra, string ruta){
+Persistencia Persistencia::datosSinFrontCoding(string ruta){
 	if (estaTransformada(this->bytes)){
 		FrontCoding* fc = new FrontCoding(ruta);
-		string modificada = fc->interpretarFrontCoding(palabra);
+		string frontCoding = this->bytes;
+		string modificada = fc->interpretarFrontCoding(frontCoding);
 		delete fc;
 		return Persistencia(modificada);
 	}
-	return Persistencia(this->toString());
+	else
+		return Persistencia(this->toString());
 }
 
 bool Persistencia::estaTransformada(string cadena){

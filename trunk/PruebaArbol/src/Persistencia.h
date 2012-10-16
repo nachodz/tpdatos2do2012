@@ -156,7 +156,7 @@ public:
 	bool vaciar();
 	void transformarAFrontCoding(string primera, string ruta);
 	void sacarElFrontCoding(string palabra, string ruta);
-	Persistencia datosSinFrontCoding(string palabra, string ruta);
+	Persistencia datosSinFrontCoding(string ruta);
 	/*
 	 * Getters y setters
 	 */
