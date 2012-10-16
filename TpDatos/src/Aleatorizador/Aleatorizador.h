@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include "../Ordenador/Ordenador.h"
+#include "../Fusionador/Fusionador.h"
 
 using namespace std;
 
@@ -37,6 +38,9 @@ public:
 	void aleatorizarArchivo();
 	void generarAchivoTabulado(int cantRegistros);
 	void sortExterno(ifstream *archivoAordenar, int cantRegistros);
+private:
+	string intToStr(int n);
+	void merge(int cantRegistros);
 };
 
 #endif /* ALEATORIZADOR_H_ */

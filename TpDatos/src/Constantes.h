@@ -8,7 +8,7 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
 
-//******************** Path de Archivos ***************************
+//******************** Path de Archivos ***************
 #define PATH_ARCHIVO_NORMALIZADO "normalizado.txt"
 #define PATH_ARCHIVO_A_ALEATORIZAR "diccionario.dat"
 #define PATH_DICCIONARIO "diccionario.txt"
@@ -16,6 +16,10 @@
 #define PATH_ARCHIVO_TABULADO "tabulado.txt"
 #define PATH_PARTICION "Particiones/particion"
 #define DIRECTORIO_PARTICIONES "Particiones"
+
+//******************** Avisos *************************
+#define MSJ_PROCESANDO "..procesando.."
+
 
 //******************** Menu ***************************
 #define MP "MENU PRINCIPAL"
@@ -79,7 +83,6 @@
 #define CANT_PARTICIONES 400
 #define BUFFER_LEC_ESC_SORT 50
 
-/***********************Avisos*************************/
-#define MSJ_PROCESANDO "Procesando"
+
 
 #endif /* CONSTANTES_H_ */
