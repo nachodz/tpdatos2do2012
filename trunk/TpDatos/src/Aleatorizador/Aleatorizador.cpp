@@ -8,6 +8,7 @@
 
 #include "Aleatorizador.h"
 
+
 Aleatorizador::Aleatorizador() {
 	// TODO Auto-generated constructor stub
 
@@ -64,7 +65,8 @@ void Aleatorizador::aleatorizarArchivo() {
 		this->generarAchivoTabulado(cantRegistros);
 		ifstream archivoAordenar(PATH_ARCHIVO_A_ALEATORIZAR,ios::binary);
 		this->sortExterno(&archivoAordenar,cantRegistros);
-
+		//TODO: desharcodear el 86! Se necesita la cantidad de particiones que se crearon.
+		this->merge(86);
 		cout<<"Archivo aleatorizado correctamente"<<endl;
 	}
 	else
@@ -117,5 +119,29 @@ void Aleatorizador::sortExterno(ifstream *archivoAordenar ,int cantRegistros) {
 
 	unOrdenador.ordenar(archivoAordenar, cantRegistros);
 
-	cout<<"TODO: ordenamiento"<<endl;
+	//cout<<"TODO: ordenamiento"<<endl;
+
+}
+
+string Aleatorizador::intToStr(int n) {
+
+	stringstream result;
+	result << n;
+	return result.str();
+}
+
+//TODO: SACAR!. Método que agrego para llamar al Merge!
+void Aleatorizador::merge(int cantRegistros){
+
+	string paths[cantRegistros];
+
+	for(int i=0; i < cantRegistros; i++){
+			paths[i] = "Particiones/particion" + intToStr(i);
+	}
+
+	Fusionador* unFusionador = new Fusionador(paths, 50, cantRegistros);
+
+	unFusionador->merge();
+
+	cout<<"TODO: Realizo merge"<<endl;
 }

@@ -3,23 +3,25 @@
 #define NO_PATHS -1
 #define ERR_ESCRITURA -2
 #define OK 1
-#define MAX_ID 32000
+#define MAX_ID 999999999
 
 
 
-Fusionador::Fusionador(string filePaths[], int tamBuffer, int cant_arch){
+Fusionador::Fusionador(string *filePaths, int tamBuffer, int cant_arch){
 
-    for(int i = 0; i < cant_arch; i++){ /// chequear
+    for(int i = 0; i < cant_arch; i++){
          this->filePaths[i] = filePaths[i];
     }
     this->tamBuffer = tamBuffer;
     this->cant_arch = cant_arch;
     this-> cant_buffers = 11;
+    this->numEtapas = 1;
+    this->ultimoPath = "etapa1";
 
 }
 
 
-int Fusionador::inicializarBuffers(Registro* buffers[]){
+int Fusionador::inicializarBuffers(Registro** buffers){
 
     int cont = 0; // contador de buffers que no pudieron ser alocados
 
@@ -32,15 +34,26 @@ int Fusionador::inicializarBuffers(Registro* buffers[]){
 
 }
 
-void Fusionador::abrirArchivos(string filePaths[], ifstream* archs, int num_archs){
+void Fusionador::destruirBuffers(Registro** buffers){
+
+    int i;
+
+    for(i = 0; i < (this->cant_buffers); i++){ //aloco memoria en los buffers
+        delete[] buffers[i];  //borro los buffers por separado
+    }
+
+
+}
+
+void Fusionador::abrirArchivos(string filePathsAUsar[], ifstream* archs, int num_archs){
     int i;
 
     for(i = 0; i < num_archs; i++){
-    	//archs[i].open(filePaths[i].c_str(), ios::in | ios::binary);
+    	archs[i].open(filePathsAUsar[i].c_str(), ios::in | ios::binary);
     }
 }
 
-void Fusionador::cerrarArchivos(ifstream archs[], int num_archs){
+void Fusionador::cerrarArchivos(ifstream* archs, int num_archs){
     int i;
 
     for(i = 0; i < num_archs; i++){
@@ -49,26 +62,25 @@ void Fusionador::cerrarArchivos(ifstream archs[], int num_archs){
 
 }
 
-void Fusionador::cargarBuffers(Registro* buffers[], ifstream archs[], int num_particiones, int tamBuffer){
 
-}
 
-Registro minimo(Registro* buffers[],unsigned short v_pos[], int num_particiones, unsigned short* pos_min){
-    unsigned short i,j;
+Registro Fusionador::minimo(Registro** buffers,unsigned short* v_pos, int num_particiones, unsigned short* pos_min){
+    unsigned short i = 0, j;
     j = v_pos[0]; // num del registro donde esta parado el buffer 0
-    Registro min = buffers[i][j]; //el primero siempre es el minimo
+    Registro min = buffers[0][j]; //el primero siempre es el minimo
     unsigned short k = 0; //numero del buffer que tenia el registro minimo
 
     for(i = 1; i < num_particiones; i++){
         j = v_pos[i];
 
         if(((buffers[i][j]).ID) < min.ID){
-            min = buffers[i][j];
+            min.ID = buffers[i][j].ID;
+            strcpy(min.palabra, buffers[i][j].palabra);
             k = i;
         }
     }
 
-    v_pos[i]++; //aumento el puntero a registros de ese buffer
+    v_pos[k]++; //aumento el puntero a registros de ese buffer
     *pos_min = k;
 
 
@@ -76,7 +88,7 @@ Registro minimo(Registro* buffers[],unsigned short v_pos[], int num_particiones,
 
 }
 
-bool Fusionador::finFusion(Registro* buffers[], int num_particiones, unsigned short v_pos[]){
+bool Fusionador::finFusion(Registro** buffers, int num_particiones, unsigned short v_pos[]){
     int i;
 
     for(i = 0; i < num_particiones; i++){
@@ -87,38 +99,83 @@ bool Fusionador::finFusion(Registro* buffers[], int num_particiones, unsigned sh
     return true;
 }
 
-int Fusionador::fusionar_particiones(ifstream archs[], Registro* buffers[], int num_particiones, int tamBuffer, string path_nuevo_arch){
+bool Fusionador::bufferVacio(Registro* buffer, unsigned short pos_actual){
+    ///si llega hasta el final y no es MAX_ID
+
+    if((pos_actual == this->tamBuffer)) //si me pase del ult reg del buffer y no es EOF
+        return true;
+    else
+        return false;
+}
+
+void Fusionador::cargarUnBuffer(Registro buffer[], ifstream* arch, int tamBuffer){
+    unsigned short i;
+    Registro reg_inv;
+    reg_inv.ID = MAX_ID;
+
+    if (!arch->eof()){
+		for(i = 0; i < tamBuffer; i++){
+			arch->read((char*)&(buffer[i]), sizeof(Registro));
+
+			if(arch->eof() && (i < tamBuffer - 1)){
+				buffer[i].ID = reg_inv.ID;
+				break;
+			}
+
+		}
+    }
+    else
+    	buffer[0] = reg_inv;
+
+}
+
+void Fusionador::cargarBuffers(Registro* buffers[], ifstream* archs, int num_particiones, int tamBuffer){
+    unsigned short i;
+    for(i = 0; i < num_particiones; i++){
+        cargarUnBuffer(buffers[i], &(archs[i]), tamBuffer);
+    }
+
+}
+
+void Fusionador::fusionar_particiones(ifstream* archs, Registro** buffers, int num_archs, int tamBuffer, string path_nuevo_arch){
 
 
-    unsigned short v_pos[num_particiones]; //vector de posiciones para apuntar en el buffer
-    int i;  //indices
+    unsigned short v_pos[num_archs]; //vector de posiciones para apuntar en el buffer
+    unsigned short i;  //indices
     inicializarBuffers(buffers);
     Registro reg_min;
     ofstream nuevo_arch;
     unsigned short pos_min; //numero de buffer minimo
 
-    cargarBuffers(buffers, archs, num_particiones, tamBuffer); //carga buffers con la cantidad de registros que puede de los archivos
+    cargarBuffers(buffers, archs, num_archs, tamBuffer); //carga buffers con la cantidad de registros que puede de los archivos
 
-    for(i = 0; i < num_particiones; i++){ //inicializo vector de posiciones en 0
+    for(i = 0; i < num_archs; i++){ //inicializo vector de posiciones en 0
         v_pos[i] = 0;
     }
 
     nuevo_arch.open(path_nuevo_arch.c_str(),ios::out | ios::binary);
 
-    while(!finFusion(buffers, num_particiones, v_pos)){
+    while(!finFusion(buffers, num_archs, v_pos)){
 
 
-        reg_min = minimo(buffers, v_pos, num_particiones, &pos_min); // devuelve el registro minimo y avanza el puntero correspondiente
+        reg_min = minimo(buffers, v_pos, num_archs, &pos_min); // devuelve el registro minimo y avanza el puntero correspondiente
 
-        nuevo_arch->write(reg_min, sizeof(Registro));
+        nuevo_arch.write((char*)&reg_min, sizeof(Registro));
+        nuevo_arch.flush();
+        cout<< reg_min.ID << endl;
+        if(bufferVacio(buffers[pos_min], v_pos[pos_min])){
+        	cargarUnBuffer(buffers[pos_min], &archs[pos_min], tamBuffer); //el unico que puede llegar a vaciarse es el que tenia el minimo
+        	v_pos[pos_min] = 0; //se volvio a llenar el buffer, entonces reseteo el indice de registros
+        }
 
-        if(bufferVacio(buffers[pos_min]))
-            cargarUnBuffer(buffers[pos_min], archs[pos_min]); /// hacer
+
 
     }
 
+    nuevo_arch.close();
 
-    return OK;
+    destruirBuffers(buffers);
+
 
 }
 
@@ -129,18 +186,34 @@ string Fusionador::IntToStr(int n) {
 	return result.str();
 }
 
+void Fusionador::actualizarPaths(string paths_viejos[], string paths_nuevos[], unsigned short cant_paths){
+    unsigned short i;
+    for(i = 0; i < cant_paths; i++){
+        paths_viejos[i] = paths_nuevos[i];
+    }
+}
+
+void Fusionador::prepararPaths(string filePathsTotales[],string filePathsAUsar[], int cant, int cant_buffers){
+
+	for(int j = 0; j < cant_buffers; j++){ //esto es para usar de a cant_buffer archivos, mas que nada para la ultima iteracion
+		filePathsAUsar[j] = this->filePaths[cant+j];
+	}
+
+}
+
 int Fusionador::merge(){
 
 
     int i = 0; //cantidad de archivos originales ya fusionados
-    int j = 0; //indice
-    string path_nuevo_arch = "nuevo_arch0.bin";
-    int nroPart = 0; //numero en el nombre de la nueva particion
+    string path_nuevo_arch = this->ultimoPath + "/" "nuevo_arch0.bin";
+    unsigned short nroPart = 0; //numero en el nombre de la nueva particion
     int cant_buffers = this->cant_buffers;
 
-    ifstream archs[this->cant_buffers] = new ifstream[this->cant_buffers]; // uso una cantidad de archivos igual a la cantidad de buffers
+    mkdir((this->ultimoPath).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+    ifstream* archs = new ifstream[this->cant_buffers]; // uso una cantidad de archivos igual a la cantidad de buffers
     string filePathsAUsar[this->cant_buffers];
-    Registro buffers[this->cant_buffers];
+    Registro* buffers[this->cant_buffers];
 
     int cant_nuevas_part = (this->cant_arch/cant_buffers);
     if((this->cant_arch)%(cant_buffers) > 0)
@@ -153,34 +226,40 @@ int Fusionador::merge(){
         if((this->cant_arch - i) < (this->cant_buffers))
             cant_buffers = (this->cant_arch - i); //si hay menos archivos a fusionar que buffers, uso cant_buffers = cant_archs_aFusionar
 
-        for(j = 0; j < cant_buffers; j++){ //esto es para usar de a cant_buffer archivos, mas que nada para la ultima iteracion
-        	filePathsAUsar[j] = this->filePaths[i+j];
-        }
+        prepararPaths(this->filePaths, filePathsAUsar, i, cant_buffers);
         abrirArchivos(filePathsAUsar, archs, cant_buffers);
-
-        fusionar_particiones(archs, buffers, cant_buffers, this->tamBuffer, path_nuevo_arch); //fusiona archivos (cantidad == this->cant_buffers
-
+        fusionar_particiones(archs, buffers, cant_buffers, this->tamBuffer, path_nuevo_arch); //fusiona archivos (cantidad == this->cant_buffers)
         i = i + cant_buffers; //aumento cantidad de archivos ya fusionados
 
         parchs_nuevos[nroPart] = path_nuevo_arch; //agrego el path de la nueva particion al array de paths nuevos
 
         nroPart++;
-        path_nuevo_arch = "nuevo_arch" + IntToStr(nroPart) + ".bin";       ///aumento el numero del proximo path
+        path_nuevo_arch = this->ultimoPath + "/" + "nuevo_arch" + IntToStr(nroPart) + ".bin";       //aumento el numero del proximo path
 
         cerrarArchivos(archs, cant_buffers);
 
     }
+    delete[] archs;
 
-    // Fusionador se "actualiza" cambiandose la cantidad de archivos por la cantidad de nuevas particiones, y los paths anteriores por los nuevos paths
-    this->cant_arch = nroPart;
-    this->filePaths = parchs_nuevos;
 
-    // DELETES
+    if(nroPart == 1){
+    	//termino la fusion, resultado es un archivo unico
+    	return OK;
+    }
 
-    if(nroPart == 1) //termino la fusion, resultado es un archivo unico
-        return OK;
-    else
+    else{
+
+        // Fusionador se "actualiza" cambiandose la cantidad de archivos por la cantidad de nuevas particiones, y los paths anteriores por los nuevos paths
+        this->cant_arch = nroPart;
+        actualizarPaths(this->filePaths, parchs_nuevos, nroPart);
+        this->numEtapas++;
+        this->ultimoPath = this->ultimoPath + "/" + "etapa" + IntToStr(this->numEtapas);
+
         merge(); //se llama a si mismo recursivamente
+
+        return -5;
+    }
+
 
 
 }
