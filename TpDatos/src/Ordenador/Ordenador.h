@@ -8,6 +8,8 @@
 #ifndef ORDENADOR_H_
 #define ORDENADOR_H_
 
+#define PATH_INFORMES "informe.txt"
+
 #include <iostream>
 #include <fstream>
 #include <string.h>
