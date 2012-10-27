@@ -1,12 +1,5 @@
-/*
- * Normalizador.cpp
- *
- *  Created on: 12/09/2012
- *      Author: francisco
- */
 
 #include "Normalizador.h"
-
 
 
 Normalizador::Normalizador(){

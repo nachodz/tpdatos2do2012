@@ -18,6 +18,8 @@
 #define PATH_FRASES "Frases_Celebres.csv"
 #define DIRECTORIO_PARTICIONES "Particiones"
 #define PATH_ARBOL "ARBOLB+"
+#define PATH_TERM_NO_ENCONTRADOS "TerminosNoEncontrados.txt"
+#define PATH_INFORMES "informe.txt"
 
 //******************** Avisos *************************
 #define MSJ_PROCESANDO "..procesando.."
@@ -110,6 +112,9 @@
 #define HASH_SALIDAOK "El archivo de salida se generó correctamente."
 
 /**********************Estadistico*********************/
+#define CANT_STOPW 500
+
+/* Avisos */
 #define ESTADISTICO_CARGAINICIALCOMIENZO "Recorriendo secuencialmente el archivo directo de frases."
 #define ESTADISTICO_CARGAINICIALOK "La recorrida del archivo directo se ha completado correctamente"
 #define ESTADISTICO_TASAFALLOS "La tasa de fallos es igual a: "

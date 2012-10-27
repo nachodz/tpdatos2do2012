@@ -1,9 +1,3 @@
-/*
- * Estadisticas.cpp
- *
- *  Created on: 13/10/2012
- *      Author: nachodz
- */
 
 #include "Estadisticas.h"
 bool myfunction (pair<string, int> x, pair<string, int> y) { return x.second > y.second; }

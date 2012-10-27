@@ -1,10 +1,3 @@
-/*
- * Ordenador.cpp
- *
- *  Created on: 19/09/2012
- *      Author: nachodz
- */
-
 
 #include "Ordenador.h"
 
