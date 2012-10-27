@@ -1,15 +1,6 @@
-/*
- * Estadisticas.h
- *
- *  Created on: 13/10/2012
- *      Author: nachodz
- */
 
 #ifndef ESTADISTICAS_H_
 #define ESTADISTICAS_H_
-
-#define CANT_STOPW 500
-#define PATH_TERM_NO_ENCONTRADOS "TerminosNoEncontrados.txt"
 
 #include <iostream>
 #include <fstream>
@@ -25,8 +16,9 @@
 #include <vector>
 #include <algorithm>
 
-#include "ArbolBMas.h"
-#include "Normalizador/Normalizador.h"
+#include "../ArbolBMas/ArbolBMas.h"
+#include "../Normalizador/Normalizador.h"
+#include "../Constantes.h"
 
 
 using namespace std;

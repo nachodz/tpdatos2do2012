@@ -1,8 +1,8 @@
 
 #ifndef CLAVE_H_
 #define CLAVE_H_
-#include "Serializable.h"
-#include "Constantes.h"
+#include "../Persistencia/Serializable.h"
+#include "../Constantes.h"
 #include <string.h>
 
 class Clave : public Serializable{

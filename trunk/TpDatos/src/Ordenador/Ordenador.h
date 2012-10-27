@@ -1,14 +1,6 @@
-/*
- * Ordenador.h
- *
- *  Created on: 19/09/2012
- *      Author: nachodz
- */
 
 #ifndef ORDENADOR_H_
 #define ORDENADOR_H_
-
-#define PATH_INFORMES "informe.txt"
 
 #include <iostream>
 #include <fstream>

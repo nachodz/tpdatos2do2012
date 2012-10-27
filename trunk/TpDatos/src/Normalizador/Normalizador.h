@@ -1,9 +1,3 @@
-/*
- * Normalizador.h
- *
- *  Created on: 12/09/2012
- *      Author: francisco
- */
 
 #ifndef NORMALIZADOR_H_
 #define NORMALIZADOR_H_
