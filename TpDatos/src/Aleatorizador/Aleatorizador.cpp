@@ -65,8 +65,6 @@ void Aleatorizador::aleatorizarArchivo() {
 		this->generarAchivoTabulado(cantRegistros);
 		ifstream archivoAordenar(PATH_ARCHIVO_A_ALEATORIZAR,ios::binary);
 		this->sortExterno(&archivoAordenar,cantRegistros);
-		//TODO: desharcodear el 86! Se necesita la cantidad de particiones que se crearon.
-		this->merge(86);
 		cout<<"Archivo aleatorizado correctamente"<<endl;
 	}
 	else
@@ -113,13 +111,26 @@ void Aleatorizador::generarAchivoTabulado(int cantRegistros) {
 
 void Aleatorizador::sortExterno(ifstream *archivoAordenar ,int cantRegistros) {
 
+	int particiones;
+
 	mkdir(DIRECTORIO_PARTICIONES, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 	Ordenador unOrdenador(BUFFER_LEC_ESC_SORT);
 
-	unOrdenador.ordenar(archivoAordenar, cantRegistros);
+	particiones = unOrdenador.ordenar(archivoAordenar, cantRegistros);
 
-	//cout<<"TODO: ordenamiento"<<endl;
+	string* paths = new string[particiones];
+	string raiz = "Particiones/particion";
+
+	for (int i = 0; i < particiones; i++) {
+
+		paths[i] = raiz + intToStr(i);
+
+	}
+
+	Fusionador unFusionador(paths,REGISTROS_POR_BUFFER,particiones);
+
+	unFusionador.merge();
 
 }
 

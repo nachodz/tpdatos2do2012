@@ -112,7 +112,7 @@ void Ordenador::correrBuffer (tReg* bufNuevo, tReg* bufViejo, int cantaPasar){
 	}
 };
 
-void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
+int Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
 
 	ofstream informes (PATH_INFORMES,ios::app);
 
@@ -258,8 +258,6 @@ void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
  				else
  				    tamUltHeap = this->tamBufOrd;
 
- 				cout << tamUltHeap << endl;   //esto habria que sacarlo
-
  				this->grabarBufferEscritura(&(partNro[nroPart]),bufferEscritura,esc);
  				esc = 0;
 
@@ -275,7 +273,7 @@ void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
  				this->myheapsort(bufferUltHeap,tamUltHeap);
  				this->achicarMonticulo(bufferUltHeap,tamUltHeap,&(partNro[nroPart]));
 
-                informes << "Cantidad de particiones generadas:  " << nroPart << endl;
+                informes << "Cantidad de particiones generadas:  " << nroPart+1 << endl;
 
  				delete []bufferSort;
  				delete []bufferUltHeap;
@@ -285,6 +283,7 @@ void Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
  				informes.close();
  			}
  		}
+ 	return nroPart + 1;
  }
 
 
