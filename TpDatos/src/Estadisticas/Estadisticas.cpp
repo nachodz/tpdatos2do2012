@@ -77,7 +77,7 @@ void Estadisticas::procesar_frase (string frase,ArbolBMas* arbol) {
 
 	this->cant_frases ++;
     char *fraseProcesar = strdup (frase.c_str());
-    palabra = strtok (fraseProcesar," .,;:¿?_-<>/¡!");
+    palabra = strtok (fraseProcesar," .,;:ï¿½?_-<>/ï¿½!");
 
 	while (palabra != NULL) {
 
@@ -140,3 +140,20 @@ void Estadisticas::listar_ranking (int n) {
 //
 //
 //}
+
+
+void Estadisticas::cargaInicial(Hash hash,ArbolBMas* arbol){
+	Persistencia cadena;
+	Cubo bloque;
+	int cantidadBloques = -1;
+	int contador = 0;
+	cantidadBloques = hash.getCantidadBloques();
+
+	while(contador <= cantidadBloques){
+		list<RegistroHash> listaRegistros = hash.getRegistrosPorBloque(contador);
+		for(list<RegistroHash>::iterator it = listaRegistros.begin(); it != listaRegistros.end(); it++){
+			this->procesar_frase((*it).getFrase(),arbol);
+		}
+	}
+
+}

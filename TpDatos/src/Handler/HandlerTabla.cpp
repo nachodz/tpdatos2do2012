@@ -101,7 +101,7 @@ void HandlerTabla::truncar_tabla() {
 	int contador = 0;
 
 	arch.open(this->ruta_arch_tabla.c_str());
-	arch_aux.open(NOM_TEMP);
+	arch_aux.open(HASH_NOM_TEMP);
 
 	this->tam_tabla /= 2;
 	if (this->tam_tabla < 0)
@@ -121,7 +121,7 @@ void HandlerTabla::truncar_tabla() {
 	arch_aux.close();
 
 	remove(this->ruta_arch_tabla.c_str());
-	rename(NOM_TEMP, this->ruta_arch_tabla.c_str());
+	rename(HASH_NOM_TEMP, this->ruta_arch_tabla.c_str());
 }
 
 bool HandlerTabla::mitades_iguales() const {
@@ -202,7 +202,7 @@ void HandlerTabla::reemplazar_referencia(int num_bloque_a_reemplazar, int num_nu
 	int contador = 0;
 
 	arch.open(this->ruta_arch_tabla.c_str());
-	arch_aux.open(NOM_TEMP);
+	arch_aux.open(HASH_NOM_TEMP);
 
 	arch_aux.width(8);
 	arch_aux << hex << this->tam_tabla << '|';
@@ -231,7 +231,7 @@ void HandlerTabla::reemplazar_referencia(int num_bloque_a_reemplazar, int num_nu
 	arch_aux.close();
 
 	remove(this->ruta_arch_tabla.c_str());
-	rename(NOM_TEMP, this->ruta_arch_tabla.c_str());
+	rename(HASH_NOM_TEMP, this->ruta_arch_tabla.c_str());
 }
 
 void HandlerTabla::reemplazar_referencias(int pos_inicial, int num_nuevo_bloque, const Bloque& nuevo_bloque) {
@@ -243,7 +243,7 @@ void HandlerTabla::reemplazar_referencias(int pos_inicial, int num_nuevo_bloque,
 	int dist_salto = nuevo_bloque.get_tam_disp();
 
 	arch.open(this->ruta_arch_tabla.c_str());
-	arch_aux.open(NOM_TEMP);
+	arch_aux.open(HASH_NOM_TEMP);
 
 	arch_aux.width(8);
 	arch_aux << hex << this->tam_tabla << '|';
@@ -271,7 +271,7 @@ void HandlerTabla::reemplazar_referencias(int pos_inicial, int num_nuevo_bloque,
 	arch_aux.close();
 
 	remove(this->ruta_arch_tabla.c_str());
-	rename(NOM_TEMP, this->ruta_arch_tabla.c_str());
+	rename(HASH_NOM_TEMP, this->ruta_arch_tabla.c_str());
 }
 
 int HandlerTabla::puedo_liberar_bloque(const Bloque& bloque_a_liberar, int pos_actual) const {
@@ -329,4 +329,27 @@ int HandlerTabla::puedo_liberar_bloque(const Bloque& bloque_a_liberar, int pos_a
 void HandlerTabla::liberar_referencias(int pos_inicial, int num_bloque_por_reemplazar,
 		const Bloque& bloque_por_reemplazar) {
 	this->reemplazar_referencias(pos_inicial, num_bloque_por_reemplazar, bloque_por_reemplazar);
+}
+
+int HandlerTabla::getCantidadBloques(){
+	ifstream arch;
+	string s;
+	int contador = 0;
+	int mayor = 0;
+	int num_bloque = -1;
+
+	arch.open(this->ruta_arch_tabla.c_str());
+
+	getline(arch, s, '|');
+
+	while (contador <= this->tam_tabla) {
+		arch >> num_bloque;
+		if(num_bloque > mayor)
+			mayor = num_bloque;
+		++ contador;
+	}
+
+	arch.close();
+
+	return mayor;
 }

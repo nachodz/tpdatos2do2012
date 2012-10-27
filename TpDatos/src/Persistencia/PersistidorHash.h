@@ -3,7 +3,7 @@
 #define PERSISTIDORHASH_H_
 
 #include "Persistencia.h"
-#include "HandlerBloques.h"
+#include "../Handler/HandlerBloques.h"
 #include <string>
 
 using namespace std;

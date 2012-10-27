@@ -1,6 +1,6 @@
 
 #include "Hash.h"
-#include "Constantes.h"
+#include "../Constantes.h"
 
 Hash::Hash(const string& ruta_arch_bloques, const string& ruta_arch_esp_libre,
 		const string& ruta_arch_tabla) {
@@ -453,4 +453,19 @@ void Hash::cargaInicial(){
 
 	//hash.mostrar(NOM_SALIDA);
 
+}
+
+//Métodos para recorrer secuencialmente el archivo directo.
+
+int Hash::getCantidadBloques(){
+	return this->handler_tabla.getCantidadBloques();
+}
+
+list<RegistroHash> Hash::getRegistrosPorBloque(int num_bloque){
+	Persistencia cadena;
+	Cubo bloque;
+
+	this->persistor.recuperar_bloque(num_bloque, cadena);
+	bloque.Hidratar(cadena);
+	return bloque.get_regs();
 }

@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <sstream>
 #include <string.h>
-#include "FrontCoding.h"
+#include "../ArbolBMas/FrontCoding.h"
 
 using namespace std;
 

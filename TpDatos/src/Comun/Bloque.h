@@ -2,7 +2,7 @@
 #ifndef BLOQUE_H_
 #define BLOQUE_H_
 
-#include "Serializable.h"
+#include "../Persistencia/Serializable.h"
 
 class Bloque : public Serializable {
 
