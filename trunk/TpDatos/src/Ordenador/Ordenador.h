@@ -40,7 +40,7 @@ public:
     Ordenador (int tamBufLec_Esc);
 	virtual ~Ordenador ();
 	void intercambio (tReg *buf, int a, int b);
-	void ordenar (ifstream *archIn,int cantRegistrosArchivo);
+	int ordenar (ifstream *archIn,int cantRegistrosArchivo);
 	void cargaInicial (ifstream *archIn, tReg *buffer);
     void myheapsort (tReg *buffer,int tamHeap);
     void achicarMonticulo (tReg *bufferSort,int tamHeap,ofstream *salida);

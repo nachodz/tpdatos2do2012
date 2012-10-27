@@ -8,29 +8,34 @@
 
 
 Fusionador::Fusionador(string *filePaths, int tamBuffer, int cant_arch){
-
+	this->filePaths = new string[cant_arch];
     for(int i = 0; i < cant_arch; i++){
          this->filePaths[i] = filePaths[i];
     }
     this->tamBuffer = tamBuffer;
     this->cant_arch = cant_arch;
-    this-> cant_buffers = 11;
+    this-> cant_buffers = CANTIDAD_BUFFERS_MERGE;
     this->numEtapas = 1;
     this->ultimoPath = "etapa1";
+    this->cantRegs = 0;
 
+}
+
+void Fusionador::destruir(){
+	delete[] this->filePaths;
 }
 
 
 int Fusionador::inicializarBuffers(Registro** buffers){
 
-    int cont = 0; // contador de buffers que no pudieron ser alocados
+    int cont = 0;
 
-    for(int i = 0; i < (this->cant_buffers); i++){ //aloco memoria en los buffers
-        buffers[i] = new Registro[this->tamBuffer]; //chequear
+    for(int i = 0; i < (this->cant_buffers); i++){
+        buffers[i] = new Registro[this->tamBuffer];
         if(buffers[i] == NULL)
             cont++;
     }
-    return cont; //retorna los que no pudo alocar correctamente
+    return cont;
 
 }
 
@@ -38,8 +43,8 @@ void Fusionador::destruirBuffers(Registro** buffers){
 
     int i;
 
-    for(i = 0; i < (this->cant_buffers); i++){ //aloco memoria en los buffers
-        delete[] buffers[i];  //borro los buffers por separado
+    for(i = 0; i < (this->cant_buffers); i++){
+        delete[] buffers[i];
     }
 
 
@@ -59,6 +64,22 @@ void Fusionador::cerrarArchivos(ifstream* archs, int num_archs){
     for(i = 0; i < num_archs; i++){
     	archs[i].close();
     }
+
+}
+
+void Fusionador::informar(int cant_archivos, int cant_buffers, int numEtapa){
+	ofstream informe;
+	informe.open("informe.txt", ios::app);
+	int cantAInformar =(cant_archivos/cant_buffers);
+
+	if(cant_archivos%cant_buffers > 0) cantAInformar++;
+	informe<< endl;
+	informe<<"cantidad de archivos de la etapa ";
+	informe<< IntToStr(numEtapa).c_str();
+	informe<< " es: ";
+	informe<< IntToStr(cantAInformar).c_str() << endl;
+
+	informe.close();
 
 }
 
@@ -109,9 +130,10 @@ bool Fusionador::bufferVacio(Registro* buffer, unsigned short pos_actual){
 }
 
 void Fusionador::cargarUnBuffer(Registro buffer[], ifstream* arch, int tamBuffer){
-    unsigned short i;
+    unsigned short i = 0;
     Registro reg_inv;
     reg_inv.ID = MAX_ID;
+
 
     if (!arch->eof()){
 		for(i = 0; i < tamBuffer; i++){
@@ -123,6 +145,7 @@ void Fusionador::cargarUnBuffer(Registro buffer[], ifstream* arch, int tamBuffer
 			}
 
 		}
+
     }
     else
     	buffer[0] = reg_inv;
@@ -141,13 +164,13 @@ void Fusionador::fusionar_particiones(ifstream* archs, Registro** buffers, int n
 
 
     unsigned short v_pos[num_archs]; //vector de posiciones para apuntar en el buffer
-    unsigned short i;  //indices
+    unsigned short i;
     inicializarBuffers(buffers);
     Registro reg_min;
     ofstream nuevo_arch;
     unsigned short pos_min; //numero de buffer minimo
 
-    cargarBuffers(buffers, archs, num_archs, tamBuffer); //carga buffers con la cantidad de registros que puede de los archivos
+    cargarBuffers(buffers, archs, num_archs, tamBuffer);
 
     for(i = 0; i < num_archs; i++){ //inicializo vector de posiciones en 0
         v_pos[i] = 0;
@@ -161,8 +184,8 @@ void Fusionador::fusionar_particiones(ifstream* archs, Registro** buffers, int n
         reg_min = minimo(buffers, v_pos, num_archs, &pos_min); // devuelve el registro minimo y avanza el puntero correspondiente
 
         nuevo_arch.write((char*)&reg_min, sizeof(Registro));
+        this->cantRegs++;
         nuevo_arch.flush();
-        cout<< reg_min.ID << endl;
         if(bufferVacio(buffers[pos_min], v_pos[pos_min])){
         	cargarUnBuffer(buffers[pos_min], &archs[pos_min], tamBuffer); //el unico que puede llegar a vaciarse es el que tenia el minimo
         	v_pos[pos_min] = 0; //se volvio a llenar el buffer, entonces reseteo el indice de registros
@@ -195,7 +218,7 @@ void Fusionador::actualizarPaths(string paths_viejos[], string paths_nuevos[], u
 
 void Fusionador::prepararPaths(string filePathsTotales[],string filePathsAUsar[], int cant, int cant_buffers){
 
-	for(int j = 0; j < cant_buffers; j++){ //esto es para usar de a cant_buffer archivos, mas que nada para la ultima iteracion
+	for(int j = 0; j < cant_buffers; j++){
 		filePathsAUsar[j] = this->filePaths[cant+j];
 	}
 
@@ -209,15 +232,22 @@ int Fusionador::merge(){
     unsigned short nroPart = 0; //numero en el nombre de la nueva particion
     int cant_buffers = this->cant_buffers;
 
-    mkdir((this->ultimoPath).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    int cant_nuevas_part = (this->cant_arch/cant_buffers);
+    if((this->cant_arch)%(cant_buffers) > 0)
+            cant_nuevas_part++;
+
+    if(cant_nuevas_part == 1){
+    	for(int k = 0; k < this->numEtapas;k++)
+    		system("cd");
+    	path_nuevo_arch = "archivoFinal.bin";
+    }
+
+    else
+    	mkdir((this->ultimoPath).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
     ifstream* archs = new ifstream[this->cant_buffers]; // uso una cantidad de archivos igual a la cantidad de buffers
     string filePathsAUsar[this->cant_buffers];
     Registro* buffers[this->cant_buffers];
-
-    int cant_nuevas_part = (this->cant_arch/cant_buffers);
-    if((this->cant_arch)%(cant_buffers) > 0)
-        cant_nuevas_part++;
 
     string parchs_nuevos[cant_nuevas_part]; // paths de los archivos generados por el merge
 
@@ -228,21 +258,22 @@ int Fusionador::merge(){
 
         prepararPaths(this->filePaths, filePathsAUsar, i, cant_buffers);
         abrirArchivos(filePathsAUsar, archs, cant_buffers);
-        fusionar_particiones(archs, buffers, cant_buffers, this->tamBuffer, path_nuevo_arch); //fusiona archivos (cantidad == this->cant_buffers)
+        fusionar_particiones(archs, buffers, cant_buffers, this->tamBuffer, path_nuevo_arch); //fusiona archivos (cantidad == cant_buffers)
         i = i + cant_buffers; //aumento cantidad de archivos ya fusionados
 
-        parchs_nuevos[nroPart] = path_nuevo_arch; //agrego el path de la nueva particion al array de paths nuevos
+        parchs_nuevos[nroPart] = path_nuevo_arch;
 
         nroPart++;
-        path_nuevo_arch = this->ultimoPath + "/" + "nuevo_arch" + IntToStr(nroPart) + ".bin";       //aumento el numero del proximo path
+        path_nuevo_arch = this->ultimoPath + "/" + "nuevo_arch" + IntToStr(nroPart) + ".bin";
 
         cerrarArchivos(archs, cant_buffers);
 
     }
     delete[] archs;
-
+    informar(this->cant_arch, this->cant_buffers, this->numEtapas);
 
     if(nroPart == 1){
+
     	//termino la fusion, resultado es un archivo unico
     	return OK;
     }
@@ -254,8 +285,9 @@ int Fusionador::merge(){
         actualizarPaths(this->filePaths, parchs_nuevos, nroPart);
         this->numEtapas++;
         this->ultimoPath = this->ultimoPath + "/" + "etapa" + IntToStr(this->numEtapas);
-
-        merge(); //se llama a si mismo recursivamente
+        cout<<this->cantRegs;
+        this->cantRegs = 0;
+        merge();
 
         return -5;
     }

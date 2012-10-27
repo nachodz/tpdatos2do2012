@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <stdio.h>
+#include "../Constantes.h"
 
 
 using namespace std;
@@ -26,17 +27,20 @@ using namespace std;
 
 class Fusionador{
     private:
-        string filePaths[86]; //array de char* con los path de los archivos
+        string* filePaths; //array de char* con los path de los archivos
         int tamBuffer; //cant de registros que contiene el buffer
         int cant_arch; //cantidad de archivos
         int cant_buffers;
         int numEtapas;
         string ultimoPath;
+        int cantRegs;
 
     public:
         Fusionador(string filePaths[], int tamBuffer, int cant_arch);
+        void destruir();
         int inicializarBuffers(Registro** buffers); //devuelve la cantidad de buffers que no pudieron ser alocados. Se intentan alocar 11
         void destruirBuffers(Registro** buffers);
+        void informar(int cant_archivos, int cant_buffers, int numEtapa);
         void abrirArchivos(string filePaths[], ifstream* archs,int num_archs);
         void cerrarArchivos(ifstream* archs, int num_archs);
         Registro minimo(Registro** buffers,unsigned short* v_pos, int num_particiones, unsigned short* pos_min);
