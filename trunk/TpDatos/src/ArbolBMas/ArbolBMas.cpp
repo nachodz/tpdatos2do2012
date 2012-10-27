@@ -1261,7 +1261,7 @@ void ArbolBMas::cargaInicial(int cantRegistros) {
 	tRegistroDiccionario *bufferLectura = new tRegistroDiccionario[TAM_BUFFER_LEC];
 	Elementos *elementos = new Elementos[TAM_BUFFER_LEC];
 	int posicion = 0;
-	int numero = 0;
+	//int numero = 0;
 
 	archivoAcargar.open(PATH_ALEATORIO, ios::in | ios::binary);
 
