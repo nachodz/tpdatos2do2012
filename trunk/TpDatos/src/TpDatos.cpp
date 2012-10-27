@@ -265,6 +265,7 @@ void menuComponenteEstadisticas(){
 
 	Estadisticas estadistico = new Estadisticas();
 	ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
+	Hash hash(HASH_NOM_BLOQUES, HASH_NOM_ESP_LIBRE, HASH_NOM_TABLA);
 	int n;
 
 	while(ejecutando){
@@ -290,7 +291,7 @@ void menuComponenteEstadisticas(){
 			case 1: {
 				cout << ESTADISTICO_CARGAINICIALCOMIENZO << endl;
 				cout << MSJ_PROCESANDO << endl;
-				estadistico.cargaInicial();
+				estadistico.cargaInicial(hash,arbol);
 				cout << ESTADISTICO_CARGAINICIALOK << endl;
 				break;
 			}

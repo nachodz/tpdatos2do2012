@@ -3,7 +3,7 @@
 #define REGISTROHASH_H_
 
 #include "Autor.h"
-#include "Serializable.h"
+#include "../Persistencia/Serializable.h"
 #include <string>
 
 using namespace std;

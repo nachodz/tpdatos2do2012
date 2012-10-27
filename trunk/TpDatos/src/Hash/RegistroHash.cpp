@@ -1,6 +1,6 @@
 
 #include "RegistroHash.h"
-#include "Constantes.h"
+#include "../Constantes.h"
 
 RegistroHash::RegistroHash(){
 	 this->setClave(-1);

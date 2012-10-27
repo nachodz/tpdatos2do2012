@@ -2,7 +2,7 @@
 #define HANDLERBLOQUES_H_
 
 #include "HandlerEspLibre.h"
-#include "Constantes.h"
+#include "../Constantes.h"
 
 #include <stdlib.h>
 #include <stdio.h>

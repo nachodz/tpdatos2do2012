@@ -2,7 +2,7 @@
 #include "Cubo.h"
 
 Cubo::Cubo(int tam_disp) : Bloque(tam_disp) {
-	this->esp_libre = TAM_CUBO - this->get_tam();
+	this->esp_libre = HASH_TAM_CUBO - this->get_tam();
 }
 
 int Cubo::get_tam() {
@@ -118,7 +118,7 @@ RegistroHash& Cubo::buscar_reg(int clave) {
 void Cubo::vaciar() {
 	this->tam_disp = 1;
 	this->regs.clear();
-	this->esp_libre = TAM_CUBO - this->get_tam();
+	this->esp_libre = HASH_TAM_CUBO - this->get_tam();
 }
 
 void Cubo::incorporar_regs(list < RegistroHash > & regs) {

@@ -2,8 +2,8 @@
 #ifndef HASHPALABRA_H_
 #define HASHPALABRA_H_
 
-#include "PersistidorHash.h"
-#include "Cubo.h"
+#include "../Persistencia/PersistidorHash.h"
+#include "../Comun/Cubo.h"
 #include "RegistroHash.h"
 #include <string>
 
@@ -66,6 +66,10 @@ public:
 	void modificar(int clave, Autor* autor,string frase);
 
 	void cargaInicial();
+
+	int getCantidadBloques();
+
+	list<RegistroHash> getRegistrosPorBloque(int nroBloque);
 
 };
 

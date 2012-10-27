@@ -4,8 +4,8 @@
 
 class HandlerTabla;
 
-#include "RegistroHash.h"
-#include "HandlerTabla.h"
+#include "../Hash/RegistroHash.h"
+#include "../Handler/HandlerTabla.h"
 #include <list>
 
 using namespace std;

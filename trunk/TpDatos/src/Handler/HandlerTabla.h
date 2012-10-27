@@ -7,8 +7,8 @@ class Bloque;
 #include <cstdio>
 #include <fstream>
 #include <string>
-#include "Bloque.h"
-#include "Constantes.h"
+#include "../Comun/Bloque.h"
+#include "../Constantes.h"
 
 using namespace std;
 
@@ -50,6 +50,7 @@ public:
 	void liberar_referencias(int pos_inicial, int num_bloque_por_reemplazar,
 			const Bloque& bloque_por_reemplazar);
 
+	int getCantidadBloques();
 };
 
 #endif /* HANDLERTABLA_H_ */

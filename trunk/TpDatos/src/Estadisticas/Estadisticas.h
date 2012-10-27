@@ -57,6 +57,7 @@ public:
 	int tasa_fallo_terminos ();
 	void listar_ranking (int n);
 	//	void mostrar_stopWords ();
+	void cargaInicial(Hash hash,ArbolBMas* arbol);
 };
 
 #endif /* ESTADISTICAS_H_ */
