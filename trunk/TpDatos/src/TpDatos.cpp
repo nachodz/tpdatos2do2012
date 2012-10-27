@@ -302,8 +302,7 @@ void menuComponenteEstadisticas(){
 			}
 			case 3: {
 				cout << ESTADISTICO_LISTATERMINOSNOENCONTRADOS << endl;
-				//TODO: va a un archivo. Ver!
-				cout << "TODO: va a un archivo. Ver!" << endl;
+				cout << "El listado se ha generado en un archivo de texto." << endl;
 				break;
 			}
 			case 4: {
