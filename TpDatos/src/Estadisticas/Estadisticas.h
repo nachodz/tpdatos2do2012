@@ -17,6 +17,7 @@
 #include <algorithm>
 
 #include "../ArbolBMas/ArbolBMas.h"
+#include "../Hash/Hash.h"
 #include "../Normalizador/Normalizador.h"
 #include "../Constantes.h"
 

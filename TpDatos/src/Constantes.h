@@ -20,6 +20,7 @@
 #define PATH_ARBOL "ARBOLB+"
 #define PATH_TERM_NO_ENCONTRADOS "TerminosNoEncontrados.txt"
 #define PATH_INFORMES "informe.txt"
+#define PATH_ALEATORIO "aleatorio.txt" //TODO: FALTA!
 
 //******************** Avisos *************************
 #define MSJ_PROCESANDO "..procesando.."
@@ -78,6 +79,7 @@
 #define PORCENTAJE_NODO 50
 //#define BUFFER_NODOS_LIBRES 256
 #define TAM_CONTROL_REGISTRO 10
+#define TAM_BUFFER_LEC 1 //TODO: FALTA!
 
 /* Avisos Árbol B+ */
 #define ARBOLBMAS_CARGAINICIAL "Se inicia carga inicial del Árbol B+"
@@ -129,7 +131,11 @@
 #define CANT_PARTICIONES 400
 #define BUFFER_LEC_ESC_SORT 50
 
+/**********************Fusionador**********************/
+#define CANTIDAD_BUFFERS_MERGE 11
 
+/**********************Aleatorizador**********************/
+#define REGISTROS_POR_BUFFER 1 //TODO: FALTA!
 
 #endif /* CONSTANTES_H_ */
 

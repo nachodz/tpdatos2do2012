@@ -4,7 +4,7 @@
 
 #include "Elementos.h"
 #include "NodoInterior.h"
-#include "PersistorArbol.h"
+#include "../Persistencia/PersistorArbol.h"
 #include "Solucion.h"
 #include <fstream>
 #include <vector>

@@ -11,6 +11,11 @@
 #include <stdlib.h>
 #include "Aleatorizador/Aleatorizador.h"
 #include "Normalizador/Normalizador.h"
+#include "Estadisticas/Estadisticas.h"
+#include "Hash/Hash.h"
+#include "Hash/Autor.h"
+#include "ArbolBMas/ArbolBMas.h"
+
 
 using namespace std;
 
@@ -263,7 +268,7 @@ void menuComponenteEstadisticas(){
 	int op;
 	bool ejecutando = true;
 
-	Estadisticas estadistico = new Estadisticas();
+	Estadisticas* estadistico = new Estadisticas();
 	ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
 	Hash hash(HASH_NOM_BLOQUES, HASH_NOM_ESP_LIBRE, HASH_NOM_TABLA);
 	int n;
@@ -291,13 +296,13 @@ void menuComponenteEstadisticas(){
 			case 1: {
 				cout << ESTADISTICO_CARGAINICIALCOMIENZO << endl;
 				cout << MSJ_PROCESANDO << endl;
-				estadistico.cargaInicial(hash,arbol);
+				estadistico->cargaInicial(hash,arbol);
 				cout << ESTADISTICO_CARGAINICIALOK << endl;
 				break;
 			}
 			case 2: {
 				cout << ESTADISTICO_TASAFALLOS << endl;
-				cout << estadistico.tasa_fallo_terminos() << endl;
+				cout << estadistico->tasa_fallo_terminos() << endl;
 				break;
 			}
 			case 3: {
@@ -309,7 +314,7 @@ void menuComponenteEstadisticas(){
 				cout << ESTADISTICO_INGRESARN << endl;
 				cin >> n;
 				cout << ESTADISTICO_RANKING << endl;
-				estadistico.listar_ranking(n);
+				estadistico->listar_ranking(n);
 				break;
 			}
 			case 5: ejecutando = false;break;
