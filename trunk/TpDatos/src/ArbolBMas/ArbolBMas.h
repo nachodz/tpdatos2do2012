@@ -12,6 +12,11 @@
 
 using namespace std;
 
+struct tRegistroDiccionario {
+	int ID;
+	char termino[25];
+}__attribute__((packed));
+
 
 class ArbolBMas {
 
