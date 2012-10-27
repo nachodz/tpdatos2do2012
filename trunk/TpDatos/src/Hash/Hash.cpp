@@ -451,7 +451,7 @@ void Hash::cargaInicial(){
 		cant++;
 	}
 
-	//hash.mostrar(NOM_SALIDA);
+	this->mostrar(HASH_NOM_SALIDA);
 
 }
 

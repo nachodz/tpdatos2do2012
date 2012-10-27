@@ -242,8 +242,8 @@ int Fusionador::merge(){
     	path_nuevo_arch = "archivoFinal.bin";
     }
 
-   // else
-    //	mkdir((this->ultimoPath).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    else
+    	mkdir((this->ultimoPath).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
     ifstream* archs = new ifstream[this->cant_buffers]; // uso una cantidad de archivos igual a la cantidad de buffers
     string filePathsAUsar[this->cant_buffers];

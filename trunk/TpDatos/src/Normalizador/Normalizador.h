@@ -24,6 +24,7 @@ class Normalizador {
 		int posicionCaracter(string unaPalabra, char L);
 		void cambiarLetra(string *unaPalabra, char L, int pos);
 		bool esMayor(string palabra1,string palabra2);
+		int numeroTerminos(ifstream *archivo);
 };
 
 #endif /* NORMALIZADOR_H_ */

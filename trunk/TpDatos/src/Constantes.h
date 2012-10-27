@@ -20,7 +20,7 @@
 #define PATH_ARBOL "ARBOLB+"
 #define PATH_TERM_NO_ENCONTRADOS "TerminosNoEncontrados.txt"
 #define PATH_INFORMES "informe.txt"
-#define PATH_ALEATORIO "aleatorio.txt" //TODO: FALTA!
+#define PATH_ALEATORIO "archivoFinal.bin"
 
 //******************** Avisos *************************
 #define MSJ_PROCESANDO "..procesando.."
@@ -57,10 +57,11 @@
 #define MDE_OP5 "5) Listar contenido del archivo"
 
 #define MCE "MENU COMPONENTE ESTADISTICAS"
-#define MCE_OP1 "1) Cantidad de terminos promedio por frase"
-#define MCE_OP2 "2) Tasa de fallos de términos"
-#define MCE_OP3 "3) Lista de terminos no encontrados"
-#define MCE_OP4 "4) Ranking de los N terminos mas populares"
+#define MCE_OP1 "1) Recorrer secuencialmente el archivo directo"
+#define MCE_OP2 "2) Cantidad de terminos promedio por frase"
+#define MCE_OP3 "3) Tasa de fallos de términos"
+#define MCE_OP4 "4) Lista de terminos no encontrados"
+#define MCE_OP5 "5) Ranking de los N terminos mas populares"
 
 #define ERR_RANGO "ERROR: Ingrese un numero válido"
 #define INF_ERR_RANGO "Usted ingreso: "
@@ -79,7 +80,7 @@
 #define PORCENTAJE_NODO 50
 //#define BUFFER_NODOS_LIBRES 256
 #define TAM_CONTROL_REGISTRO 10
-#define TAM_BUFFER_LEC 1 //TODO: FALTA!
+
 
 /* Avisos Árbol B+ */
 #define ARBOLBMAS_CARGAINICIAL "Se inicia carga inicial del Árbol B+"
@@ -123,6 +124,7 @@
 #define ESTADISTICO_LISTATERMINOSNOENCONTRADOS "Lista de términos no encontrados"
 #define ESTADISTICO_INGRESARN "Ingrese la cantidad de términos que desea ver en el ranking: "
 #define ESTADISTICO_RANKING "Ranking de términos más populares"
+#define ESTADISTICO_TERMINOSPROMPORFRASE "Cantidad de términos promedio por frase: "
 
 
 /***********************Comunes************************/
@@ -130,12 +132,13 @@
 #define TAM_BUFFER_LECT_ESC 1000
 #define CANT_PARTICIONES 400
 #define BUFFER_LEC_ESC_SORT 50
+#define TAM_BUFFER_LEC 1000
 
 /**********************Fusionador**********************/
 #define CANTIDAD_BUFFERS_MERGE 11
 
 /**********************Aleatorizador**********************/
-#define REGISTROS_POR_BUFFER 1 //TODO: FALTA!
+#define REGISTROS_POR_BUFFER 11
 
 #endif /* CONSTANTES_H_ */
 

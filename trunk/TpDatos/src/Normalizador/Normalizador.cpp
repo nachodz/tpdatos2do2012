@@ -2,6 +2,7 @@
 #include "Normalizador.h"
 
 
+
 Normalizador::Normalizador(){
 	// TODO Auto-generated constructor stub
 
@@ -16,30 +17,46 @@ void Normalizador::normalizarArchivo() {
 	ifstream diccionario(PATH_DICCIONARIO), stopwords(PATH_STOPWORDS);
 
 	ofstream diccionarioNormalizado(PATH_ARCHIVO_NORMALIZADO);
-
+	int numeroTerminos = this->numeroTerminos(&stopwords);
+	stopwords.close();
+	string *vectorStopwords = new string[numeroTerminos];
 	string palabraDiccionario, palabraStopword;
 
-	if ((diccionario) && (diccionarioNormalizado) && (stopwords)){
+	ifstream stopwords2(PATH_STOPWORDS);
 
+	for(int i = 0; i < numeroTerminos; i++) {
+		stopwords2 >> vectorStopwords[i];
+	}
+	stopwords2.close();
+
+	if ((diccionario) && (diccionarioNormalizado) && (vectorStopwords)){
+
+		int j = 0;
 		diccionario>>palabraDiccionario;
 		this->normalizarPalabra(&palabraDiccionario);
-		stopwords>>palabraStopword;
+		palabraStopword = vectorStopwords[j];
+		j++;
 
 		cout << MSJ_PROCESANDO << endl;
 
 		while (!diccionario.eof()) {
 
-			if (palabraDiccionario == palabraStopword) {
-				stopwords>>palabraStopword;
+			if ((palabraDiccionario == palabraStopword) && (j < (numeroTerminos-2))) {
+				palabraStopword = vectorStopwords[j];
+				j++;
 			}
 			else
 			{
-				if (this->esMayor(palabraDiccionario,palabraStopword) && (!stopwords.eof())){
-					stopwords>>palabraStopword;
+				if (this->esMayor(palabraDiccionario,palabraStopword) && (j < numeroTerminos - 1)){
+					palabraStopword = vectorStopwords[j];
+					j++;
 				}
 				else
 				{
-					diccionarioNormalizado<<palabraDiccionario<<endl;
+					if (palabraDiccionario != palabraStopword){
+
+						diccionarioNormalizado<<palabraDiccionario<<endl;
+					}
 				}
 			}
 
@@ -148,6 +165,19 @@ bool Normalizador::esMayor(string palabra1,string palabra2) {
 		}
 
 	}
+}
+
+int Normalizador::numeroTerminos(ifstream *archivo) {
+
+	char auxiliar[25];
+	int contador = 0;
+	archivo->getline(auxiliar,25);
+
+	while(!archivo->eof()) {
+		contador++;
+		archivo->getline(auxiliar,25);
+	}
+	return contador;
 }
 
 

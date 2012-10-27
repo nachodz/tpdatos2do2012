@@ -282,11 +282,12 @@ void menuComponenteEstadisticas(){
 		cout << MCE_OP2 << endl;
 		cout << MCE_OP3 << endl;
 		cout << MCE_OP4 << endl;
-		cout << "5) " << SALIR << endl;
+		cout << MCE_OP5 << endl;
+		cout << "6) " << SALIR << endl;
 
 		cin >> op;
 
-		while(op<1 || op>5){
+		while(op<1 || op>6){
 			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
 			cout << INGRESO << endl;
 			cin>> op;
@@ -301,23 +302,28 @@ void menuComponenteEstadisticas(){
 				break;
 			}
 			case 2: {
+				cout << ESTADISTICO_TERMINOSPROMPORFRASE << endl;
+				cout << estadistico->terminos_prom_frase() << endl;
+				break;
+			}
+			case 3: {
 				cout << ESTADISTICO_TASAFALLOS << endl;
 				cout << estadistico->tasa_fallo_terminos() << endl;
 				break;
 			}
-			case 3: {
+			case 4: {
 				cout << ESTADISTICO_LISTATERMINOSNOENCONTRADOS << endl;
 				cout << "El listado se ha generado en un archivo de texto." << endl;
 				break;
 			}
-			case 4: {
+			case 5: {
 				cout << ESTADISTICO_INGRESARN << endl;
 				cin >> n;
 				cout << ESTADISTICO_RANKING << endl;
 				estadistico->listar_ranking(n);
 				break;
 			}
-			case 5: ejecutando = false;break;
+			case 6: ejecutando = false;break;
 			default: /*no hago nada*/;break;
 		}
 	}
