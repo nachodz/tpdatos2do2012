@@ -408,13 +408,12 @@ void Hash::cargaInicial(){
 	Autor* autor;
 	int n;
 
-	int cant = 0;
+	//int cant = 0;
 	while (getline (inFile, line))
 	{
 		istringstream linestream(line);
 		string item;
 		int contCampos = 1;
-		//CSV separado por Tab's
 		while (getline (linestream, item, '\t'))
 		{
 		   if(contCampos==1){
@@ -431,7 +430,6 @@ void Hash::cargaInicial(){
 
 		}
 
-		//elección del n random
 		n = 100000000+rand()%(200000001);
 
 		if ((apellido.length() == 0 && nombre.length() == 0)|| (apellido == "Anonimo"))
@@ -448,10 +446,11 @@ void Hash::cargaInicial(){
 				//delete autor;
 			}
 		//delete autor;
-		cant++;
+		//cant++;
 	}
 
 	this->mostrar(HASH_NOM_SALIDA);
+	//cout << cant << endl;
 
 }
 

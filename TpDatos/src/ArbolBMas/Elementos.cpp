@@ -62,14 +62,14 @@ Persistencia Elementos::Serializar()
 bool Elementos::Hidratar(Persistencia &cadena){
 	bool exito;
 	//el tamaño debe ser al menos el tamaño de la longitud del registro y la clave
-	if (cadena.getTamanio() < (TAM_LONG_REGISTRO + TAM_LONG_CLAVE))  {
+	if (cadena.getTamanio() < (ARBOLBMAS_TAM_LONG_REGISTRO + ARBOLBMAS_TAM_LONG_CLAVE))  {
 		exito = false;
 	}else{
 		int offset = 0;
 		//leo tamanioClave
 		int tamClave = cadena.leerEntero(offset);
 		//leo clave
-		Persistencia cadenaClave = cadena.leer(TAM_LONG_CLAVE, tamClave);
+		Persistencia cadenaClave = cadena.leer(ARBOLBMAS_TAM_LONG_CLAVE, tamClave);
 		this->clave->Hidratar(cadenaClave);
 		offset += tamClave;
 		//leo tamanioDatos

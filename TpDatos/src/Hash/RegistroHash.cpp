@@ -126,7 +126,7 @@ bool RegistroHash::Hidratar(Persistencia& cadena) {
 	bool exito;
 
 	//el tamaño debe ser al menos el tamaño de la longitud del registro y la clave
-	if (cadena.getTamanio() < (TAM_LONG_REGISTRO + TAM_LONG_CLAVE))  {
+	if (cadena.getTamanio() < (HASH_TAM_LONG_REGISTRO + HASH_TAM_LONG_CLAVE))  {
 		exito = false;
 	}else{
 		//recupero tamanio registro
@@ -135,7 +135,7 @@ bool RegistroHash::Hidratar(Persistencia& cadena) {
 		//recupero n
 		int clave = cadena.leerEntero(offset);
 		this->setN(clave);
-		offset += TAM_LONG_CLAVE;
+		offset += HASH_TAM_LONG_CLAVE;
 
 		//recupero puntero a bloque siguiente
 		int bloqueSiguiente = cadena.leerEntero(offset);

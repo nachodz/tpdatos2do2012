@@ -155,7 +155,7 @@ void HandlerBloques::eliminar_bloque_arbol(int nro_Bloque){
 	ff.open(this->ruta_arch_bloques.c_str(), fstream::in | fstream::out);
 	if (ff.is_open()){
 		int offset_bloque = nro_Bloque * this->tam_bloque;
-		char bloqueABorrar[TAM_TOTAL_NODO];
+		char bloqueABorrar[ARBOLBMAS_TAM_TOTAL_NODO];
 //		char * bloqueABorrar = (char*)calloc(this->tam_bloque, sizeof(char));
 		ff.seekg(offset_bloque);
 		ostringstream oss;
