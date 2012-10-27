@@ -3,10 +3,10 @@
 
 NodoHoja::NodoHoja() : Nodo(0) {
 	hojaSiguiente = 0;
-	this->datos = new Persistencia[(TAM_EFECTIVO_NODO/(TAM_CONTROL_REGISTRO)) + 2];
+	this->datos = new Persistencia[(ARBOLBMAS_TAM_EFECTIVO_NODO/(ARBOLBMAS_TAM_CONTROL_REGISTRO)) + 2];
 	//this->Ids = new Persistencia[(TAM_EFECTIVO_NODO/(TAM_CONTROL_REGISTRO)) + 2];
-	this->ns = new Persistencia[(TAM_EFECTIVO_NODO/(TAM_CONTROL_REGISTRO)) + 2];
-	this->enterosFantasmas = new Persistencia[(TAM_EFECTIVO_NODO/(TAM_CONTROL_REGISTRO)) + 2];
+	this->ns = new Persistencia[(ARBOLBMAS_TAM_EFECTIVO_NODO/(ARBOLBMAS_TAM_CONTROL_REGISTRO)) + 2];
+	this->enterosFantasmas = new Persistencia[(ARBOLBMAS_TAM_EFECTIVO_NODO/(ARBOLBMAS_TAM_CONTROL_REGISTRO)) + 2];
 }
 
 NodoHoja::~NodoHoja() {
@@ -38,8 +38,8 @@ Persistencia NodoHoja::Serializar() {
 	}
 	cadena.agregarAlFinal(&hojaSiguiente, sizeof(hojaSiguiente));
 
-	char vacio = CONST_VACIO;
-	int espacioLibre = TAM_TOTAL_NODO - cadena.getTamanio();
+	char vacio = ARBOLBMAS_CONST_VACIO;
+	int espacioLibre = ARBOLBMAS_TAM_TOTAL_NODO - cadena.getTamanio();
 	for (int i = 0; i < espacioLibre; i++) {
 		cadena.agregarAlFinal(&vacio, sizeof(vacio));
 	}
@@ -49,7 +49,7 @@ Persistencia NodoHoja::Serializar() {
 bool NodoHoja::Hidratar(Persistencia & cadena) {
 	bool exito = true;
 
-	if ((int)cadena.getTamanio() != (TAM_TOTAL_NODO)) {
+	if ((int)cadena.getTamanio() != (ARBOLBMAS_TAM_TOTAL_NODO)) {
 		exito = false;
 	} else {
 		int offset = 0;
@@ -69,7 +69,7 @@ bool NodoHoja::Hidratar(Persistencia & cadena) {
 			offset += TAM_LONG_CLAVE + tamanioClave;*/
 
 			int tamanioDato = cadena.leerEntero(offset);
-			offset += TAM_LONG_DATO;
+			offset += ARBOLBMAS_TAM_LONG_DATO;
 			Persistencia unDato;
 			unDato.agregarAlFinal(cadena.leer(offset,tamanioDato));
 			datos[posicion] = unDato;
@@ -105,7 +105,7 @@ bool NodoHoja::Hidratar(Persistencia & cadena) {
 			offset += tamanioEnteroFantasma;
 
 			//espacioOcupado += tamanioClave + tamanioDato + tamanioN + tamanioEnteroFantasma + TAM_CONTROL_REGISTRO;
-			espacioOcupado +=  tamanioDato + tamanioN + tamanioEnteroFantasma + TAM_CONTROL_REGISTRO;
+			espacioOcupado +=  tamanioDato + tamanioN + tamanioEnteroFantasma + ARBOLBMAS_TAM_CONTROL_REGISTRO;
 		}
 		hojaSiguiente = cadena.leerEntero(offset);
 	}

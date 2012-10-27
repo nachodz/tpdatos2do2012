@@ -6,7 +6,7 @@ Nodo::Nodo(int nivel) {
 	this->nivel = nivel;
 	this->espacioOcupado = 0;
 	this->cantidadClaves = 0;
-	this->claves = new Clave[(TAM_EFECTIVO_NODO/(TAM_CONTROL_REGISTRO)) + 2];
+	this->claves = new Clave[(ARBOLBMAS_TAM_EFECTIVO_NODO/(ARBOLBMAS_TAM_CONTROL_REGISTRO)) + 2];
 }
 
 Nodo::~Nodo() {
@@ -18,13 +18,13 @@ bool Nodo::isNodoHoja() {
 }
 
 bool Nodo::isOverflow(int tamanioRegistro) {
-	return (espacioOcupado + tamanioRegistro > TAM_EFECTIVO_NODO);
+	return (espacioOcupado + tamanioRegistro > ARBOLBMAS_TAM_EFECTIVO_NODO);
 }
 
 bool Nodo::isUnderflow() {
-	return (espacioOcupado < TAM_EFECTIVO_NODO / 2);
+	return (espacioOcupado < ARBOLBMAS_TAM_EFECTIVO_NODO / 2);
 }
 
 bool Nodo::puedeCederElementos() {
-	return (espacioOcupado > TAM_EFECTIVO_NODO / 2);
+	return (espacioOcupado > ARBOLBMAS_TAM_EFECTIVO_NODO / 2);
 }

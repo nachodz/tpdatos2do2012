@@ -88,7 +88,7 @@ void Estadisticas::procesar_frase (string frase,ArbolBMas* arbol) {
 
 		    unElemento = arbol->buscar(unaClave);
 
-		    if ((unElemento->getClave()->getClave()) == (unaClave->getClave())){
+		    if ((unElemento != NULL)&&(unElemento->getClave()->getClave()) == (unaClave->getClave())){
 			     this->term_encontrados++;
 		  }
 		    else {

@@ -24,23 +24,23 @@ Persistencia Clave::Serializar()
 {
 	Persistencia cadena;
 	char tamano = this->getTamanio();
-	cadena.agregarAlFinal(&tamano,TAM_LONG_CLAVE);
+	cadena.agregarAlFinal(&tamano,ARBOLBMAS_TAM_LONG_CLAVE);
 	cadena.agregarAlFinal(this->clave);
 	return cadena;
 }
 
 bool Clave::Hidratar(Persistencia &cadena){
 	bool exito;
-	if (cadena.getTamanio() < TAM_LONG_CLAVE){
+	if (cadena.getTamanio() < ARBOLBMAS_TAM_LONG_CLAVE){
 		exito = false;
 	}else{
 		this->clave = "";
-		if(cadena.getTamanio() > TAM_LONG_CLAVE){
+		if(cadena.getTamanio() > ARBOLBMAS_TAM_LONG_CLAVE){
 			char tamano;
-			cadena.leer(&tamano,0,TAM_LONG_CLAVE);
+			cadena.leer(&tamano,0,ARBOLBMAS_TAM_LONG_CLAVE);
 			int size = int(tamano);
 			char* buffer = (char*)malloc(size);
-			cadena.leer(buffer,TAM_LONG_CLAVE,size);
+			cadena.leer(buffer,ARBOLBMAS_TAM_LONG_CLAVE,size);
 			this->clave.append(buffer,size);
 			free(buffer);
 		}
