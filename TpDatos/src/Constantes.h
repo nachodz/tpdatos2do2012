@@ -20,6 +20,7 @@
 #define PATH_ARBOL "ARBOLB+"
 #define PATH_TERM_NO_ENCONTRADOS "TerminosNoEncontrados.txt"
 #define PATH_INFORMES "informe.txt"
+#define PATH_METADATA "metadata.dat"
 #define PATH_ALEATORIO "archivoFinal.bin"
 
 //******************** Avisos *************************
