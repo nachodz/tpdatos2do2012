@@ -42,15 +42,11 @@ public:
 
 	int insertar(Elementos* registro);
 
-	bool modificar(Elementos* registro);
-
 	void cargaInicial(int cantRegistros);
 
 	void generarClaves(tRegistroDiccionario *buffer, Elementos *claves, int cant, int *pos);
 
 	string IntToStr(int numero);
-
-	bool borrar(Elementos* elemento);
 
 	void mostrar();
 
@@ -89,13 +85,6 @@ private:
 
 	void dividirNodoInterior(NodoInterior* unNodoInterior, Clave* clavePromocion, Nodo** nuevoNodoInterior, int nuevaPosicion);
 
-	int borrarRecursivo(Elementos* elem, Clave clave, Nodo *nodoCorriente, Nodo *nodoIzquierda, Nodo *nodoDerecha,
-			NodoInterior *nodoPadreIzquierda, NodoInterior *nodoPadreDerecha, NodoInterior *nodoPadre, int posicionPadre);
-
-	int fusionarHojas(NodoHoja* hojaIzquierda, NodoHoja* hojaDerecha);
-
-	int fusionarNodosInteriores(NodoInterior* nodoIzquierda, NodoInterior* nodoDerecha, NodoInterior* nodoPadre, int posicionPadre);
-
 	int pasarElementosHojaIzquierda(NodoHoja *hojaIzquierda, NodoHoja *hojaDerecha, NodoInterior *nodoPadre, int posicionPadre);
 
 	void pasarElementosNodoInteriorIzquierdo(NodoInterior *nodoIzquierda, NodoInterior *nodoDerecha, NodoInterior *nodoPadre, int posicionPadre);
@@ -125,8 +114,6 @@ private:
 	void sacarFrontCodingNodoHoja (NodoHoja ** nodo);
 
 	Solucion buscarSecuencialClave(int nodo, Elementos* elemento, int posicion);
-
-	Persistencia obtenerNuevoId(string path);
 
 	NodoHoja* obtenerPrimeraHoja();
 

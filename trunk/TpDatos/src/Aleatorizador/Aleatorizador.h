@@ -34,7 +34,7 @@ public:
 	void sortExterno(ifstream *archivoAordenar, int cantRegistros);
 private:
 	string intToStr(int n);
-	void merge(int cantRegistros);
+
 };
 
 #endif /* ALEATORIZADOR_H_ */
