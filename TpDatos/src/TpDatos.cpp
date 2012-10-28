@@ -83,7 +83,7 @@ void menuOperacionesArbol(){
 
 		cin >> op;
 
-		while(op<1 || op>4){
+		while(op<1 || op>5){
 			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
 			cout << INGRESO << endl;
 			cin>> op;
