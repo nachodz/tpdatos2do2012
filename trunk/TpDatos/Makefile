@@ -25,8 +25,17 @@ RM =  @echo "  CLEAN"; $(orm)
 LD =  @echo "  LD  $@"; $(old)
 
 #Ruta de los .cpp
-fuentes_common += $(wildcard src/Normalizador/*.$(extension))
 fuentes_common += $(wildcard src/Aleatorizador/*.$(extension))
+fuentes_common += $(wildcard src/ArbolBMas/*.$(extension))
+fuentes_common += $(wildcard src/Comun/*.$(extension))
+fuentes_common += $(wildcard src/Estadisticas/*.$(extension))
+fuentes_common += $(wildcard src/Fusionador/*.$(extension))
+fuentes_common += $(wildcard src/Handler/*.$(extension))
+fuentes_common += $(wildcard src/Hash/*.$(extension))
+fuentes_common += $(wildcard src/Normalizador/*.$(extension))
+fuentes_common += $(wildcard src/Ordenador/*.$(extension))
+fuentes_common += $(wildcard src/Persistencia/*.$(extension))
+
 
 .PHONY: all clean
 
