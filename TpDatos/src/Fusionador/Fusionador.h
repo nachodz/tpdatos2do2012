@@ -41,6 +41,7 @@ class Fusionador{
         int inicializarBuffers(Registro** buffers); //devuelve la cantidad de buffers que no pudieron ser alocados. Se intentan alocar 11
         void destruirBuffers(Registro** buffers);
         void informar(int cant_archivos, int cant_buffers, int numEtapa);
+        int getCantRegs();
         void abrirArchivos(string filePaths[], ifstream* archs,int num_archs);
         void cerrarArchivos(ifstream* archs, int num_archs);
         Registro minimo(Registro** buffers,unsigned short* v_pos, int num_particiones, unsigned short* pos_min);
