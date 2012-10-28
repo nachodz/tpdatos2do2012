@@ -449,7 +449,7 @@ void Hash::cargaInicial(){
 		//cant++;
 	}
 
-	this->mostrar(HASH_NOM_SALIDA);
+	//this->mostrar(HASH_NOM_SALIDA);
 	//cout << cant << endl;
 
 }
