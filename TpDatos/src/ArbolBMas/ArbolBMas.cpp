@@ -3,9 +3,6 @@
 #include <iostream>
 
 
-/***************** Metodos Publicos **********************/
-
-
 ArbolBMas::ArbolBMas(string ruta_archivo) {
 	this->primeraHoja = 0;
 	this->persistor = new PersistorArbol(ruta_archivo, ARBOLBMAS_TAM_TOTAL_NODO);
@@ -277,9 +274,6 @@ void ArbolBMas::mostrarTodosTerminos(){
 	fo.flush();
 	fo.close();
 }
-
-
-/***************** Metodos Privados **********************/
 
 
 bool ArbolBMas::claveMenor(Clave clave1, Clave clave2) {
@@ -555,7 +549,6 @@ int ArbolBMas::borrarRecursivo(Elementos* elem, Clave clave, Nodo *nodoCorriente
 			nodoHojaCorriente->datos[i] = nodoHojaCorriente->datos[i + 1];
 			nodoHojaCorriente->ns[i] = nodoHojaCorriente->ns[i + 1];
 			nodoHojaCorriente->enterosFantasmas[i] = nodoHojaCorriente->enterosFantasmas[i + 1];
-			//nodoHojaCorriente->Ids[i] = nodoHojaCorriente->Ids[i + 1];
 		}
 
 		int resultado = RESULTADO_OK;

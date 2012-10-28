@@ -8,9 +8,7 @@
 class Clave : public Serializable{
 
 private:
-	/*
-	 * La clave debera ser un string
-	 */
+
 	string clave;
 
 public:
@@ -56,19 +54,10 @@ public:
 	 */
 	Clave* Clonar();
 
-//	 Getters y setters.
-	/*
-	 * Metodo que retorna el tamaño de la representacion de la clave
-	 * en bytes
-	 */
 	int getTamanio();
 	string getClave() const;
 	void setClave(string clave);
 
-	/*
-	 * Destructor:
-	 * Pos: libera la memoria de clave.
-	 */
 	virtual ~Clave();
 
 	bool operator != (const Clave& otra) const;

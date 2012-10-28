@@ -45,12 +45,4 @@ public:
 
 };
 
-
-
 #endif /* ORDENADOR_H_ */
-
-
-//    void cargarBufIn (ifstream *arch, tReg *buffer);
-//    void escribirRegOut (ofstream *archOut, tReg *buffer);
-//    void cantBuffersIn (ifstream *arch, int *cantBuf);
-//    void armarNuevoHeap (tReg *buffer);

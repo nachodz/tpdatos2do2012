@@ -17,9 +17,6 @@ string Clave::toString() const{
 	return this->clave;
 }
 
-/*
- * Hay que guardar el tamaño tambien.
- */
 Persistencia Clave::Serializar()
 {
 	Persistencia cadena;

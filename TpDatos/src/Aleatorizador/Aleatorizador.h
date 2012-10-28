@@ -1,9 +1,3 @@
-/*
- * Aleatorizador.h
- *
- *  Created on: 15/09/2012
- *      Author: francisco
- */
 
 #ifndef ALEATORIZADOR_H_
 #define ALEATORIZADOR_H_
