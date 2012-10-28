@@ -78,9 +78,15 @@ void Fusionador::informar(int cant_archivos, int cant_buffers, int numEtapa){
 	informe<< IntToStr(numEtapa).c_str();
 	informe<< " es: ";
 	informe<< IntToStr(cantAInformar).c_str() << endl;
+	informe << "cantidad de registros en la etapa: ";
+	informe << this->cantRegs << endl;
 
 	informe.close();
 
+}
+
+int Fusionador::getCantRegs(){
+	return this->cantRegs;
 }
 
 
@@ -243,7 +249,7 @@ int Fusionador::merge(){
     }
 
     else
-     	mkdir((this->ultimoPath).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    	mkdir((this->ultimoPath).c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
     ifstream* archs = new ifstream[this->cant_buffers]; // uso una cantidad de archivos igual a la cantidad de buffers
     string filePathsAUsar[this->cant_buffers];
