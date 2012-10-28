@@ -15,6 +15,8 @@
 #include "Hash/Hash.h"
 #include "Hash/Autor.h"
 #include "ArbolBMas/ArbolBMas.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
 
 using namespace std;
@@ -93,8 +95,12 @@ void menuOperacionesArbol(){
 			case 1: {
 				cout << ARBOLBMAS_CARGAINICIAL << endl;
 				cout << MSJ_PROCESANDO << endl;
-				//TODO: pasar cantidad de registros!
-				//arbol->cargaInicial();
+				int registros;
+				ifstream metadata;
+				metadata.open(PATH_METADATA, ios::binary);
+				metadata.read((char*)&registros,sizeof(int));
+				arbol->cargaInicial(registros);
+				remove(PATH_METADATA);
 				cout << ARBOLBMAS_CARGAINICIALOK << endl;
 				break;
 			}
