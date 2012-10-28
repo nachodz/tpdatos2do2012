@@ -134,18 +134,3 @@ string Aleatorizador::intToStr(int n) {
 	return result.str();
 }
 
-//TODO: SACAR!. Método que agrego para llamar al Merge!
-void Aleatorizador::merge(int cantRegistros){
-
-	string paths[cantRegistros];
-
-	for(int i=0; i < cantRegistros; i++){
-			paths[i] = "Particiones/particion" + intToStr(i);
-	}
-
-	Fusionador* unFusionador = new Fusionador(paths, 50, cantRegistros);
-
-	unFusionador->merge();
-
-	cout<<"TODO: Realizo merge"<<endl;
-}
