@@ -95,48 +95,13 @@ void Hash::actualizar(Cubo& bloque, int num_bloque, RegistroHash& reg, Autor* au
 }
 
 
-/*void Hash::agregar_nuevo_offset(Cubo& bloque, int num_bloque, RegistroHash& reg, int offset) {
-	if (bloque.entra_en_bloque(offset) == true) {
-		reg.agregar_nuevo_offset(offset);
-		bloque.disminuir_esp_libre(offset);
-		this->persistor.guardar_bloque(bloque.Serializar(), num_bloque);
-	}
-	else {
-		Cubo bloque_sig;
-
-		if (reg.get_bloque_sig() == -1) {
-			RegistroHash reg_aux(reg.getClave());
-			reg_aux.agregar_nuevo_offset(offset);
-			bloque_sig.agregar_nuevo_reg(reg_aux);
-			int num_bloque_sig = this->persistor.guardar_bloque(bloque_sig.Serializar());
-			reg.set_bloque_sig(num_bloque_sig);
-			this->persistor.guardar_bloque(bloque.Serializar(), num_bloque);
-		}
-		else {
-			Persistencia cadena;
-			this->persistor.recuperar_bloque(reg.get_bloque_sig(), cadena);
-			bloque_sig.Hidratar(cadena);
-			RegistroHash& reg_aux = bloque_sig.buscar_reg(reg.getClave());
-			this->agregar_nuevo_offset(bloque_sig, reg.get_bloque_sig(), reg_aux, offset);
-		}
-	}
-}*/
-
 void Hash::alta(int clave, Autor* autor,string frase) {
 	Persistencia cadena;
 	Cubo bloque;
 
-//	int num_bloque = this->handler_tabla.get_num_bloque(clave);
-//	this->persistor.recuperar_bloque(num_bloque, cadena);
-//	bloque.Hidratar(cadena);
+	RegistroHash reg(clave,autor,frase);
 
-//	if (bloque.existe_reg(clave) == true)
-//		this->agregar_nuevo_offset(bloque, num_bloque, bloque.buscar_reg(clave), offset);
-//	else {
-		RegistroHash reg(clave,autor,frase);
-		//reg.agregar_nuevo_offset(offset);
-		this->insertar_reg(reg);
-	//}
+	this->insertar_reg(reg);
 
 }
 
@@ -230,71 +195,8 @@ void Hash::eliminar_reg_y_bloques_sigs(Cubo& bloque, int num_bloque, int clave) 
 		else
 			this->eliminar_reg(clave);
 
-		/*if (reg.vacio() == true)
-			this->eliminar_reg(clave);
-		else {
-			if (reg.getBloqueSiguiente() != -1) {
-				Cubo bloque_sig;
-				list < int > bloques_sigs;
-
-				this->obtener_reg(reg, bloque_sig, bloques_sigs, clave);
-
-				while (reg.getBloqueSiguiente() != -1)
-					this->obtener_reg(reg, bloque_sig, bloques_sigs, clave);
-
-				if (reg.getBloqueSiguiente() == -1) {
-					list < int > ::iterator it;
-
-					for (it = bloques_sigs.begin(); it != bloques_sigs.end(); ++ it)
-						this->persistor.get_handler_bloques().eliminar_bloque(*it);
-
-					this->eliminar_reg(clave);
-				}
-			}*/
-			/*if (reg.get_offsets().empty() == true && reg.get_bloque_sig() != -1) {
-				Cubo bloque_sig;
-				list < int > bloques_sigs;
-
-				this->obtener_reg(reg, bloque_sig, bloques_sigs, clave);
-
-				while (reg.get_offsets().empty() == true && reg.get_bloque_sig() != -1)
-					this->obtener_reg(reg, bloque_sig, bloques_sigs, clave);
-
-				if (reg.get_offsets().empty() == true && reg.get_bloque_sig() == -1) {
-					list < int > ::iterator it;
-
-					for (it = bloques_sigs.begin(); it != bloques_sigs.end(); ++ it)
-						this->persistor.get_handler_bloques().eliminar_bloque(*it);
-
-					this->eliminar_reg(clave);
-				}
-			}*/
-
 	}
 }
-
-/*void Hash::eliminar_offset(Cubo& bloque, int num_bloque, int clave, int offset) {
-	if (bloque.existe_reg(clave) == true) {
-		RegistroHash& reg = bloque.buscar_reg(clave);
-
-		if (reg.eliminar_offset(offset) == false) {
-			if (reg.get_bloque_sig() == -1)
-				return;
-			else {
-				Persistencia cadena;
-				Cubo bloque_sig;
-
-				this->persistor.recuperar_bloque(reg.get_bloque_sig(), cadena);
-				bloque_sig.Hidratar(cadena);
-				this->eliminar_offset(bloque_sig, reg.get_bloque_sig(), clave, offset);
-			}
-		}
-		else {
-			bloque.aumentar_esp_libre(offset);
-			this->persistor.guardar_bloque(bloque.Serializar(), num_bloque);
-		}
-	}
-}*/
 
 void Hash::baja(int clave) {
 	Persistencia cadena;
@@ -304,38 +206,9 @@ void Hash::baja(int clave) {
 	this->persistor.recuperar_bloque(num_bloque, cadena);
 	bloque.Hidratar(cadena);
 
-	//this->eliminar_offset(bloque, num_bloque, clave, offset);
 	this->eliminar_reg_y_bloques_sigs(bloque, num_bloque, clave);
 }
-
-/*void Hash::concatenar_offsets(list < int > & lista_1, list < int > & lista_2) {
-	list < int > ::iterator it;
-	for (it = lista_2.begin(); it != lista_2.end(); ++ it)
-		lista_1.push_back(*it);
-}*/
-
-/*list < int > Hash::consultar_offsets(Cubo& bloque, int num_bloque, int clave) {
-	Persistencia cadena;
-	list < int > lista_1;
-
-	if (bloque.existe_reg(clave) == true) {
-		bool fin_lista = false;
-
-		while (fin_lista == false) {
-			RegistroHash& reg = bloque.buscar_reg(clave);
-			list < int > lista_2 = reg.get_offsets();
-			this->concatenar_offsets(lista_1, lista_2);
-			if (reg.get_bloque_sig() != -1) {
-				this->persistor.recuperar_bloque(reg.get_bloque_sig(), cadena);
-				bloque.Hidratar(cadena);
-			}
-			else fin_lista = true;
-		}
-	}
-
-	return lista_1;
-}*/
-
+//TODO: no se usa.
 list < int > Hash::consultar(int clave) {
 	Persistencia cadena;
 	Cubo bloque;
@@ -344,8 +217,6 @@ list < int > Hash::consultar(int clave) {
 	if (num_bloque != -1) {
 		this->persistor.recuperar_bloque(num_bloque, cadena);
 		bloque.Hidratar(cadena);
-		//TODO: ver!
-		//return this->consultar_offsets(bloque, num_bloque, clave);
 	}
 	list < int > vacia;
 	return vacia;

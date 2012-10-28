@@ -54,13 +54,7 @@ int HandlerBloques::get_tam_arch_bloques() const {
 
 	return tam;
 }
-/*
-int HandlerArchivoBloques::get_pos_insercion() const {
-	if (this->hay_bloque_libre() == true)
-		return this->get_pos_bloque_libre();
-	else return (this->get_tam_arch_bloques() / TAM_BLOQUE);
-}
-*/
+
 void HandlerBloques::recuperar_bloque(int pos_arch_bloques, char* buffer) {
 	fstream arch;
 
@@ -77,16 +71,14 @@ void HandlerBloques::recuperar_bloque_arbol(int nro_bloque, char* Buffer){
 		ff.open(this->ruta_arch_bloques.c_str(), fstream::out);
 		ff.close();
 	}else{
-//		char bloqueARetornar[TAMANIO_BUFFER];
-//		char * bloqueARetornoar = (char*)calloc(this->tam_bloque, sizeof(char));
+
 		int offset_bloque = nro_bloque * this->tam_bloque;
 		// Me posiciono en el archivo de bloques
 		ff.seekg(offset_bloque);
 		ff.read(Buffer, this->tam_bloque);
 		ff.close();
 	}
-//		free(bloqueARetornoar);
-//		return bloqueARetornoar;
+
 }
 
 
@@ -120,10 +112,6 @@ void HandlerBloques::guardar_bloque_arbol(char* buffer, int nro_bloque){
 		ff.open(this->ruta_arch_bloques.c_str(), fstream::in | fstream::out);
 	}
 		int offset_bloque = nro_bloque * this->tam_bloque;
-		// Manejo sobre el archivo de bloques
-//		stringstream ss;
-//		ss << buffer;
-//		string str = ss.str();
 		// Escribo libro en el archivo de bloques
 		ff.seekg(offset_bloque);
 		ff.write(buffer, this->tam_bloque);
@@ -156,10 +144,8 @@ void HandlerBloques::eliminar_bloque_arbol(int nro_Bloque){
 	if (ff.is_open()){
 		int offset_bloque = nro_Bloque * this->tam_bloque;
 		char bloqueABorrar[ARBOLBMAS_TAM_TOTAL_NODO];
-//		char * bloqueABorrar = (char*)calloc(this->tam_bloque, sizeof(char));
 		ff.seekg(offset_bloque);
 		ostringstream oss;
-//		free(bloqueABorrar);
 		oss << bloqueABorrar << "\n" ;
 		string borrar = oss.str();
 		ff.write(borrar.c_str(), this->tam_bloque);

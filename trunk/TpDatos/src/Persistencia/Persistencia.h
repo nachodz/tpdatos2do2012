@@ -157,9 +157,8 @@ public:
 	void transformarAFrontCoding(string primera, string ruta);
 	void sacarElFrontCoding(string palabra, string ruta);
 	Persistencia datosSinFrontCoding(string ruta);
-	/*
-	 * Getters y setters
-	 */
+
+
 	unsigned int getTamanio() const;
 
 	void setBytes(const string &bytes);

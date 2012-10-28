@@ -16,28 +16,17 @@ private :
 	HandlerTabla handler_tabla;
 	PersistidorHash persistor;
 
-
-	//void agregar_nuevo_offset(Cubo& bloque, int num_bloque, RegistroHash& reg, int offset);
-
 	void insertar_reg(RegistroHash& reg);
-
 
 	void obtener_reg(RegistroHash& reg, Cubo& bloque_sig ,list < int > & bloques_sigs, int clave);
 
 	void eliminar_reg_y_bloques_sigs(Cubo& bloque, int num_bloque, int clave);
 
-	//void eliminar_offset(Cubo& bloque, int num_bloque, int clave, int offset);
-
 	bool eliminar_reg(int clave);
-
-
-	//void concatenar_offsets(list < int > & lista_1, list < int > & lista_2);
 
 	list < int > consultar_offsets(Cubo& bloque, int num_bloque, int clave);
 
-
 	void mostrar(ostream& os);
-
 
 	void crear_condiciones_iniciales();
 
@@ -50,10 +39,8 @@ public:
 
 	virtual ~Hash() {};
 
-	//void alta(int clave, int offset);
 	void alta(int clave, Autor* autor, string frase);
 
-	//void baja(int clave, int offset);
 	void baja(int clave);
 
 	list < int > consultar(int clave);

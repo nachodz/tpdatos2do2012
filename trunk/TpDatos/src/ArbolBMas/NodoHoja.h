@@ -12,7 +12,6 @@ class NodoHoja : public Nodo {
 private:
 	int hojaSiguiente;
 	Persistencia* datos;
-	//Persistencia* Ids;
 	Persistencia* ns;
 	Persistencia* enterosFantasmas;
 
@@ -33,10 +32,6 @@ public:
     void setEnterosFantasmas(Persistencia* enterosFantasmas);
 
     int getHojaSiguiente() const;
-
-    /*Persistencia *getIds(){
-    	return Ids;
-    }*/
 
     NodoHoja* Clonar();
 };

@@ -1,6 +1,5 @@
 
 #include "Elementos.h"
-//#include "Utilitarios.h"
 
 Elementos::Elementos()
 {
@@ -21,11 +20,9 @@ Elementos::Elementos(Clave* clave, Persistencia* datos, Persistencia* n,Persiste
 	this->enteroFantasma = enteroFantasma;
 }
 
-//TODO: ver no se llama nunca!
 Persistencia Elementos::Serializar()
 {
 	Persistencia cadena;
-	//int tamanio = getTamanio();
 
 	//guardo tamanio clave
 	int tamanioClave = this->getClave()->getTamanio();
@@ -49,16 +46,9 @@ Persistencia Elementos::Serializar()
 	int enteroFantasma = atoi(enteroFantasmaChar);
 	cadena.agregarAlFinal(&enteroFantasma,sizeof(int));
 
-	/*cadena.agregarAlFinal(&tamanio,sizeof(int));
-	cadena.agregarAlFinal(this->clave->Serializar());
-	cadena.agregarAlFinal(*this->datos);
-	cadena.agregarAlFinal(*this->n);
-	cadena.agregarAlFinal(*this->enteroFantasma);*/
-
 	return cadena;
 }
 
-//TODO: ver no se llama nunca!
 bool Elementos::Hidratar(Persistencia &cadena){
 	bool exito;
 	//el tamaño debe ser al menos el tamaño de la longitud del registro y la clave
@@ -88,20 +78,6 @@ bool Elementos::Hidratar(Persistencia &cadena){
 		this->setEnteroFantasma(&enteroFantasma);
 		offset += sizeof(int);
 
-		/*if (this->datos) {
-			delete (this->datos);
-			this->datos = new Persistencia;
-		}
-
-		int tamanioRegistro = cadena.leerEntero(0);
-		char tamanioClave;
-		cadena.leer(&tamanioClave,TAM_LONG_REGISTRO,TAM_LONG_CLAVE);
-		Persistencia cadenaClave = cadena.leer(TAM_LONG_REGISTRO,TAM_LONG_CLAVE + int(tamanioClave));
-		this->clave->Hidratar(cadenaClave);
-		unsigned int posicionComienzoDatos = (TAM_LONG_REGISTRO + TAM_LONG_CLAVE + int(tamanioClave));
-		this->datos->agregarAlFinal(cadena.leer(posicionComienzoDatos,tamanioRegistro - posicionComienzoDatos));
-		unsigned int posicionComienzoID = (TAM_LONG_REGISTRO + TAM_LONG_CLAVE + int(tamanioClave) + datos->getTamanio());
-		this->ID->agregarAlFinal(cadena.leer(posicionComienzoID,tamanioRegistro - posicionComienzoID));*/
 		exito = true;
 	}
 	return exito;
@@ -113,16 +89,6 @@ Elementos* Elementos::Clonar()
 	return new Elementos(this->clave->Clonar(),this->datos, this->n, this->enteroFantasma);
 }
 
-/*Persistencia* Elementos::getID(){
-	return this->ID;
-}
-void Elementos::setID (Persistencia* id){
-	this->ID = id;
-}*/
-
-/*
- * Getters y setters
- */
 Clave *Elementos::getClave() const
 {
     return clave;
@@ -165,9 +131,6 @@ int Elementos::getTamanio() const
     return (sizeof(int) + clave->getTamanio() + sizeof(int) + datos->getTamanio() + n->getTamanio() + enteroFantasma->getTamanio());
 }
 
-/*
- * Destructor
- */
 Elementos::~Elementos() {
 
 	if (this->clave) delete (this->clave);

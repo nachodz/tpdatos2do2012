@@ -77,8 +77,8 @@ void RegistroHash::setBloqueSiguiente(int bloqueSiguiente){
 	this->bloqueSiguiente = bloqueSiguiente;
 }
 
+//TODO: implementar!
 bool RegistroHash::vacio() {
-	//TODO: esperando respuesta!
 	/*if (this->bloque_sig == -1 && this->offsets.empty() == true)
 		return true;*/
 	return false;
@@ -97,7 +97,7 @@ Persistencia RegistroHash::Serializar() {
 	if(this->autor != NULL){
 
 		//guardo apellido autor
-		//TODO: guardar el tamañio como char! estas desperdiciando 3 bytes!
+		//TODO: guardar el tamañio como char! se esta desperdiciando 3 bytes!
 		int tamApellido = this->getAutor()->getApellido().length();
 		cadena.agregarAlFinal(&tamApellido,sizeof(int));
 		string ape = this->getAutor()->getApellido();

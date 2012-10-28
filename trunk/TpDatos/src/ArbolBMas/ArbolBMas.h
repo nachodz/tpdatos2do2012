@@ -28,8 +28,6 @@ private:
 	Nodo* raiz;
 	int primeraHoja;
 	int cantidadNodos;
-	//string pathId;
-	//int tipoDeArbol; // 1 es arbol primario, 2 es secundario
 	vector<int> nodosLibres;
 	PersistorArbol* persistor;
 
@@ -38,11 +36,10 @@ private:
 
 public:
 
-	//ArbolBMas(string ruta_archivo,string ruta_Contador, int tipoDeArbol);
 	ArbolBMas(string ruta_archivo);
 
 	~ArbolBMas();
-	//int insertar(Elementos* registro, bool incrementarID);
+
 	int insertar(Elementos* registro);
 
 	bool modificar(Elementos* registro);
@@ -52,19 +49,6 @@ public:
 	void generarClaves(tRegistroDiccionario *buffer, Elementos *claves, int cant, int *pos);
 
 	string IntToStr(int numero);
-
-	//bool incrementarID(Elementos* elemento, int& frecuencia);
-
-	//bool decrementarID(Elementos* elemento);
-
-	//	IteradorArbolBMas* begin();
-
-	/*
-	 * Primitiva que va a buscar una clave o cadena de caracteres en la estructura o archivo
-	 * Pre: Recibo la clave del registro a buscar.
-	 * Pos: Si lo encontro, devuelve el registro, sino, devuelve NULL.
-	 */
-//	pair<Elementos*, IteradorArbolBMas*> buscar(Clave clave);
 
 	bool borrar(Elementos* elemento);
 
@@ -99,7 +83,6 @@ private:
 
 	int obtenerPosicion(Nodo *unNodo, Clave clave);
 
-	//bool insertarRecursivo(Nodo* nodoCorriente, Clave clave, Persistencia dato, Persistencia id,  Clave* clavePromocion, Nodo** nuevoNodo, Persistencia* idInsertado, bool incrementarID);
 	bool insertarRecursivo(Nodo* nodoCorriente, Clave clave, Persistencia dato, Persistencia n, Persistencia enteroFantasma,  Clave* clavePromocion, Nodo** nuevoNodo);
 
 	void dividirNodoHoja(NodoHoja* unNodoHoja, Clave* clavePromocion, Nodo** nuevoNodoHoja);

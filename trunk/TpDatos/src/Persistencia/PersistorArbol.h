@@ -8,16 +8,12 @@
 
 class PersistorArbol {
 private:
-//	fstream archivo;
 	HandlerBloques * handlerBloque;
 	string rutaOut;
 	string ruta;
 	int tamanioBloque;
 
 public:
-	/*
-	 * Constructor
-	 */
 	PersistorArbol(string ruta, int tamanioBloque);
 
 	/*
@@ -42,9 +38,6 @@ public:
 
 	string getRuta();
 
-	/*
-	 * Destructor
-	 */
 	virtual ~PersistorArbol();
 };
 

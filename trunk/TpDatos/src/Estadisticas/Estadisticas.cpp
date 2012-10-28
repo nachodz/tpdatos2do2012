@@ -125,17 +125,6 @@ void Estadisticas::listar_ranking (int n) {
 
 }
 
-//void Estadisticas::mostrar_stopWords () {
-//
-//	cout << this->cant_stopWords << endl;
-//
-//	for (int i = 0; i <= this->cant_stopWords; i++)		cout << this->listaStopWords[i] << endl;
-//
-//
-//
-//}
-
-
 void Estadisticas::cargaInicial(Hash hash,ArbolBMas* arbol){
 	Persistencia cadena;
 	Cubo bloque;

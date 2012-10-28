@@ -1,9 +1,3 @@
-/*
- * Constantes.h
- *
- *  Created on: 13/09/2012
- *      Author: nacho
- */
 
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
