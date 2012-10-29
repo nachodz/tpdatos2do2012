@@ -237,6 +237,7 @@ int Fusionador::merge(){
     string path_nuevo_arch = this->ultimoPath + "/" "nuevo_arch0.bin";
     unsigned short nroPart = 0; //numero en el nombre de la nueva particion
     int cant_buffers = this->cant_buffers;
+    this->cantRegs = 0;
 
     int cant_nuevas_part = (this->cant_arch/cant_buffers);
     if((this->cant_arch)%(cant_buffers) > 0)
@@ -291,11 +292,9 @@ int Fusionador::merge(){
         actualizarPaths(this->filePaths, parchs_nuevos, nroPart);
         this->numEtapas++;
         this->ultimoPath = this->ultimoPath + "/" + "etapa" + IntToStr(this->numEtapas);
-        cout<<this->cantRegs;
-        this->cantRegs = 0;
         merge();
 
-        return -5;
+        return this->cantRegs;
     }
 
 
