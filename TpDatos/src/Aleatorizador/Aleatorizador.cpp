@@ -1,3 +1,10 @@
+/*
+ * Aleatorizador.cpp
+
+ *
+ *  Created on: 15/09/2012
+ *      Author: francisco
+ */
 
 #include "Aleatorizador.h"
 
@@ -105,6 +112,8 @@ void Aleatorizador::generarAchivoTabulado(int cantRegistros) {
 void Aleatorizador::sortExterno(ifstream *archivoAordenar ,int cantRegistros) {
 
 	int particiones;
+	ofstream metadata;
+	metadata.open(PATH_METADATA, ios::binary);
 
 	mkdir(DIRECTORIO_PARTICIONES, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
@@ -123,8 +132,12 @@ void Aleatorizador::sortExterno(ifstream *archivoAordenar ,int cantRegistros) {
 
 	Fusionador unFusionador(paths,REGISTROS_POR_BUFFER,particiones);
 
-	unFusionador.merge();
-
+	int registros;
+	registros = unFusionador.merge();
+	metadata.write((char*)&registros,sizeof(int));
+	metadata.flush();
+	metadata.close();
+	delete []paths;
 }
 
 string Aleatorizador::intToStr(int n) {
@@ -133,4 +146,5 @@ string Aleatorizador::intToStr(int n) {
 	result << n;
 	return result.str();
 }
+
 
