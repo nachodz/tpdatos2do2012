@@ -167,17 +167,43 @@ void menuOperacionesDispersionExtensible(){
 				break;
 			}
 			case 2: {
-				string nombreAutor, apellidoAutor, frase;
+				string nombreAutor = "";
+				string apellidoAutor = "";
+				string frase;
 				Autor* autor;
+				int op2,op3;
 				int n;
 
 				cout << HASH_INGRESARN << endl;
 				cin >> n;
-				cout << HASH_INGRESARAPEAUTOR << endl;
-				cin >> nombreAutor;
-				cout << HASH_INGRESARNOMAUTOR << endl;
-				cin >> apellidoAutor;
 
+				cout << HASH_OPCIONINGRESARAUTOR << endl;
+				cin >> op2;
+
+				while(op2<1 || op2>2){
+					cout<< ERR_RANGO << INF_ERR_RANGO << op2 << endl;
+					cout << INGRESO << endl;
+					cin>> op2;
+				}
+
+				if (op2 == 1){
+					cout << HASH_INGRESARAPEAUTOR << endl;
+					cin >> apellidoAutor;
+
+					cout << HASH_OPCIONINGRESARNOMAUTOR << endl;
+					cin >> op3;
+
+					while(op3<1 || op3>2){
+						cout<< ERR_RANGO << INF_ERR_RANGO << op3 << endl;
+						cout << INGRESO << endl;
+						cin>> op3;
+					}
+
+					if (op3 == 1){
+						cout << HASH_INGRESARNOMAUTOR << endl;
+						cin >> nombreAutor;
+					}
+				}
 				autor = new Autor(apellidoAutor,nombreAutor);
 
 				cout << HASH_INGRESARFRASE << endl;
@@ -201,23 +227,48 @@ void menuOperacionesDispersionExtensible(){
 				break;
 			}
 			case 4: {
-				string nombreAutor, apellidoAutor, frase;
+				string nombreAutor2 = "";
+				string apellidoAutor2 = "";
+				string frase2;
 				Autor* autor;
-				int n;
+				int n2,op4,op5;
 
 				cout << HASH_INGRESARN << endl;
-				cin >> n;
-				cout << HASH_INGRESARAPEAUTOR << endl;
-				cin >> nombreAutor;
-				cout << HASH_INGRESARNOMAUTOR << endl;
-				cin >> apellidoAutor;
+				cin >> n2;
+				cout << HASH_OPCIONINGRESARAUTOR << endl;
+				cin >> op4;
 
-				autor = new Autor(apellidoAutor,nombreAutor);
+				while(op4<1 || op4>2){
+					cout<< ERR_RANGO << INF_ERR_RANGO << op4 << endl;
+					cout << INGRESO << endl;
+					cin>> op4;
+				}
+
+				if (op4 == 1){
+					cout << HASH_INGRESARAPEAUTOR << endl;
+					cin >> apellidoAutor2;
+
+					cout << HASH_OPCIONINGRESARNOMAUTOR << endl;
+					cin >> op5;
+
+					while(op5<1 || op5>2){
+						cout<< ERR_RANGO << INF_ERR_RANGO << op5 << endl;
+						cout << INGRESO << endl;
+						cin>> op5;
+					}
+
+					if (op5 == 1){
+						cout << HASH_INGRESARNOMAUTOR << endl;
+						cin >> nombreAutor2;
+					}
+				}
+
+				autor = new Autor(apellidoAutor2,nombreAutor2);
 
 				cout << HASH_INGRESARFRASE << endl;
-				cin >> frase;
+				cin >> frase2;
 
-				hash.modificar(n,autor,frase);
+				hash.modificar(n2,autor,frase2);
 
 				cout << HASH_MODIFICAROK << endl;
 				break;

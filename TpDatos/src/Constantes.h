@@ -59,7 +59,7 @@
 #define MCE_OP5 "5) Ranking de los N terminos mas populares"
 
 #define ERR_RANGO "ERROR: Ingrese un numero válido"
-#define INF_ERR_RANGO "Usted ingreso: "
+#define INF_ERR_RANGO " Usted ingreso: "
 
 /**********************Arbol B+ ***************************/
 #define ARBOLBMAS_POTENCIA 0
@@ -108,6 +108,8 @@
 #define HASH_BAJAOK "El registro se elimino correctamente."
 #define HASH_MODIFICAROK "El registro fue eliminado correctamente."
 #define HASH_SALIDAOK "El archivo de salida se generó correctamente."
+#define HASH_OPCIONINGRESARAUTOR "¿Desea ingresar un autor? (1: SI, 2: NO)"
+#define HASH_OPCIONINGRESARNOMAUTOR "¿Desea ingresar un nombre para el autor? (1: SI, 2: NO)"
 
 /**********************Estadistico*********************/
 #define CANT_STOPW 500
