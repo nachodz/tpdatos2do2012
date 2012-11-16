@@ -16,7 +16,6 @@
 #define PATH_INFORMES "informe.txt"
 #define PATH_METADATA "metadata.dat"
 #define PATH_ALEATORIO "archivoFinal.bin"
-#define PATH "PRUEBA REPO"
 
 //******************** Avisos *************************
 #define MSJ_PROCESANDO "..procesando.."
