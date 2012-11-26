@@ -82,7 +82,7 @@ std::string CodigoGamma::obtenerBinarioDeNBits(int valorConversion, int cantidad
 		break;
 	default:
 		for(i = 1 ; i <= valorConversion ; i++){
-			// Determina (i) las divisiones que se harán
+			// Determina (i) las divisiones que se harÃ¡n
 			num2 = num2 / 2;
 			if(num2 == 1)
 				break;
@@ -90,7 +90,7 @@ std::string CodigoGamma::obtenerBinarioDeNBits(int valorConversion, int cantidad
 
 		x[i+1] = 1;
 		for(j = 1 ; j <= i; j++){
-			// Realiza las operaciones para la conversión
+			// Realiza las operaciones para la conversiÃ³n
 			res = valorConversion % 2;
 			if(res == 1)
 				x[j] = 1;
@@ -109,38 +109,84 @@ std::string CodigoGamma::obtenerBinarioDeNBits(int valorConversion, int cantidad
 	return (ss.str());
 }
 
-int CodigoGamma::interpretarConversion(std::string conversion){
-	bool cero = false;
+int cantidadUnarios(std::string conversion){
 	std::string uno = "1";
+	int numeroUnario = 0;
+	bool cero = false;
+
+	for (int i = 0 ; ((unsigned int)i < conversion.length()) && (!cero); ++i){
+		if (conversion[i] == uno[0])
+			++numeroUnario; //numeroUnario == log2(cantDocs)
+		else break;
+	}
+
+	return numeroUnario;
+
+}
+
+std::list<int> CodigoGamma::decodificarLista(std::string conversion){
+
+	std::string s = "";
+	int numeroUnario;
+	int cantDocs;
+	int posInicio = 0;
+	std::list<int> listaDocs;
+	std::list<int>::iterator it;
+	int nroDoc;
+	int distancia = 0;
+
+	numeroUnario = cantidadUnarios(conversion);
+
+	//conversion de la cantidad de docs
+	for(int i = 0; i < (numeroUnario * 2); i++){
+		s += conversion[i];
+	}
+
+	cantDocs = interpretarConversion(s);
+	s = "";
+
+	// conversion de los nroDocs
+	posInicio = (numeroUnario * 2);
+
+	while((unsigned int)posInicio < conversion.length()){
+		for(int i = posInicio; (unsigned int)i < conversion.length(); i++){
+			s += conversion[i];
+		}
+		nroDoc = interpretarConversion(s) + distancia;
+		listaDocs.push_back(nroDoc);
+		posInicio += ((int)log2(nroDoc) * 2) + 1;
+		s = "";
+		distancia = nroDoc;
+	}
+
+	return listaDocs;
+
+}
+
+int CodigoGamma::interpretarConversion(std::string conversion){
 	std::string binarioAInterpretar;
 	std::stringstream ss;
-	int numeroUnario = 0;
+	int numeroUnario;
 	int retorno = 0;
 
 	// Leo el primer numero en unario
-	for (int i = 0 ; ((unsigned int)i < conversion.length()) && (!cero); ++i){
-		if (conversion[i] == uno[0]){
-			++numeroUnario;
-		}else{
-			cero = true;
-		}
-	}
+	numeroUnario = cantidadUnarios(conversion);
 
 	// Leo la segunda parte que esta en binario
 	ss.clear();
 	binarioAInterpretar.clear();
-	for (int i = numeroUnario+1; (unsigned int)i < conversion.length(); ++i){
+	for (int i = numeroUnario+1; (unsigned int)i < ((numeroUnario*2) + 1); ++i){
 		ss << conversion[i];
 	}
 	binarioAInterpretar = ss.str();
 
 	// obtengo el numero interpretado
-	retorno = (int)pow(2,(numeroUnario-1)) + interpretarBinario(binarioAInterpretar);
+	retorno = (int)pow(2,(numeroUnario)) + interpretarBinario(binarioAInterpretar);
 
 	return retorno;
 }
 
-int CodigoGamma::interpretarBinario(std::string binarioAInterpretar){
+int CodigoGamma::interpretarBinario(std::string binarioAInterpretar){ //convierte un n binario a dec
 	int largo = binarioAInterpretar.size();
 
 	int sumatoria = 0;
@@ -178,3 +224,24 @@ std::string CodigoGamma::comprimirLista(std::list<int> listaInvertida, int prime
 	}
 	return (ss.str());
 }
+
+std::string CodigoGamma::convertirAString(char* buf){
+
+	int letra;
+	std::string bits = "";
+
+	for(int i = 0; (unsigned int)i < sizeof(buf); i++){
+		if(buf[i] == '\0') break;
+		letra = buf[i];
+		for(int j = 7; j >= 0; j--){
+			if(letra >= pow(2,j)){
+				bits += "1";
+				letra -= pow(2,j);
+			}
+			else
+				bits += "0";
+		}
+	}
+	return bits;
+}
+
