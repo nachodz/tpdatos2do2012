@@ -64,11 +64,11 @@ public:
 	void agregar_a_Arbol (int idT,int pos_Arch, ArbolBMas *arbol);
 	int cant_registros_ocurrencias ();
 	void cargar_listasInvertidas ();
-	void agregar_arch_invertidas (list<int> inver,int cantDoc, int idT,int *pos, ofstream *invertidas);
+	bool agregar_arch_invertidas (list<int> inver,int cantDoc, int idT,int *pos, fstream *invertidas);
 	void ordenarSort ();
 	string obtenerTermino (int idT);
-	list <int> obtenerListaIdT (string termino);
-	string buscarEnBloque (int id,int nroBloque);
+	bool obtenerListaIdT (string termino,list <int> *listaDocs);
+	bool buscarEnBloque (int id,int nroBloque,string *termDevuelto);
 	Elementos* buscarEnArbol (string palabra, ArbolBMas *arbol,bool *result);
 	void agregar_frase (string frase, int nroDoc);
 };
