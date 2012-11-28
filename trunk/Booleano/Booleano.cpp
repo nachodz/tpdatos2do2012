@@ -183,7 +183,7 @@ void Booleano::terminoEncontrado(string palabraStr,int *i, bool *encontrado){
 void Booleano::cargar_listasInvertidas (){
 
 	ifstream arch_ocur_ord (PATH_ARCHIVO_OCURRENCIAS_ORD, ios::binary);
-	ofstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary);
+	fstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary | ios::in | ios::out);
 
 	ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
 	list<int> listaInver;
@@ -205,12 +205,16 @@ void Booleano::cargar_listasInvertidas (){
 		}
 		else{
 		    listaInver.push_front(cantDocs);
-		    this->agregar_arch_invertidas (listaInver,cantDocs,idTerAux,&pos,&invertidas);
+
+		    if (this->agregar_arch_invertidas (listaInver,cantDocs,idTerAux,&pos,&invertidas)){
+
             cout << "la posicion del idTermino: " << idTerAux << " es : " << pos << endl;
 		    this->agregar_a_Arbol(idTerAux,pos,arbol);         //aca iria el "cargar en el arbol"
+		    }
 		    listaInver.clear();
 		    cantDocs = 0;
 		    idTerAux = reg.idTer;
+
 		}
 
 	}
@@ -220,11 +224,14 @@ void Booleano::cargar_listasInvertidas (){
 
 	arch_ocur_ord.close();
 	delete arbol;
+
 }
 
-void Booleano::agregar_arch_invertidas (list<int> inver,int cantDoc, int idT, int *pos,ofstream *invertidas){
+bool Booleano::agregar_arch_invertidas (list<int> inver,int cantDoc, int idT, int *pos,fstream *invertidas){
+//	cout << "la longitud del string: " << ls_Comprimida << " es : " << (int)ls_long << endl;
+//	cout << "la longitud libre de : "<< *pos << " es: " << (int)this->tam_libre [*pos - 1] <<  endl;
 
-	char *bloque = new char [TAMANIO_BLOQUE_LISTAS_INV];
+	char *bloque = new char[TAMANIO_BLOQUE_LISTAS_INV];
 
 	CodigoGamma gamma;
 
@@ -233,36 +240,57 @@ void Booleano::agregar_arch_invertidas (list<int> inver,int cantDoc, int idT, in
 	string ls_Comprimida = gamma.comprimirLista(inver,cantDoc);
 
 	unsigned char ls_long = ls_Comprimida.size();
-
 	unsigned short int id = idT;
+	char long_libre = ( (this->tam_libre [*pos-1]) - ls_long - sizeof (id) - sizeof (ls_long) );
 
-	unsigned char long_libre = (this->tam_libre [*pos - 1]) - ls_long - sizeof (id) - sizeof (ls_long);
+	if (long_libre >= 0){
 
-    while (long_libre <= UMBRAL) {
+    while ( (long_libre <= UMBRAL) && ( (*pos) < TAMANIO_BLOQUE_LISTAS_INV) ) {
     	(*pos)++;
-    	long_libre = (this->tam_libre [*pos - 1]) - ls_long - sizeof (id) - sizeof (ls_long);
+    	long_libre = ( (this->tam_libre [*pos - 1]) - ls_long - sizeof (id) - sizeof (ls_long) );
     }
+    if ( *pos >= TAMANIO_BLOQUE_LISTAS_INV ){
+    	cout << "no hay espacio suficiente en los bloques" << endl;
+    	delete []bloque;
+    	return false;
+    }
+    else{
+    	if (this->tam_libre [*pos-1] < TAMANIO_BLOQUE_LISTAS_INV ){
+    		invertidas->seekg((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
+    		invertidas->read(bloque,TAMANIO_BLOQUE_LISTAS_INV);
+    	}
+        int desplazo = (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos-1]);
+        memmove (&bloque[desplazo],&id,sizeof(id));
+        desplazo += sizeof(id);
+        memmove (&bloque[desplazo],&ls_long,sizeof(ls_long));
+        desplazo += sizeof(ls_long);
+        memmove (&bloque[desplazo],ls_Comprimida.c_str(),ls_long);
 
-    int desplazo = (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos - 1]);
+        invertidas->seekp((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
+        invertidas->write(bloque,TAMANIO_BLOQUE_LISTAS_INV);
+        invertidas->flush();
+        this->tam_libre [*pos-1] = long_libre;
+      }
+       delete []bloque;
+       return true;
 
-    memmove (&bloque[desplazo],&id,sizeof(id));
-
-    desplazo += sizeof(id);
-
-    memmove (&bloque[desplazo],&ls_long,sizeof(ls_long));
-
-    desplazo += sizeof(ls_long);
-
-    memmove (&bloque[desplazo],&ls_Comprimida,ls_long);
-
-    invertidas->seekp((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
-
-    invertidas->write(bloque,TAMANIO_BLOQUE_LISTAS_INV);
-
-    this->tam_libre [*pos - 1] = long_libre;
-
-    delete []bloque;
+	}
+	 else{
+		 cout << "no hay espacio suficiente en los bloques" << endl;
+	     delete []bloque;
+		 return false;
+	 }
 }
+//    int desplazo = (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos - 1]);
+//    memmove (&bloque[desplazo],&id,sizeof(id));
+//    desplazo += sizeof(id);
+//    memmove (&bloque[desplazo],&ls_long,sizeof(ls_long));
+//    desplazo += sizeof(ls_long);
+//    memmove (&bloque[desplazo],ls_Comprimida.c_str(),ls_long);
+//    invertidas->seekp((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
+//    invertidas->write(bloque,TAMANIO_BLOQUE_LISTAS_INV);
+//    invertidas->flush();
+
 //    int desplazo = (*pos)*TAMANIO_BLOQUE_LISTAS_INV + (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos]);
 //    invertidas->seekp(desplazo,ios::beg);
 //    invertidas->write((char*)&id,sizeof (id));
@@ -355,9 +383,10 @@ void Booleano::agregar_frase (string frase, int nroDoc){
 	}
 }
 
-list <int> Booleano::obtenerListaIdT (string termino){
+bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs){
+
 	ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
-	list <int> invertida;
+
 	bool encontrado;
 	CodigoGamma gamma;
 	string listaCod;
@@ -365,46 +394,54 @@ list <int> Booleano::obtenerListaIdT (string termino){
 	delete arbol;
 
     if (encontrado) {
+
     	int bloqueLista = atoi (unElemento->getEnteroFantasma()->toString().c_str());
     	int idT = atoi(unElemento->getN()->toString().c_str());
-    	listaCod = this->buscarEnBloque(idT,bloqueLista);
-    	invertida = gamma.decodificarLista(listaCod);
-    }
 
-	return invertida;
+    	if (this->buscarEnBloque(idT,bloqueLista,&listaCod))
+    		*listaDocs = gamma.decodificarLista(listaCod);
+    }
+    return encontrado;
 }
 
-string Booleano::buscarEnBloque (int id,int nroBloque){
+bool Booleano::buscarEnBloque (int id,int nroBloque,string *termDevuelto){
 
+	bool encontrado = false;
 	ifstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary);
-	string ls_Comprimida;
 
 	if (invertidas.is_open()){
-
 	 unsigned char ls_long;
 	 unsigned short int idT;
-
 	 char *bloque = new char [TAMANIO_BLOQUE_LISTAS_INV];
 
 	 invertidas.seekg(nroBloque*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
 	 invertidas.read(bloque,TAMANIO_BLOQUE_LISTAS_INV);
 
 	 int desplazo = 0;
-	 bool encontrado = false;
 
 	 while ((desplazo < TAMANIO_BLOQUE_LISTAS_INV) && (!encontrado)) {
 
 	  memmove (&idT,&bloque[desplazo],sizeof(idT));
 	  desplazo += sizeof(idT);
+
 	  memmove (&ls_long,&bloque[desplazo],sizeof(ls_long));
       desplazo += sizeof(ls_long);
-	  memmove (&ls_Comprimida,&bloque[desplazo],ls_long);
-	  desplazo += ls_long;
-	  if (id == idT) encontrado = true;
+
+      char *lista = new char [(int)ls_long];
+
+      memmove (lista,&bloque[desplazo],ls_long);
+	  desplazo += (int)ls_long;
+
+	  *termDevuelto = string(lista).substr(0,(int)ls_long);
+
+	  delete []lista;
+
+	  if (id == (int)idT) encontrado = true;
   }
+	 delete []bloque;
  }
 	invertidas.close();
-	return ls_Comprimida;
+	return encontrado;
 }
 
 Elementos* Booleano::buscarEnArbol (string palabra, ArbolBMas* arbol,bool * result){
