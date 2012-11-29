@@ -133,30 +133,44 @@ std::list<int> CodigoGamma::decodificarLista(std::string conversion){
 	std::list<int> listaDocs;
 	std::list<int>::iterator it;
 	int nroDoc;
-	int distancia = 0;
+
 
 	numeroUnario = cantidadUnarios(conversion);
 
 	//conversion de la cantidad de docs
-	for(int i = 0; i < (numeroUnario * 2); i++){
+	for(int i = 0; i < (numeroUnario* 2); i++){
 		s += conversion[i];
 	}
 
 	cantDocs = interpretarConversion(s);
+	listaDocs.push_front(cantDocs);
 	s = "";
 
 	// conversion de los nroDocs
-	posInicio = (numeroUnario * 2);
+	posInicio = (numeroUnario*2);
 
 	while((unsigned int)posInicio < conversion.length()){
+
 		for(int i = posInicio; (unsigned int)i < conversion.length(); i++){
 			s += conversion[i];
 		}
-		nroDoc = interpretarConversion(s) + distancia;
+		numeroUnario = cantidadUnarios(s);
+		nroDoc = interpretarConversion(s);
+
+		if (nroDoc == 0) {
+			nroDoc = 1;
+			numeroUnario = 1;
+		}else
+		 {
+		  if (nroDoc > cantDocs)
+		       nroDoc = nroDoc + cantDocs;
+		  else
+			   nroDoc = cantDocs - nroDoc ;
+		 }
 		listaDocs.push_back(nroDoc);
-		posInicio += ((int)log2(nroDoc) * 2) + 1;
+		posInicio += (numeroUnario*2);                                                 /*(floor((int)log2(nroDoc)) * 2) + 1*/
 		s = "";
-		distancia = nroDoc;
+
 	}
 
 	return listaDocs;
@@ -175,13 +189,13 @@ int CodigoGamma::interpretarConversion(std::string conversion){
 	// Leo la segunda parte que esta en binario
 	ss.clear();
 	binarioAInterpretar.clear();
-	for (int i = numeroUnario+1; (unsigned int)i < ((numeroUnario*2) + 1); ++i){
+	for (int i = numeroUnario+1; (unsigned int) i < ((numeroUnario*2) /*+ 1*/); ++i){
 		ss << conversion[i];
 	}
 	binarioAInterpretar = ss.str();
 
 	// obtengo el numero interpretado
-	retorno = (int)pow(2,(numeroUnario)) + interpretarBinario(binarioAInterpretar);
+	retorno = (int)pow(2,(numeroUnario-1)) + interpretarBinario(binarioAInterpretar);
 
 	return retorno;
 }
@@ -207,10 +221,10 @@ int CodigoGamma::interpretarBinario(std::string binarioAInterpretar){ //conviert
 std::string CodigoGamma::comprimirLista(std::list<int> listaInvertida, int primero){
 	std::list<int>::iterator it = listaInvertida.begin();
 	int aux = primero;
-//	this->numAConvertir = primero;
+	this->numAConvertir = primero;
 	std::stringstream ss;
-//	ss << this->aplicarConversion();
-//	++it;
+	ss << this->aplicarConversion();
+	++it;
 	while ( it != listaInvertida.end()){
 		if ((*it) <=  primero){
 			primero = primero -(*it);

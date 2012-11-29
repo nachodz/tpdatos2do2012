@@ -7,7 +7,7 @@
 #include <list>
 #include <iostream>
 
-
+using namespace std;
 class CodigoGamma {
 
 private:
@@ -82,7 +82,7 @@ public:
 	 * post: devuelve el valor del char* en binario, en un string de unos y ceros
 	 */
 
-	std::string convertirAString(char* buf)
+	std::string convertirAString(char* buf);
 
 
 
