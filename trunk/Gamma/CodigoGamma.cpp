@@ -162,11 +162,11 @@ std::list<int> CodigoGamma::decodificarLista(std::string conversion){
 			numeroUnario = 1;
 		}else
 		 {
-		  if (nroDoc > cantDocs)
-		       nroDoc = nroDoc + cantDocs;
-		  else
+		   if (nroDoc >= cantDocs)
+		      nroDoc = nroDoc + cantDocs;
+		    else
 			   nroDoc = cantDocs - nroDoc ;
-		 }
+		     }
 		listaDocs.push_back(nroDoc);
 		posInicio += (numeroUnario*2);                                                 /*(floor((int)log2(nroDoc)) * 2) + 1*/
 		s = "";
@@ -195,6 +195,7 @@ int CodigoGamma::interpretarConversion(std::string conversion){
 	binarioAInterpretar = ss.str();
 
 	// obtengo el numero interpretado
+
 	retorno = (int)pow(2,(numeroUnario-1)) + interpretarBinario(binarioAInterpretar);
 
 	return retorno;
