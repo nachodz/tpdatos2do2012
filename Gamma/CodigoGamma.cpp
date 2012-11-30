@@ -260,3 +260,24 @@ std::string CodigoGamma::convertirAString(char* buf){
 	return bits;
 }
 
+std::string CodigoGamma::stringABits(std::string cadena){
+	char suma;
+	int j = 0, i;
+	std::string result = "";
+	std::string uno = "1";
+
+	while((unsigned int)j < cadena.length()){
+		suma = 0;
+		for(i = j; i < (j + 8); i++){
+			if(cadena[i] == uno[0]){
+				suma += pow(2,(7 - i + j));
+			}
+		}
+		result += suma;
+		j += i;
+	}
+
+	return result;
+
+}
+
