@@ -84,7 +84,12 @@ public:
 
 	std::string convertirAString(char* buf);
 
-
+	/*
+	 * Metodo que convierte un string de unos y ceros a caracteres en un string
+	 * pre: Le paso un string de unos y ceros entornado a byte(longitud multiplo de 8)
+	 * post: devuelve el string correspondiente
+	 */
+	std::string stringABits(std::string cadena);
 
 /*------------ GETTERS AND SETTERS --------------*/
 	void setNumAConvertir (int num){
