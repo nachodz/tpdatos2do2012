@@ -242,10 +242,10 @@ std::string CodigoGamma::comprimirLista(std::list<int> listaInvertida, int prime
 
 std::string CodigoGamma::convertirAString(char* buf){
 
-	int letra;
+	unsigned char letra;
 	std::string bits = "";
 
-	for(int i = 0; (unsigned int)i < sizeof(buf); i++){
+	for(int i = 0; (unsigned int)i < strlen(buf); i++){
 		if(buf[i] == '\0') break;
 		letra = buf[i];
 		for(int j = 7; j >= 0; j--){
@@ -274,7 +274,7 @@ std::string CodigoGamma::stringABits(std::string cadena){
 			}
 		}
 		result += suma;
-		j += i;
+		j = i;
 	}
 
 	return result;

@@ -49,28 +49,53 @@ class Booleano {
 private:
 	int cant_stopWords;
 	string *listaStopWords;
-	unsigned char *tam_libre;
+
 
 
 public:
 	Booleano();
+
 	virtual ~Booleano();
+
 	void armarIndice();
+
 	void cargar_ls_bloques ();
+
 	void cargar_stops();
+
 	bool compararTermino (string term);
+
 	void terminoEncontrado(string palabraStr,int *id, bool *encontrado);
+
 	void agregar_a_archivoT (string palabra, int *offset);
+
 	void agregar_a_Arbol (int idT,int pos_Arch, ArbolBMas *arbol);
+
 	int cant_registros_ocurrencias ();
+
 	void cargar_listasInvertidas ();
+
 	bool agregar_arch_invertidas (list<int> inver,int cantDoc, int idT,int *pos, fstream *invertidas);
+
 	void ordenarSort ();
+
 	string obtenerTermino (int idT);
-	bool obtenerListaIdT (string termino,list <int> *listaDocs);
-	bool buscarEnBloque (int id,int nroBloque,string *termDevuelto);
+
+	bool obtenerListaIdT (string termino,list <int> *listaDocs,int *nroBloque);
+
+	bool buscarEnBloque (int id,int nroBloque,string *listaDevuelto);
+
 	Elementos* buscarEnArbol (string palabra, ArbolBMas *arbol,bool *result);
+
+	void agregarDocALista (int nroDoc, int idT, string termino);
+
 	void agregar_frase (string frase, int nroDoc);
+
+	void agregarNuevaListaInvertidas(int id, int nroDoc, int *pos);
+
+	void alta (string termino,int nroDoc);
+
+//	void baja (string termino,int nroDoc);
 };
 
 

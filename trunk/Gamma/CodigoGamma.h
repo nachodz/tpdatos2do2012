@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <list>
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 class CodigoGamma {
