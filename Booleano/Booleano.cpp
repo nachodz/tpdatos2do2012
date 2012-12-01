@@ -10,24 +10,25 @@
 Booleano::Booleano() {
 	this->cant_stopWords = 0;
 	this->cargar_stops();
-    this->cargar_ls_bloques ();
+
 }
 
 Booleano::~Booleano() {
 	delete [](this->listaStopWords);
-	delete [](this->tam_libre);
 }
 
 void Booleano::cargar_ls_bloques (){
-	this->tam_libre = new unsigned char[TAMANIO_BLOQUE_LISTAS_INV];
+
+	unsigned char *tam_libre = new unsigned char[TAMANIO_BLOQUE_LISTAS_INV];
 
 	for ( int i = 0; i < TAMANIO_BLOQUE_LISTAS_INV; i++){
-		this->tam_libre[i] = TAMANIO_BLOQUE_LISTAS_INV;
+		tam_libre[i] = TAMANIO_BLOQUE_LISTAS_INV;
 	}
-	ofstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary);
-	invertidas.write((char*)this->tam_libre,TAMANIO_BLOQUE_LISTAS_INV);
+	ofstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary | ios::out);
+	invertidas.seekp(0,ios::beg);
+	invertidas.write((char*)tam_libre,TAMANIO_BLOQUE_LISTAS_INV);
 	invertidas.close();
-
+	delete []tam_libre;
 }
 
 void Booleano::cargar_stops (){
@@ -78,7 +79,6 @@ void Booleano::armarIndice (){
 
             string palabraStr = string (palabra);
        	    normalizar.normalizarPalabra(&palabraStr);                      // normalizo la palabra. VER ESTA PARTE!!!
-
        	    bool esStop = this->compararTermino (palabraStr);              // me fijo si es StopWord
 
             if (!esStop) {                                              // si no es Stop Word
@@ -88,18 +88,19 @@ void Booleano::armarIndice (){
              this->terminoEncontrado(palabraStr,&idT,&encontrado);
 
    	    	 if (!encontrado)
-   	    	   this->agregar_a_archivoT(palabraStr,&idT);  // sino lo agrego al "Archivo de ocurrencias"
+   	    	   this->agregar_a_archivoT(palabraStr,&idT);  // si no lo encontro, agrego al "Archivo de ocurrencias"
 
       	       reg.idDoc = nroDoc;
       	       reg.idTer = idT;
       	       archivoOcur.write((char*)&reg,sizeof(reg));  // y luego al "Archivo de ocurrencia de terminos en docs"
 
-      	     cout << reg.idDoc << " documento de : " << palabraStr << endl;
-      	     cout << reg.idTer << " idT de: " << palabraStr << endl;
-              }
+      	       cout << reg.idDoc << " documento de : " << palabraStr << endl;
+      	       cout << reg.idTer << " idT de: " << palabraStr << endl;
+             }
 
-      	       palabra = strtok (NULL," .,;:¿?_-<>/!	");
-      	     }
+      	     palabra = strtok (NULL," .,;:¿?_-<>/!	");
+      	    }
+
            }
     	nroDoc++;
     	arch_frases.read(doc,TAMANIO_REGISTRO_FRASES);
@@ -111,6 +112,7 @@ void Booleano::armarIndice (){
     delete mapa;
 
     this->ordenarSort();
+
     this->cargar_listasInvertidas();
 }
 //  cout << palabraStr << " su tamaño es: " << palabraStr.size() << endl;      //ANTES DE NORMALIZAR
@@ -181,7 +183,7 @@ void Booleano::terminoEncontrado(string palabraStr,int *i, bool *encontrado){
 }
 
 void Booleano::cargar_listasInvertidas (){
-
+	this->cargar_ls_bloques();
 	ifstream arch_ocur_ord (PATH_ARCHIVO_OCURRENCIAS_ORD, ios::binary);
 	fstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary | ios::in | ios::out);
 
@@ -189,14 +191,12 @@ void Booleano::cargar_listasInvertidas (){
 	list<int> listaInver;
     int cantDocs = 0;
     int pos;
-
     RegOcurrencia reg;
 
     arch_ocur_ord.read((char*)&reg,sizeof(reg));
-
     int idTerAux = reg.idTer;
 
-	while (!arch_ocur_ord.eof()) {
+    while (!arch_ocur_ord.eof()){
 
 		if (reg.idTer == idTerAux) {
 			listaInver.push_back(reg.idDoc);
@@ -205,97 +205,106 @@ void Booleano::cargar_listasInvertidas (){
 		}
 		else{
 		    listaInver.push_front(cantDocs);
-
-		    if (this->agregar_arch_invertidas (listaInver,cantDocs,idTerAux,&pos,&invertidas)){
-
+		    if (this->agregar_arch_invertidas (listaInver,cantDocs,idTerAux,&pos,&invertidas))
+		    {
             cout << "la posicion del idTermino: " << idTerAux << " es : " << pos << endl;
-		    this->agregar_a_Arbol(idTerAux,pos,arbol);         //aca iria el "cargar en el arbol"
+		    this->agregar_a_Arbol(idTerAux,pos,arbol);
 		    }
 		    listaInver.clear();
 		    cantDocs = 0;
 		    idTerAux = reg.idTer;
-
-		}
-
+		  }
 	}
-	invertidas.seekp(0,ios::beg);
-	invertidas.write((char*)this->tam_libre,TAMANIO_BLOQUE_LISTAS_INV);
-	invertidas.close();
+    if (reg.idTer == idTerAux) {
 
+    	listaInver.push_back(reg.idDoc);
+    	cantDocs++;
+    	listaInver.push_front(cantDocs);
+    	if (this->agregar_arch_invertidas (listaInver,cantDocs,idTerAux,&pos,&invertidas)){
+    	  cout << "la posicion del idTermino: " << idTerAux << " es : " << pos << endl;
+    	  this->agregar_a_Arbol(idTerAux,pos,arbol);
+    	  }
+    	}
+
+	invertidas.close();
 	arch_ocur_ord.close();
 	delete arbol;
 
 }
 
-bool Booleano::agregar_arch_invertidas (list<int> inver,int cantDoc, int idT, int *pos,fstream *invertidas){
-//	cout << "la longitud del string: " << ls_Comprimida << " es : " << (int)ls_long << endl;
-//	cout << "la longitud libre de : "<< *pos << " es: " << (int)this->tam_libre [*pos - 1] <<  endl;
+//cout <<"Lista antes de comprimir :   "<< ls_Comprimida << endl;
+//cout <<"Lista comprimida :   "<< ls_ComprimidaEnBits << endl;
+//cout <<"Lista despues de comprimir :   "<< gamma.convertirAString(strdup(ls_ComprimidaEnBits.c_str())) << endl;
+//cout <<"Lista longitud comprimida :   "<< ls_ComprimidaEnBits.size() << endl;
+//cout << "la longitud del string: " << ls_Comprimida << " es : " << (int)ls_long << endl;
+//cout << "la longitud libre de : "<< *pos << " es: " << (int)this->tam_libre [*pos - 1] <<  endl;
 
+
+bool Booleano::agregar_arch_invertidas (list<int> inver,int cantDoc, int idT, int *pos,fstream *invertidas){
+
+	char *tam_libre = new char [TAMANIO_BLOQUE_LISTAS_INV];
 	char *bloque = new char[TAMANIO_BLOQUE_LISTAS_INV];
 
 	CodigoGamma gamma;
+	*pos = 1;
 
-    *pos = 1;
+	invertidas->seekg(0,ios::beg);
+	invertidas->read (tam_libre,TAMANIO_BLOQUE_LISTAS_INV);
 
-	string ls_Comprimida = gamma.comprimirLista(inver,cantDoc);
+     string ls_Comprimida = gamma.comprimirLista(inver,cantDoc);
+	 string ls_ComprimidaEnBits = gamma.stringABits(ls_Comprimida);
 
-	unsigned char ls_long = ls_Comprimida.size();
+	unsigned char ls_long = ls_ComprimidaEnBits.size();
 	unsigned short int id = idT;
-	char long_libre = ( (this->tam_libre [*pos-1]) - ls_long - sizeof (id) - sizeof (ls_long) );
+
+	char long_libre = (unsigned char)tam_libre [*pos-1] - ls_long - sizeof (id) - sizeof (ls_long);
 
 	if (long_libre >= 0){
 
-    while ( (long_libre <= UMBRAL) && ( (*pos) < TAMANIO_BLOQUE_LISTAS_INV) ) {
+     while ( (long_libre <= UMBRAL) && ( (*pos) < TAMANIO_BLOQUE_LISTAS_INV) ) {
+
     	(*pos)++;
-    	long_libre = ( (this->tam_libre [*pos - 1]) - ls_long - sizeof (id) - sizeof (ls_long) );
+    	long_libre = (unsigned char)tam_libre [*pos-1] - ls_long - sizeof (id) - sizeof (ls_long);
     }
+
     if ( *pos >= TAMANIO_BLOQUE_LISTAS_INV ){
     	cout << "no hay espacio suficiente en los bloques" << endl;
+    	delete []tam_libre;
     	delete []bloque;
     	return false;
     }
     else{
-    	if (this->tam_libre [*pos-1] < TAMANIO_BLOQUE_LISTAS_INV ){
+    	if ((unsigned char)tam_libre [*pos-1] < TAMANIO_BLOQUE_LISTAS_INV ){
+
     		invertidas->seekg((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
     		invertidas->read(bloque,TAMANIO_BLOQUE_LISTAS_INV);
     	}
-        int desplazo = (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos-1]);
+        int desplazo = (TAMANIO_BLOQUE_LISTAS_INV - (unsigned char)tam_libre[*pos-1]);
+
         memmove (&bloque[desplazo],&id,sizeof(id));
         desplazo += sizeof(id);
         memmove (&bloque[desplazo],&ls_long,sizeof(ls_long));
         desplazo += sizeof(ls_long);
-        memmove (&bloque[desplazo],ls_Comprimida.c_str(),ls_long);
+        memmove (&bloque[desplazo],ls_ComprimidaEnBits.c_str(),ls_long);
 
         invertidas->seekp((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
         invertidas->write(bloque,TAMANIO_BLOQUE_LISTAS_INV);
         invertidas->flush();
-        this->tam_libre [*pos-1] = long_libre;
+        tam_libre [*pos-1] = long_libre;
+        invertidas->seekp(0,ios::beg);
+        invertidas->write(tam_libre,TAMANIO_BLOQUE_LISTAS_INV);
       }
-       delete []bloque;
-       return true;
+      delete []bloque;
+      delete []tam_libre;
+      return true;
 
-	}
-	 else{
+    }else{
 		 cout << "no hay espacio suficiente en los bloques" << endl;
 	     delete []bloque;
+	     delete []tam_libre;
 		 return false;
-	 }
+	     }
 }
-//    int desplazo = (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos - 1]);
-//    memmove (&bloque[desplazo],&id,sizeof(id));
-//    desplazo += sizeof(id);
-//    memmove (&bloque[desplazo],&ls_long,sizeof(ls_long));
-//    desplazo += sizeof(ls_long);
-//    memmove (&bloque[desplazo],ls_Comprimida.c_str(),ls_long);
-//    invertidas->seekp((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
-//    invertidas->write(bloque,TAMANIO_BLOQUE_LISTAS_INV);
-//    invertidas->flush();
-
-//    int desplazo = (*pos)*TAMANIO_BLOQUE_LISTAS_INV + (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos]);
-//    invertidas->seekp(desplazo,ios::beg);
-//    invertidas->write((char*)&id,sizeof (id));
-//    invertidas->write((char*)&ls_long,sizeof (ls_long));
-//    invertidas->write((char*)&ls_Comprimida,sizeof (ls_Comprimida));
 
 void Booleano::agregar_a_archivoT (string palabra, int *offset){
 
@@ -366,24 +375,86 @@ void Booleano::agregar_a_Arbol (int idT,int pos_Arch, ArbolBMas *arbol){
     delete elem;
 }
 
+void Booleano::agregarDocALista (int nroDoc, int idT, string termino){
+
+    int nroBloque;
+	CodigoGamma gamma;
+	list <int> listaDocs;
+
+	ifstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary);
+
+	if (this->obtenerListaIdT(termino,&listaDocs,&nroBloque)){
+
+	listaDocs.push_back(nroDoc);
+	int cantDocs = listaDocs.front();
+	listaDocs.pop_front();
+	cantDocs++;
+	listaDocs.push_front(cantDocs);
+
+	string listaCompr = gamma.comprimirLista(listaDocs,cantDocs);
+
+
+	}
+}
+
+void Booleano::alta (string termino, int nroDoc){
+
+	 int idT;
+     Normalizador normalizar;
+     ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
+
+	normalizar.normalizarPalabra(&termino);
+	bool esStop = this->compararTermino (termino);
+		if (!esStop) {
+		  bool encontrado;
+	      this->terminoEncontrado(termino,&idT,&encontrado);
+
+	      if (encontrado)
+                this->agregarDocALista (nroDoc,idT,termino);
+
+			 else
+
+			    cout << "No se encontro termino en el Arbol, pero si en el ArchivoT" << endl;
+			  }
+			  else{
+				   int nroBloque;
+				   this->agregar_a_archivoT(termino,&idT);
+				   this->agregarNuevaListaInvertidas(idT,nroDoc,&nroBloque);
+				   this->agregar_a_Arbol(idT,nroBloque,arbol);
+	           }
+		           delete arbol;
+}
+
+void Booleano::agregarNuevaListaInvertidas(int id, int nroDoc, int *pos){
+
+    CodigoGamma gamma;
+	list <int> listaAgregar;
+	fstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary |ios::in | ios::out);
+
+    listaAgregar.push_front(1);
+    listaAgregar.push_back(nroDoc);
+    string listaCompr = gamma.comprimirLista(listaAgregar,1);
+    this->agregar_arch_invertidas(listaAgregar,1,id,pos,&invertidas);
+    invertidas.close();
+
+}
+
 void Booleano::agregar_frase (string frase, int nroDoc){
 
-	Normalizador normalizar;
 	char *fraseProcesar = strdup (frase.c_str());
 	char *palabra = strtok (fraseProcesar," .,;:¿?_-<>/!	");
 
 	while (palabra != NULL) {
+
 		string palabraStr(palabra);
-		normalizar.normalizarPalabra(&palabraStr);
-		bool esStop = this->compararTermino (palabraStr);
-		if (!esStop) {
-          cout << "no es stop" << endl;
-		}
+
+        this->alta(palabraStr,nroDoc);
+
 		palabra = strtok (NULL," .,;:¿?_-<>/!	");
 	}
 }
 
-bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs){
+bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs,int *nroBloque){
 
 	ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
 
@@ -395,16 +466,24 @@ bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs){
 
     if (encontrado) {
 
-    	int bloqueLista = atoi (unElemento->getEnteroFantasma()->toString().c_str());
-    	int idT = atoi(unElemento->getN()->toString().c_str());
+     int bloqueLista = atoi (unElemento->getEnteroFantasma()->toString().c_str());
 
-    	if (this->buscarEnBloque(idT,bloqueLista,&listaCod))
-    		*listaDocs = gamma.decodificarLista(listaCod);
-    }
+     if (bloqueLista != 0) {
+    	 int idT = atoi(unElemento->getN()->toString().c_str());
+
+          *nroBloque = bloqueLista;
+          if ( this->buscarEnBloque(idT,bloqueLista,&listaCod) )
+             *listaDocs = gamma.decodificarLista(listaCod);
+     }else
+    	 encontrado = false;
+   }
     return encontrado;
 }
+//cout << gamma.convertirAString(strdup(listaCod.c_str())) << endl;
+/*const_cast <char*>*/
+//char *listaProcesar = strdup (listaCod.c_str());
 
-bool Booleano::buscarEnBloque (int id,int nroBloque,string *termDevuelto){
+bool Booleano::buscarEnBloque (int id,int nroBloque,string *listaDevuelto){
 
 	bool encontrado = false;
 	ifstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary);
@@ -424,24 +503,29 @@ bool Booleano::buscarEnBloque (int id,int nroBloque,string *termDevuelto){
 	  memmove (&idT,&bloque[desplazo],sizeof(idT));
 	  desplazo += sizeof(idT);
 
-	  memmove (&ls_long,&bloque[desplazo],sizeof(ls_long));
-      desplazo += sizeof(ls_long);
+	  if (id == (int)idT) {
 
-      char *lista = new char [(int)ls_long];
+       encontrado = true;
+	   memmove (&ls_long,&bloque[desplazo],sizeof(ls_long));
+       desplazo += sizeof(ls_long);
 
-      memmove (lista,&bloque[desplazo],ls_long);
-	  desplazo += (int)ls_long;
+       char *lista = new char [(int)ls_long];
+       memmove (lista,&bloque[desplazo],ls_long);
 
-	  *termDevuelto = string(lista).substr(0,(int)ls_long);
+   	   desplazo += (int)ls_long;
 
-	  delete []lista;
-
-	  if (id == (int)idT) encontrado = true;
+   	   *listaDevuelto = string(lista).substr(0,(int)ls_long);
+	}
+	 else {
+	   memmove (&ls_long,&bloque[desplazo],sizeof(ls_long));
+       desplazo += sizeof(ls_long) + (int)ls_long;
+	  }
   }
 	 delete []bloque;
  }
 	invertidas.close();
 	return encontrado;
+	//string(lista).substr(0,(int)ls_long);
 }
 
 Elementos* Booleano::buscarEnArbol (string palabra, ArbolBMas* arbol,bool * result){
@@ -457,3 +541,19 @@ Elementos* Booleano::buscarEnArbol (string palabra, ArbolBMas* arbol,bool * resu
 //      this->agregar_a_Arbol (palabraStr,arbol,idT);       // y luego al Arbol como (termino, idT, 0)
 //		arch_frases.seekg(nroDoc*TAMANIO_REGISTRO_FRASES,ios::beg);
 //      arch_frases.read(doc,TAMANIO_REGISTRO_FRASES);
+
+//    int desplazo = (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos - 1]);
+//    memmove (&bloque[desplazo],&id,sizeof(id));
+//    desplazo += sizeof(id);
+//    memmove (&bloque[desplazo],&ls_long,sizeof(ls_long));
+//    desplazo += sizeof(ls_long);
+//    memmove (&bloque[desplazo],ls_Comprimida.c_str(),ls_long);
+//    invertidas->seekp((*pos)*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
+//    invertidas->write(bloque,TAMANIO_BLOQUE_LISTAS_INV);
+//    invertidas->flush();
+
+//    int desplazo = (*pos)*TAMANIO_BLOQUE_LISTAS_INV + (TAMANIO_BLOQUE_LISTAS_INV - this->tam_libre [*pos]);
+//    invertidas->seekp(desplazo,ios::beg);
+//    invertidas->write((char*)&id,sizeof (id));
+//    invertidas->write((char*)&ls_long,sizeof (ls_long));
+//    invertidas->write((char*)&ls_Comprimida,sizeof (ls_Comprimida));
