@@ -473,7 +473,7 @@ bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs,int *nroBlo
 
           *nroBloque = bloqueLista;
           if ( this->buscarEnBloque(idT,bloqueLista,&listaCod) )
-             *listaDocs = gamma.decodificarLista(listaCod);
+             *listaDocs = gamma.decodificarLista(gamma.convertirAString(strdup(listaCod.c_str())));
      }else
     	 encontrado = false;
    }
