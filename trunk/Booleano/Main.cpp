@@ -22,15 +22,20 @@ int main() {
 //
 //
 //   ifstream frases (PATH_ARCHIVO_FRASES,ios::binary);
-//	 Booleano indice;
-//	 indice.armarIndice();
+//
+//   Booleano indice;
+
+//   indice.armarIndice();
+//
 //   list <int>listaDocs;
 //   int nroBloque;
 //
-//   if (indice.obtenerListaIdT("hierro",&listaDocs,&nroBloque)){
+//   indice.alta("Ignacio",56);
+//   if (indice.obtenerListaIdT("Ignacio",&listaDocs,&nroBloque)){
 //     list <int>::iterator it;
 //   for (it = listaDocs.begin(); it != listaDocs.end(); it++){
 //      cout << *it << endl;
+//
 //      frases.seekg((*it)*TAMANIO_REGISTRO_FRASES,ios::beg);
 //      char *frase = new char [TAMANIO_REGISTRO_FRASES];
 //      frases.read(frase,TAMANIO_REGISTRO_FRASES);
@@ -158,9 +163,9 @@ int main() {
 //        }
 //        invertidas.close();
 //        delete []bloqueLec;
-//
-//
-//
+
+
+
 
 	return 0;
 }
