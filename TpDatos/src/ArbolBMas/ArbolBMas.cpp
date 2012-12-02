@@ -23,6 +23,35 @@ ArbolBMas::~ArbolBMas() {
 	delete this->persistor;
 }
 
+bool ArbolBMas::modificar(Elementos* registro) {
+	Nodo *unNodo = raiz;
+	if (!unNodo)
+		return false;
+
+	while (!unNodo->isNodoHoja()) {
+		NodoInterior *unNodoInterior = static_cast<NodoInterior*> (unNodo);
+		int posicion = obtenerPosicion(unNodoInterior, *(registro->getClave()));
+		unNodo = hidratarNodo(unNodoInterior->hijos[posicion]);
+		if (unNodoInterior != raiz)
+			liberarMemoriaNodo(unNodoInterior);
+	}
+
+	NodoHoja *unNodoHoja = static_cast<NodoHoja*> (unNodo);
+	int posicion = obtenerPosicion(unNodoHoja, *(registro->getClave()));
+	bool existe = (posicion < unNodoHoja->cantidadClaves && claveIgual(*(registro->getClave()), unNodoHoja->claves[posicion]));
+	if (existe) {
+		unNodoHoja->ns[posicion].setBytes(registro->getN()->toString());
+		unNodoHoja->enterosFantasmas[posicion].setBytes(registro->getEnteroFantasma()->toString());
+		persistirNodo(unNodoHoja);
+		return true;
+	} else {
+		if (unNodoHoja != raiz)
+			liberarMemoriaNodo(unNodoHoja);
+		return false;
+	}
+}
+
+
 
 int ArbolBMas::insertar(Elementos* registro) {
 

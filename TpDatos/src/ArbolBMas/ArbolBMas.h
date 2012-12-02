@@ -42,6 +42,8 @@ public:
 
 	int insertar(Elementos* registro);
 
+	bool modificar(Elementos* registro);
+
 	void cargaInicial(int cantRegistros);
 
 	void generarClaves(tRegistroDiccionario *buffer, Elementos *claves, int cant, int *pos);
