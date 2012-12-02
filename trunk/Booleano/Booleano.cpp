@@ -115,9 +115,9 @@ void Booleano::armarIndice (){
 
     this->cargar_listasInvertidas();
 }
+
 //  cout << palabraStr << " su tamaño es: " << palabraStr.size() << endl;      //ANTES DE NORMALIZAR
 //  cout << palabraStr << endl;                                              //DESPUES DE NORMALIZAR
-
 
 void Booleano::ordenarSort (){
 
@@ -238,7 +238,6 @@ void Booleano::cargar_listasInvertidas (){
 //cout <<"Lista longitud comprimida :   "<< ls_ComprimidaEnBits.size() << endl;
 //cout << "la longitud del string: " << ls_Comprimida << " es : " << (int)ls_long << endl;
 //cout << "la longitud libre de : "<< *pos << " es: " << (int)this->tam_libre [*pos - 1] <<  endl;
-
 
 bool Booleano::agregar_arch_invertidas (list<int> inver,int cantDoc, int idT, int *pos,fstream *invertidas){
 
@@ -375,66 +374,88 @@ void Booleano::agregar_a_Arbol (int idT,int pos_Arch, ArbolBMas *arbol){
     delete elem;
 }
 
-void Booleano::agregarDocALista (int nroDoc, int idT, string termino){
-
-    int nroBloque;
-	CodigoGamma gamma;
-	list <int> listaDocs;
+void Booleano::agregarDocALista (int nroDoc, int idT, int numBlok){
 
 	ifstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary);
+	CodigoGamma gamma;
+	string listaEnBitsVieja;
+	int offsetEnBloque;
 
-	if (this->obtenerListaIdT(termino,&listaDocs,&nroBloque)){
+	if (this->buscarEnBloque(idT,numBlok,&listaEnBitsVieja,&offsetEnBloque)){
 
-	listaDocs.push_back(nroDoc);
-	int cantDocs = listaDocs.front();
-	listaDocs.pop_front();
-	cantDocs++;
-	listaDocs.push_front(cantDocs);
+	 list <int> listaDocs = gamma.decodificarLista(gamma.convertirAString(strdup(listaEnBitsVieja.c_str())));
+	 listaDocs.push_back(nroDoc);
+	 int cantDocs = listaDocs.front();
+	 listaDocs.pop_front();
+	 cantDocs++;
+	 listaDocs.push_front(cantDocs);
 
-	string listaCompr = gamma.comprimirLista(listaDocs,cantDocs);
+	 string listaCompr = gamma.comprimirLista(listaDocs,cantDocs);
+     string listaEnBitsNueva = gamma.stringABits(listaCompr);
+
+     if ( listaEnBitsVieja.size() == listaEnBitsNueva.size() )
+    	 cout << "" << endl;
+
+
+
+
+
+
 
 
 	}
+	else
+		cout << "No se encontro termino en Archivo de Listas Invertidas" << endl;
 }
-
+//this->terminoEncontrado(termino,&idT,&encontrado);
 void Booleano::alta (string termino, int nroDoc){
 
-	 int idT;
-     Normalizador normalizar;
-     ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
+	int idT;
+    Normalizador normalizar;
+    ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
 
 	normalizar.normalizarPalabra(&termino);
 	bool esStop = this->compararTermino (termino);
+
 		if (!esStop) {
+
 		  bool encontrado;
-	      this->terminoEncontrado(termino,&idT,&encontrado);
+		  Elementos *elem = this->buscarEnArbol(termino,arbol,&encontrado);
 
-	      if (encontrado)
-                this->agregarDocALista (nroDoc,idT,termino);
+	      if (encontrado) {
 
-			 else
+	    	  int bloqueLista = atoi (elem->getEnteroFantasma()->toString().c_str());
+	    	  idT = atoi (elem->getN()->toString().c_str());
 
-			    cout << "No se encontro termino en el Arbol, pero si en el ArchivoT" << endl;
-			  }
-			  else{
-				   int nroBloque;
-				   this->agregar_a_archivoT(termino,&idT);
-				   this->agregarNuevaListaInvertidas(idT,nroDoc,&nroBloque);
-				   this->agregar_a_Arbol(idT,nroBloque,arbol);
-	           }
-		           delete arbol;
+	    	  this->agregarDocALista (nroDoc,idT,bloqueLista);
+	      }
+		  else{
+			   cout << "No se encontro termino en el Arbol, pero si en el ArchivoT" << endl;
+	           int nroBloque;
+	           this->agregar_a_archivoT(termino,&idT);
+	           this->agregarNuevaListaInvertidas(idT,nroDoc,&nroBloque);
+	           this->agregar_a_Arbol(idT,nroBloque,arbol);
+		      }
+		}
+	    else cout <<"Es una StopWord" << endl;
+
+     delete arbol;
 }
 
 void Booleano::agregarNuevaListaInvertidas(int id, int nroDoc, int *pos){
 
     CodigoGamma gamma;
 	list <int> listaAgregar;
-	fstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary |ios::in | ios::out);
 
     listaAgregar.push_front(1);
     listaAgregar.push_back(nroDoc);
-    string listaCompr = gamma.comprimirLista(listaAgregar,1);
-    this->agregar_arch_invertidas(listaAgregar,1,id,pos,&invertidas);
+    string listaComprEnBits = gamma.stringABits(gamma.comprimirLista(listaAgregar,1));
+
+    fstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary |ios::in | ios::out);
+
+    if ( !( this->agregar_arch_invertidas(listaAgregar,1,id,pos,&invertidas) ) )
+    	cout << "No se pudo agregar lista, bloques llenos" << endl;
+
     invertidas.close();
 
 }
@@ -457,10 +478,11 @@ void Booleano::agregar_frase (string frase, int nroDoc){
 bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs,int *nroBloque){
 
 	ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
-
 	bool encontrado;
 	CodigoGamma gamma;
 	string listaCod;
+	int offsetLista;
+
 	Elementos* unElemento = this->buscarEnArbol(termino,arbol,&encontrado);
 	delete arbol;
 
@@ -469,21 +491,23 @@ bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs,int *nroBlo
      int bloqueLista = atoi (unElemento->getEnteroFantasma()->toString().c_str());
 
      if (bloqueLista != 0) {
-    	 int idT = atoi(unElemento->getN()->toString().c_str());
 
-          *nroBloque = bloqueLista;
-          if ( this->buscarEnBloque(idT,bloqueLista,&listaCod) )
+    	 int idTer = atoi(unElemento->getN()->toString().c_str());
+         *nroBloque = bloqueLista;
+
+         if ( this->buscarEnBloque(idTer,bloqueLista,&listaCod,&offsetLista) )
              *listaDocs = gamma.decodificarLista(gamma.convertirAString(strdup(listaCod.c_str())));
      }else
-    	 encontrado = false;
+    	  encontrado = false;
    }
     return encontrado;
 }
+
 //cout << gamma.convertirAString(strdup(listaCod.c_str())) << endl;
 /*const_cast <char*>*/
 //char *listaProcesar = strdup (listaCod.c_str());
 
-bool Booleano::buscarEnBloque (int id,int nroBloque,string *listaDevuelto){
+bool Booleano::buscarEnBloque (int id,int nroBloque,string *listaDevuelto, int *offsetEnBloque){
 
 	bool encontrado = false;
 	ifstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary);
@@ -500,18 +524,21 @@ bool Booleano::buscarEnBloque (int id,int nroBloque,string *listaDevuelto){
 
 	 while ((desplazo < TAMANIO_BLOQUE_LISTAS_INV) && (!encontrado)) {
 
+	  *offsetEnBloque = desplazo;
+
 	  memmove (&idT,&bloque[desplazo],sizeof(idT));
 	  desplazo += sizeof(idT);
 
 	  if (id == (int)idT) {
 
        encontrado = true;
+
 	   memmove (&ls_long,&bloque[desplazo],sizeof(ls_long));
        desplazo += sizeof(ls_long);
 
        char *lista = new char [(int)ls_long];
-       memmove (lista,&bloque[desplazo],ls_long);
 
+       memmove (lista,&bloque[desplazo],ls_long);
    	   desplazo += (int)ls_long;
 
    	   *listaDevuelto = string(lista).substr(0,(int)ls_long);
@@ -525,10 +552,9 @@ bool Booleano::buscarEnBloque (int id,int nroBloque,string *listaDevuelto){
  }
 	invertidas.close();
 	return encontrado;
-	//string(lista).substr(0,(int)ls_long);
 }
 
-Elementos* Booleano::buscarEnArbol (string palabra, ArbolBMas* arbol,bool * result){
+Elementos* Booleano::buscarEnArbol (string palabra, ArbolBMas* arbol,bool *result){
 
 	 Elementos* unElemento;
 	 Clave* unaClave = new Clave(palabra);

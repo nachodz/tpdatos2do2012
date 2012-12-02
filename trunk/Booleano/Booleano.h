@@ -83,11 +83,11 @@ public:
 
 	bool obtenerListaIdT (string termino,list <int> *listaDocs,int *nroBloque);
 
-	bool buscarEnBloque (int id,int nroBloque,string *listaDevuelto);
+	bool buscarEnBloque (int id,int nroBloque,string *listaDevuelto, int *offsetEnBloque);
 
 	Elementos* buscarEnArbol (string palabra, ArbolBMas *arbol,bool *result);
 
-	void agregarDocALista (int nroDoc, int idT, string termino);
+	void agregarDocALista (int nroDoc, int idT, int numBlok);
 
 	void agregar_frase (string frase, int nroDoc);
 
