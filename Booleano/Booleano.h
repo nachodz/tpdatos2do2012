@@ -93,6 +93,8 @@ public:
 
 	void agregarNuevaListaInvertidas(int id, int nroDoc, int *pos);
 
+	bool actualizar_bloqueLista (string listNueva, int tam_listVieja,int numBloq, int offsetEnBloke);
+
 	void alta (string termino,int nroDoc);
 
 //	void baja (string termino,int nroDoc);
