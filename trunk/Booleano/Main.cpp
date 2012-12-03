@@ -26,22 +26,28 @@ int main() {
 //   Booleano indice;
 
 //   indice.armarIndice();
-//
+
+//   indice.agregar_frase("el dinero es como los perros y tiene mucha falsedad",59);
+
 //   list <int>listaDocs;
 //   int nroBloque;
 //
-//   indice.alta("Ignacio",56);
-//   if (indice.obtenerListaIdT("Ignacio",&listaDocs,&nroBloque)){
+//   if (indice.obtenerListaIdT("Dinero",&listaDocs,&nroBloque)){
+//        list <int>::iterator it;
+//      for (it = listaDocs.begin(); it != listaDocs.end(); it++){
+//         cout << *it << endl;
+//        }
+//       } else cout << "El termino no esta Indexado" << endl;
+//
+//   indice.baja("Dinero",59);
+//
+//   if (indice.obtenerListaIdT("Dinero",&listaDocs,&nroBloque)){
 //     list <int>::iterator it;
 //   for (it = listaDocs.begin(); it != listaDocs.end(); it++){
 //      cout << *it << endl;
-//
-//      frases.seekg((*it)*TAMANIO_REGISTRO_FRASES,ios::beg);
-//      char *frase = new char [TAMANIO_REGISTRO_FRASES];
-//      frases.read(frase,TAMANIO_REGISTRO_FRASES);
-//      cout << string(frase) << endl;
 //     }
-//    }
+//    } else cout << "El termino no esta Indexado" << endl;
+//
 //   indice.~Booleano();
 
 //	Booleano indice;
@@ -125,7 +131,7 @@ int main() {
 //		unsigned short int idT;
 //		unsigned char longLista;
 //
-//        while (j < TAMANIO_BLOQUE_LISTAS_INV - libre){
+//    while (j < TAMANIO_BLOQUE_LISTAS_INV - libre){
 //
 //		memmove (&idT,&bloqueLec[j],sizeof (idT));
 //		j += sizeof (idT);
@@ -142,10 +148,10 @@ int main() {
 //		memmove (lista,&bloqueLec[j],longLista);
 //
 //		j += longLista;
-//
-//		//cout << string(lista).substr(0,longLista) << endl;
-//		/*strdup(string(lista).substr(0,longLista).c_str())*/
-//
+
+		//cout << string(lista).substr(0,longLista) << endl;
+		/*strdup(string(lista).substr(0,longLista).c_str())*/
+
 //		CodigoGamma gamma;
 //		string listaEnBytes = gamma.convertirAString(strdup(string(lista).substr(0,longLista).c_str()));
 //
@@ -160,7 +166,7 @@ int main() {
 //		         }
 //
 //		delete []lista;
-//        }
+//     }
 //        invertidas.close();
 //        delete []bloqueLec;
 

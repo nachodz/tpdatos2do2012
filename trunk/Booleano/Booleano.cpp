@@ -392,45 +392,66 @@ void Booleano::agregarDocALista (int nroDoc, int idT, int numBlok){
 	 string listaComprNueva = gamma.comprimirLista(listaDocs,cantDocs);
      string listaEnBitsNueva = gamma.stringABits(listaComprNueva);
 
-     if ( this->actualizar_bloqueLista (listaEnBitsNueva,listaEnBitsVieja.size(),numBlok,offsetEnBloque) )
-    	 cout << "se actualizo bien la lista" << endl;
+     bool darAlta = true;
+
+     if ( this->actualizar_bloqueLista (listaEnBitsNueva,listaEnBitsVieja.size(),numBlok,offsetEnBloque,darAlta) )
+    	 cout << "Se actualizo bien la lista" << endl;
      else
-    	 cout << "no se actualizo bien la lista" << endl;
+    	 cout << "No se actualizo bien la lista" << endl;
 	}
 	else
 		cout << "No se encontro termino en Archivo de Listas Invertidas" << endl;
 }
 
-bool Booleano::actualizar_bloqueLista (string listNuevaCodEnBits,int tam_listVieja,int numBloq, int offsetEnBloke){
+bool Booleano::actualizar_bloqueLista (string listNuevaCodEnBits,int tam_listVieja,int numBloq, int offsetEnBloke, bool alta){
 
 	fstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary | ios::in | ios::out);
 	CodigoGamma gamma;
+
+	int variacion,desplazoI,desplazoF,cantCopiar,posGrabar;
+	unsigned char long_lista;
+	char long_libre;
+
 	bool actualizado = false;
 	int tamFijo = sizeof(unsigned short int) + sizeof (unsigned char); // Tamaño que es fijo para todas las listas;
+
 	char *bloque = new char[TAMANIO_BLOQUE_LISTAS_INV];
 
 	char *tam_libre = new char [TAMANIO_BLOQUE_LISTAS_INV];
 	invertidas.seekg(0,ios::beg);
 	invertidas.read (tam_libre,TAMANIO_BLOQUE_LISTAS_INV);  // Levanto el array de Espacio libre;
 
-    int variacion = listNuevaCodEnBits.size() - tam_listVieja;   // Tamaño en el que vario la lista nueva respecto
-    															 // de la vieja;
-	char long_libre = (unsigned char)tam_libre[numBloq-1] - variacion;  //Esp.Libre que va a quedar en el bloque;
+	if (alta){
+		variacion = listNuevaCodEnBits.size() - tam_listVieja;   // Tamaño en el que vario la lista nueva respecto de la vieja;
+	    long_libre = (unsigned char)tam_libre[numBloq-1] - variacion;  //Esp.Libre que va a quedar en el bloque;
+	}
+	else{
+		 variacion = tam_listVieja -listNuevaCodEnBits.size();
+	     long_libre = (unsigned char)tam_libre[numBloq-1] + variacion;
+	}
 
 	if (long_libre >= 0){                    // Me fijo si entra el bloque la lista nueva;
-		cout << "se puede meter" << endl;
+		cout << "Se puede agregar/quitar Doc" << endl;
 
 		invertidas.seekg(numBloq*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
         invertidas.read (bloque,TAMANIO_BLOQUE_LISTAS_INV);          // Leo el bloque a modificar;
 
-		int desplazoI = offsetEnBloke + tamFijo + tam_listVieja;    // Posicion a partir de la cual voy a correr para adelante;
-		int desplazoF = desplazoI + variacion;                      // A partir de donde se va a empezar a copiar;
-		int cantCopiar = (TAMANIO_BLOQUE_LISTAS_INV - (unsigned char)tam_libre[numBloq-1]) - desplazoI; // Cant. bytes que voy a correr;
+        if (alta){
+        	desplazoI = offsetEnBloke + tamFijo + tam_listVieja;    // Posicion a partir de la cual voy a correr para adelante;
+		    desplazoF = desplazoI + variacion;                      // A partir de donde se va a empezar a copiar;
+	    }
+        else{
+        	desplazoF = offsetEnBloke + tamFijo + listNuevaCodEnBits.size();
+        	desplazoI = desplazoF + variacion;
+	    }
 
-		memmove (&bloque[desplazoF],&bloque[desplazoI],cantCopiar);  // Corro en el bloque;
+        cantCopiar = ( TAMANIO_BLOQUE_LISTAS_INV - (unsigned char)tam_libre[numBloq-1] ) - desplazoI; // Cant. bytes que voy a correr;
 
-		unsigned char long_lista = listNuevaCodEnBits.size();       // Lista nueva a agregar;
-        int posGrabar = offsetEnBloke + sizeof (unsigned short int); // Pos. en la que grabo el nuevo tam de la lista.
+        memmove (&bloque[desplazoF],&bloque[desplazoI],cantCopiar);  // Corro en el bloque;
+
+		long_lista = listNuevaCodEnBits.size();       // Tamaño lista nueva a agregar;
+
+		posGrabar = offsetEnBloke + sizeof (unsigned short int); // Pos. en la que grabo el nuevo tam de la lista.
 
         memmove (&bloque[posGrabar],&long_lista, sizeof(long_lista)); // Grabo el long de la lista;
 
@@ -448,10 +469,11 @@ bool Booleano::actualizar_bloqueLista (string listNuevaCodEnBits,int tam_listVie
 	    actualizado = true;
 	}
 	else
-		cout << "no se puede meter" << endl;
+		cout << "No se puede agregar/quitar Doc" << endl;
 
 	delete []tam_libre;
     delete []bloque;
+    invertidas.close();
     return actualizado;
 }
 
@@ -487,6 +509,125 @@ void Booleano::alta (string termino, int nroDoc){
 	    else cout <<"Es una StopWord" << endl;
 
      delete arbol;
+}
+
+void Booleano::baja (string terminoBaja, int nroDocBaja){
+
+	int idTBaja;
+    Normalizador normalizar;
+	ArbolBMas* arbol = new ArbolBMas(PATH_ARBOL);
+
+	normalizar.normalizarPalabra(&terminoBaja);
+	bool esStop = this->compararTermino (terminoBaja);
+
+    if (!esStop) {
+    	bool encontrado;
+		Elementos *elem = this->buscarEnArbol(terminoBaja,arbol,&encontrado);
+
+      if (encontrado) {
+    	  int bloqueLista = atoi (elem->getEnteroFantasma()->toString().c_str());
+
+    	  if (bloqueLista != 0) {
+
+      	     idTBaja = atoi (elem->getN()->toString().c_str());
+
+      	     bool estaVacio;
+		     this->quitarDocLista (nroDocBaja,idTBaja,bloqueLista,&estaVacio);
+
+             if (estaVacio)
+            	 this->quitar_termino_Arbol (terminoBaja,idTBaja,arbol);
+
+    	  }else
+    		  cout << "El termino: "<< terminoBaja << "ya esta dado de baja" << endl;
+	 }else
+		cout << "No se encontro termino: " << terminoBaja << " ,en el Indice" << endl;
+   }else
+	  cout <<"Es una StopWord" << endl;
+
+    delete arbol;
+}
+
+void Booleano::quitar_termino_Arbol (string terminoBaja, int idT, ArbolBMas* arbol){
+
+	    Clave *clave = new Clave(terminoBaja);
+		Persistencia *termino = new Persistencia(terminoBaja);
+		Persistencia *posicion = new Persistencia(arbol->IntToStr(idT));
+		Persistencia *fantasma = new Persistencia("0");
+
+		Elementos *elem = new Elementos(clave,termino,posicion,fantasma);
+
+	    if ( arbol->modificar(elem) )
+	    	cout << "Se quito el termino del Arbol" << endl;
+	    else
+	    	cout << "No se pudo quitar el termino del Arbol, porque no existe" << endl;
+
+	    delete elem;
+}
+
+void Booleano::quitarDocLista (int DocBaja,int idBaja, int bloqueLs, bool *vacio){
+
+	CodigoGamma gamma;
+	string listaEnBitsVieja;
+	int offsetEnBloque;
+	*vacio = false;
+
+	if (this->buscarEnBloque(idBaja,bloqueLs,&listaEnBitsVieja,&offsetEnBloque)){
+
+	 list <int> listaDocs = gamma.decodificarLista(gamma.convertirAString(strdup(listaEnBitsVieja.c_str())));
+
+	 int cantDocs = listaDocs.front();
+
+	 if (cantDocs == 1){
+		 this->eliminarListaInvertida (bloqueLs,offsetEnBloque,listaEnBitsVieja.size());
+		 *vacio = true;
+	 }
+	 else{
+		 listaDocs.pop_front();
+	     cantDocs--;
+	     listaDocs.remove(DocBaja);
+	     listaDocs.push_front(cantDocs);
+	     string listaNuevaEnBits = gamma.stringABits(gamma.comprimirLista(listaDocs,cantDocs));
+	     bool darAlta = false;
+
+	     if ( this->actualizar_bloqueLista(listaNuevaEnBits,listaEnBitsVieja.size(),bloqueLs,offsetEnBloque,darAlta) )
+	    	cout << "Se actualizo correctamente la lista correspondiente al termino" << endl;
+	     else
+	    	 cout << "No se actualizo correctamente la lista correspondiente al termino" << endl;
+	 }
+   }else
+      cout << "No se encontro lista en el Archivo de Listas Invertidas" << endl;
+}
+
+void Booleano::eliminarListaInvertida (int nBloq, int offsetEnBloq, unsigned int listaSize){
+
+	fstream invertidas (PATH_ARCHIVO_INVERTIDAS,ios::binary | ios::in | ios::out);
+
+	char *bloque = new char[TAMANIO_BLOQUE_LISTAS_INV];
+	char *tam_libre = new char [TAMANIO_BLOQUE_LISTAS_INV];
+
+	invertidas.seekg(0,ios::beg);
+	invertidas.read (tam_libre,TAMANIO_BLOQUE_LISTAS_INV);  // Levanto el array de Espacio libre;
+
+	invertidas.seekg(nBloq*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
+    invertidas.read (bloque,TAMANIO_BLOQUE_LISTAS_INV);          // Leo el bloque a modificar;
+
+    int tamFijo = sizeof(unsigned short int) + sizeof (unsigned char); // Tamaño que es fijo para todas las listas;
+    int desplazoI = offsetEnBloq + tamFijo + listaSize;
+    int cantCopiar = (TAMANIO_BLOQUE_LISTAS_INV - (unsigned char)tam_libre[nBloq-1]) - desplazoI; // Cant. bytes que voy a correr;
+
+    memmove (&bloque[offsetEnBloq],&bloque[desplazoI],cantCopiar);  // Corro en el bloque;
+
+    invertidas.seekg(nBloq*TAMANIO_BLOQUE_LISTAS_INV,ios::beg);
+    invertidas.write(bloque,TAMANIO_BLOQUE_LISTAS_INV);            // Grabo bloque en el archivo;
+
+    tam_libre[nBloq-1] -= tamFijo + listaSize;    // Actualizo lista de tamaño libre;
+
+    invertidas.seekg(0,ios::beg);
+    invertidas.write (tam_libre,TAMANIO_BLOQUE_LISTAS_INV);
+
+	delete []bloque;
+	delete []tam_libre;
+	invertidas.close();
 }
 
 void Booleano::agregarNuevaListaInvertidas(int id, int nroDoc, int *pos){

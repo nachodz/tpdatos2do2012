@@ -93,11 +93,17 @@ public:
 
 	void agregarNuevaListaInvertidas(int id, int nroDoc, int *pos);
 
-	bool actualizar_bloqueLista (string listNueva, int tam_listVieja,int numBloq, int offsetEnBloke);
+	bool actualizar_bloqueLista (string listNueva, int tam_listVieja,int numBloq, int offsetEnBloke,bool alta);
 
 	void alta (string termino,int nroDoc);
 
-//	void baja (string termino,int nroDoc);
+	void baja (string terminoBaja, int nroDocBaja);
+
+	void quitarDocLista (int DocBaja,int idBaja, int bloqueLs, bool *vacio);
+
+	void eliminarListaInvertida (int nBloq, int offsetEnBloq, unsigned int listaSize);
+
+	void quitar_termino_Arbol (string termino, int idT, ArbolBMas* arbol);
 };
 
 
