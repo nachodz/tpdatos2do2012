@@ -20,10 +20,12 @@
 #define PATH_ARCHIVO_OCURRENCIAS "archivo_Ocurrencias.dat"
 #define PATH_ARCHIVO_OCURRENCIAS_ORD "particion0"
 #define PATH_ARCHIVO_INVERTIDAS "ls_invertidas.dat"
+#define PATH_ARCHIVO_BUSQUEDA "resultadoBusqueda.txt"
 
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <time.h>
 #include <algorithm>
 #include <list>
 
@@ -108,6 +110,10 @@ public:
 	bool buscarEnListaDocs (list <int> listaDoc, int nroDc);
 
 	void buscarListaTerminos (string *listaTerminos, int cantTerm);
+
+	void mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos,float t);
+
+	void quitar_frase (string frase, int nroDoc);
 };
 
 

@@ -56,8 +56,10 @@ void Booleano::armarIndice (){
 
     int idT;
 	int nroDoc = 1;
+
 	RegOcurrencia reg;
 	Normalizador normalizar;
+
 	mapaBits *mapa = new mapaBits(TAMANIO_REGISTRO_FRASES); // creo el mapa de bits para el archivo.
 	char *serial = new char[TAMANIO_REGISTRO_FRASES];       // con Serial lo voy a hidratar en mapa.
 	char *doc  = new char[TAMANIO_REGISTRO_FRASES];         // con Doc voy a ir leyendo los registros.
@@ -75,7 +77,7 @@ void Booleano::armarIndice (){
 
             char *palabra = strtok (doc," .,;:¿?_-<>/!	");
 
-            while (palabra != NULL) {
+          while (palabra != NULL) {
 
             string palabraStr = string (palabra);
        	    normalizar.normalizarPalabra(&palabraStr);                      // normalizo la palabra. VER ESTA PARTE!!!
@@ -90,21 +92,20 @@ void Booleano::armarIndice (){
    	    	 if (!encontrado)
    	    	   this->agregar_a_archivoT(palabraStr,&idT);  // si no lo encontro, agrego al "Archivo de ocurrencias"
 
-      	       reg.idDoc = nroDoc;
+   	    	   reg.idDoc = nroDoc;
       	       reg.idTer = idT;
       	       archivoOcur.write((char*)&reg,sizeof(reg));  // y luego al "Archivo de ocurrencia de terminos en docs"
 
       	       cout << reg.idDoc << " documento de : " << palabraStr << endl;
-      	       cout << reg.idTer << " idT de: " << palabraStr << endl;
-             }
-
-      	     palabra = strtok (NULL," .,;:¿?_-<>/!	");
-      	    }
-
+               cout << reg.idTer << " idT de: " << palabraStr << endl;
            }
+      	    palabra = strtok (NULL," .,;:¿?_-<>/!	");
+      	 }
+       }
     	nroDoc++;
     	arch_frases.read(doc,TAMANIO_REGISTRO_FRASES);
      }
+
 	arch_frases.close();
     archivoOcur.close();
     delete []doc;
@@ -197,13 +198,16 @@ void Booleano::cargar_listasInvertidas (){
 
     arch_ocur_ord.read((char*)&reg,sizeof(reg));
     int idTerAux = reg.idTer;
+    int idDocAux = -1;
 
     while (!arch_ocur_ord.eof()){
 
 		if (reg.idTer == idTerAux) {
-
-			listaInver.push_back(reg.idDoc);
-			cantDocs++;
+		    if (reg.idDoc != idDocAux){
+		    	listaInver.push_back(reg.idDoc);
+			    cantDocs++;
+			    idDocAux = reg.idDoc;
+		   }
 			arch_ocur_ord.read((char*)&reg,sizeof(reg));
 		}
 		else{
@@ -217,6 +221,7 @@ void Booleano::cargar_listasInvertidas (){
 		    listaInver.clear();
 		    cantDocs = 0;
 		    idTerAux = reg.idTer;
+		    idDocAux = -1;
 		  }
 	}
 
@@ -572,6 +577,21 @@ void Booleano::baja (string terminoBaja, int nroDocBaja){
     delete arbol;
 }
 
+void Booleano::quitar_frase (string frase, int nroDoc){
+
+	char *fraseProcesar = strdup (frase.c_str());
+	char *palabra = strtok (fraseProcesar," .,;:¿?_-<>/!	");
+
+	while (palabra != NULL) {
+
+		string palabraStr(palabra);
+
+        this->baja(palabraStr,nroDoc);
+
+		palabra = strtok (NULL," .,;:¿?_-<>/!	");
+	}
+}
+
 void Booleano::quitar_termino_Arbol (string terminoBaja, int idT, ArbolBMas* arbol){
 
 	    Clave *clave = new Clave(terminoBaja);
@@ -798,14 +818,77 @@ bool Booleano::buscarEnListaDocs (list <int> listaDoc, int nroDc){
 // EN PROCESO....
 void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 
-	ifstream frases (PATH_ARCHIVO_FRASES,ios::binary | ios::in);
-	listaTerminos = new string[cantTerm];
+	Normalizador normalizar;
+	list <int> listaDocsAux, listDocsTotal,listaDocsMerge;
+	list <int>::iterator it;
+	int numBloque, inicio, fin, docAux, cont;
+
+	inicio = clock();
 
 	for(int i = 0; i < cantTerm; i++){
-		listaTerminos[i];
-	    }
 
-	delete []listaTerminos;
+		normalizar.normalizarPalabra(&listaTerminos[i]);
+
+		if ( this->obtenerListaIdT(listaTerminos[i],&listaDocsAux,&numBloque) ){
+			listaDocsAux.pop_front();
+			listaDocsAux.sort();
+			listDocsTotal.merge(listaDocsAux);
+		}
+	 }
+	// LISTA CON TODOS LOS DOCS
+	if (!listDocsTotal.empty()){
+
+    	  docAux = listDocsTotal.front();
+          cont = 0;
+	   for (it = listDocsTotal.begin(); it != listDocsTotal.end(); it++){
+
+		   if (docAux == *it) cont++;
+		   else{
+			   docAux = *it;
+			   cont = 1;
+		      }
+           if (cont == cantTerm)
+        	   listaDocsMerge.push_back(*it);
+	   }
+
+   }else
+    	cout << "No se encontraron estos terminos indexados, no se genero el archivoTxt" << endl;
+
+// LISTA FINAL CON LOS DOCS ENCONTRADOS EN TODAS LAS LISTAS
+      if (!listaDocsMerge.empty()){
+    	  fin = clock();
+          float tEjec = fin - inicio;
+    	  this->mostrarEnTxt (listaDocsMerge,cantTerm,listaTerminos,tEjec);
+      }else
+    	  cout << "No se encontraron Registros con esos terminos, no se genero archivoTxt" << endl;
+}
+
+void Booleano::mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos, float t){
+
+	list <int>::iterator it;
+	ifstream frases (PATH_ARCHIVO_FRASES,ios::binary | ios::in);
+	ofstream ArchBusqueda(PATH_ARCHIVO_BUSQUEDA);
+	char * Frase = new char [TAMANIO_REGISTRO_FRASES];
+
+	ArchBusqueda << "Terminos : " << endl;
+
+	for(int i = 0; i < cantTerm; i++)
+	       ArchBusqueda << listaTerminos[i] << ",  ";
+
+	ArchBusqueda << endl;
+	ArchBusqueda << "Tiempo de ejecucion: " << t << " segundos" << endl;
+
+	for (it = listaDocs.begin(); it != listaDocs.end(); it++){
+
+		frases.seekg((*it)*TAMANIO_REGISTRO_FRASES,ios::beg);
+		frases.read(Frase,TAMANIO_REGISTRO_FRASES);
+
+		ArchBusqueda <<"El Nro Relativo es: "<< *it << " de la frase: " << string (Frase) << endl;
+	}
+
+	delete []Frase;
+	ArchBusqueda.close();
+	frases.close();
 }
 
 //      this->agregar_a_Arbol (palabraStr,arbol,idT);       // y luego al Arbol como (termino, idT, 0)

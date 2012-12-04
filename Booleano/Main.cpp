@@ -22,14 +22,14 @@ int main() {
 
 //   indice.armarIndice();
 
-//   indice.agregar_frase("el dinero es como los perros y tiene mucha falsedad",59);
+//   indice.quitar_frase("el dinero es como los perros y tiene mucha falsedad",59);
 
 //   list <int>listaDocs;
 //   int nroBloque;
-
-//   indice.alta("serio",28);
 //
-//   if (indice.obtenerListaIdT("serio",&listaDocs,&nroBloque)){
+////   indice.alta("serio",28);
+////
+//   if (indice.obtenerListaIdT("diablo",&listaDocs,&nroBloque)){
 //        list <int>::iterator it;
 //      for (it = listaDocs.begin(); it != listaDocs.end(); it++){
 //         cout << *it << endl;
@@ -46,6 +46,29 @@ int main() {
 //    } else cout << "El termino no esta Indexado" << endl;
 //
 //   indice.~Booleano();
+
+
+//	CODIGO PARA HACER UNA CONSULTA DE TERMINOS
+
+//	Booleano indice;
+//	int cantTerm;
+//
+//	cout << "Ingrese la cantidad (mayor a 1):  << endl;
+//	cin >> cantTerm;
+//	string *terminos = new string [cantTerm];
+//
+//	for (int i = 0; i < cantTerm; i++){
+//	  cout << "Ingrese el termino " <<  (i + 1) << " : " << endl;
+//	  cin >> terminos[i];
+//	}
+//	indice.buscarListaTerminos(terminos,cantTerm);
+//
+//	indice.~Booleano();
+
+
+
+
+
 
 //	Booleano indice;
 //    string lista;
