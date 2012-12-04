@@ -69,7 +69,7 @@ public:
 
 	void agregar_a_archivoT (string palabra, int *offset);
 
-	void agregar_a_Arbol (int idT,int pos_Arch, ArbolBMas *arbol);
+	void agregar_a_Arbol (int idT,int pos_Arch, ArbolBMas *arbol, bool modificar);
 
 	int cant_registros_ocurrencias ();
 
@@ -104,6 +104,10 @@ public:
 	void eliminarListaInvertida (int nBloq, int offsetEnBloq, unsigned int listaSize);
 
 	void quitar_termino_Arbol (string termino, int idT, ArbolBMas* arbol);
+
+	bool buscarEnListaDocs (list <int> listaDoc, int nroDc);
+
+	void buscarListaTerminos (string *listaTerminos, int cantTerm);
 };
 
 

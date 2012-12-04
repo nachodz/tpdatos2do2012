@@ -16,11 +16,6 @@ using namespace std;
 
 int main() {
 
-//	 string listaSinComp = "110111001111101101111111000010";
-//   bitset <40> lista (listaSinComp);
-//   cout << sizeof (lista) << endl;
-//
-//
 //   ifstream frases (PATH_ARCHIVO_FRASES,ios::binary);
 //
 //   Booleano indice;
@@ -31,17 +26,19 @@ int main() {
 
 //   list <int>listaDocs;
 //   int nroBloque;
+
+//   indice.alta("serio",28);
 //
-//   if (indice.obtenerListaIdT("Dinero",&listaDocs,&nroBloque)){
+//   if (indice.obtenerListaIdT("serio",&listaDocs,&nroBloque)){
 //        list <int>::iterator it;
 //      for (it = listaDocs.begin(); it != listaDocs.end(); it++){
 //         cout << *it << endl;
 //        }
 //       } else cout << "El termino no esta Indexado" << endl;
+
+//   indice.baja("serio",29);
 //
-//   indice.baja("Dinero",59);
-//
-//   if (indice.obtenerListaIdT("Dinero",&listaDocs,&nroBloque)){
+//   if (indice.obtenerListaIdT("serio",&listaDocs,&nroBloque)){
 //     list <int>::iterator it;
 //   for (it = listaDocs.begin(); it != listaDocs.end(); it++){
 //      cout << *it << endl;
@@ -101,6 +98,7 @@ int main() {
 //	}
 //
 //		cout << cont << endl;
+
 //	CodigoGamma gamma;               /*11111001001111100011111110001011111000011111100000111101111111011011110101111101001111001111110010111100011111000011101111101011100111100011011100100 000*/
 //	string EnBits = gamma.stringABits("11111001001111100011111110001011111000011111100000111101111111011011110101111101001111001111110010111100011111000011101111101011100111100011011100100");
 //	cout << EnBits << endl;
@@ -148,10 +146,7 @@ int main() {
 //		memmove (lista,&bloqueLec[j],longLista);
 //
 //		j += longLista;
-
-		//cout << string(lista).substr(0,longLista) << endl;
-		/*strdup(string(lista).substr(0,longLista).c_str())*/
-
+//
 //		CodigoGamma gamma;
 //		string listaEnBytes = gamma.convertirAString(strdup(string(lista).substr(0,longLista).c_str()));
 //
@@ -169,9 +164,6 @@ int main() {
 //     }
 //        invertidas.close();
 //        delete []bloqueLec;
-
-
-
 
 	return 0;
 }
