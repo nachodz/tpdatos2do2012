@@ -1,0 +1,27 @@
+int main() {
+
+	bool ejecutando = true;
+
+	while(ejecutando){
+
+		int op;
+
+		cout << " " << endl;
+		cout << "MENU PRINCIPAL" << endl;
+		cout << " " << endl;
+		cout << "1)Crear y cargar archivo"  << endl;
+		cout << "2)Eliminar frase" << endl;
+		cout << "3)Agregar frase" << endl;
+		cout << "4)Exportar frases a un archivo de texto" << endl;
+		cout << "5)Salir" << endl;
+		cout << " " << endl;
+
+		cin >> op;
+		cin.ignore();
+
+		while ((op < 1) || (op > 5)){
+			cout << "La opcion ingresada es incorrecta, ingrese una opcion correcta" << endl;
+			cout << " " << endl;
+			cin >> op;
+			cin.ignore();
+		}
