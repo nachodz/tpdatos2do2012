@@ -13,8 +13,8 @@
 #include "Aleatorizador.h"
 #include <sys/stat.h>
 #include <sys/types.h>
-#include "../Ordenador/Ordenador.h"
-#include "../Fusionador/Fusionador.h"
+#include "../Ordenador/OrdenadorTP1.h"
+#include "../Fusionador/FusionadorTP1.h"
 
 using namespace std;
 

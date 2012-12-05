@@ -117,9 +117,9 @@ void Aleatorizador::sortExterno(ifstream *archivoAordenar ,int cantRegistros) {
 
 	mkdir(DIRECTORIO_PARTICIONES, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-	Ordenador unOrdenador(BUFFER_LEC_ESC_SORT);
+	OrdenadorTP1 unOrdenadorTP1(BUFFER_LEC_ESC_SORT);
 
-	particiones = unOrdenador.ordenar(archivoAordenar, cantRegistros);
+	particiones = unOrdenadorTP1.ordenar(archivoAordenar, cantRegistros);
 
 	string* paths = new string[particiones];
 	string raiz = "Particiones/particion";
@@ -130,10 +130,10 @@ void Aleatorizador::sortExterno(ifstream *archivoAordenar ,int cantRegistros) {
 
 	}
 
-	Fusionador unFusionador(paths,REGISTROS_POR_BUFFER,particiones);
+	FusionadorTP1 unFusionadorTP1(paths,REGISTROS_POR_BUFFER,particiones);
 
 	int registros;
-	registros = unFusionador.merge();
+	registros = unFusionadorTP1.merge();
 	metadata.write((char*)&registros,sizeof(int));
 	metadata.flush();
 	metadata.close();
