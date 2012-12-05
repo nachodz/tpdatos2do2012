@@ -113,7 +113,7 @@ public:
 
 	void mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos,float t);
 
-	void quitar_frase (string frase, int nroDoc);
+	void quitar_frase (int nroDoc);
 };
 
 

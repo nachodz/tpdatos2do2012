@@ -577,9 +577,14 @@ void Booleano::baja (string terminoBaja, int nroDocBaja){
     delete arbol;
 }
 
-void Booleano::quitar_frase (string frase, int nroDoc){
+void Booleano::quitar_frase (int nroDoc){
 
-	char *fraseProcesar = strdup (frase.c_str());
+	ifstream arch_frases (PATH_ARCHIVO_FRASES,ios::binary | ios::in);
+	char *fraseProcesar = new char [TAMANIO_REGISTRO_FRASES];
+
+	arch_frases.seekg(nroDoc*TAMANIO_REGISTRO_FRASES, ios::beg);
+	arch_frases.read (fraseProcesar,TAMANIO_REGISTRO_FRASES);
+
 	char *palabra = strtok (fraseProcesar," .,;:¿?_-<>/!	");
 
 	while (palabra != NULL) {
@@ -590,6 +595,8 @@ void Booleano::quitar_frase (string frase, int nroDoc){
 
 		palabra = strtok (NULL," .,;:¿?_-<>/!	");
 	}
+	arch_frases.close();
+	delete []fraseProcesar;
 }
 
 void Booleano::quitar_termino_Arbol (string terminoBaja, int idT, ArbolBMas* arbol){
