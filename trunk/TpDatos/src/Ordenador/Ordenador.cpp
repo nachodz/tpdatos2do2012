@@ -3,69 +3,46 @@
 
 using namespace std;
 
-Ordenador::Ordenador(int tamBufLec_Esc) {
+Ordenador::Ordenador(int tamBufOrd) {
 
-	this->tamBufLec_Esc = tamBufLec_Esc;
-	this->tamBufOrd = tamBufLec_Esc * 10;
+	this->tamBufOrd = tamBufOrd;
 };
 
 Ordenador::~Ordenador(){
 
 };
 
-void Ordenador::intercambio (tReg *buf, int a, int b){
-   tReg aux;
+void Ordenador::intercambio (Ocurrencias *buf, int a, int b){
 
-   aux = buf[a];
-   buf [a] = buf [b];
-   buf [b] = aux;
+	Ocurrencias aux;
+
+    aux = buf[a];
+    buf [a] = buf [b];
+    buf [b] = aux;
 };
 
-void Ordenador::cargaInicial (ifstream *archIn, tReg *buffer) {
+void Ordenador::cargaInicial (ifstream *archIn, Ocurrencias *buffer) {
 
-	archIn->read((char*)buffer,sizeof (tReg)*tamBufOrd);
+	 archIn->read((char*)buffer,sizeof(Ocurrencias)*tamBufOrd);
 };
 
-void Ordenador::grabarBufferEscritura(ofstream *archIn, tReg *buffer, int regAgrabar){
-
-	if (regAgrabar == this->tamBufLec_Esc){
-
-		archIn->write((char*)buffer, sizeof(tReg) * this->tamBufLec_Esc);
-	}
-	else
-	{
-		archIn->write((char*)buffer, sizeof(tReg) * regAgrabar);
-	}
-};
-
-void Ordenador::cargaBufferLectura(ifstream *archIn, tReg *buffer, int cantRegistros){
-
-	if (cantRegistros >= this->tamBufLec_Esc) {
-
-		archIn->read((char*)buffer, sizeof(tReg) * this->tamBufLec_Esc);
-	}
-	else
-	{
-		archIn->read((char*)buffer, sizeof(tReg) * cantRegistros);
-	}
-};
-
-void Ordenador::achicarMonticulo (tReg *bufferSort,int tamHeap,ofstream *salida){
+void Ordenador::achicarMonticulo (Ocurrencias *bufferSort,int tamHeap,ofstream *salida){
 
 	 while (tamHeap > 1){
 
-	          salida->write((char*)&(bufferSort[0]),sizeof(tReg));
-	          bufferSort[0] = bufferSort[tamHeap-1];
-	          tamHeap = tamHeap - 1;
 
-	          this->myheapsort(bufferSort,tamHeap);
+		 	 salida->write((char*)&(bufferSort[0]),sizeof(Ocurrencias));
+	         bufferSort[0] = bufferSort[tamHeap-1];
+	         tamHeap = tamHeap - 1;
+
+	         this->myheapsort(bufferSort,tamHeap);
      }
 
-	 salida->write((char*)&(bufferSort[0]),sizeof(tReg));
+	 salida->write((char*)&(bufferSort[0]),sizeof(Ocurrencias));
 	 salida->close();
 };
 
-void Ordenador::myheapsort (tReg *buffer,int tamHeap){
+void Ordenador::myheapsort (Ocurrencias *buffer,int tamHeap){
 
   for (int i = 1; i <= tamHeap; i++ ) {
 
@@ -73,9 +50,9 @@ void Ordenador::myheapsort (tReg *buffer,int tamHeap){
       int hijo = i;      //         hijo = 1
 
 
-      while ((padre > 0) && (buffer[padre-1].id > buffer[hijo-1].id )) {
+      while ((padre > 0) && ((mayor(buffer[padre-1],buffer[hijo-1])) == 1)) {
 
-    	  this->intercambio (buffer,padre-1,hijo-1);
+    	  this->intercambio(buffer,padre-1,hijo-1);
 
     	  hijo = padre;          //hijo = 1
     	  padre = (padre/2);    // padre = 0
@@ -90,13 +67,13 @@ string Ordenador::IntToStr(int n) {
 	return result.str();
 }
 
-void Ordenador::copiarReg (tReg* regDestino,tReg* regOrigen){
+void Ordenador::copiarReg (Ocurrencias* regDestino,Ocurrencias* regOrigen){
 
-	regDestino->id = regOrigen->id;
-	strcpy (regDestino->termino,regOrigen->termino);
+	regDestino->idTermino = regOrigen->idTermino;
+	regDestino->idFrase = regOrigen->idFrase;
 };
 
-void Ordenador::correrBuffer (tReg* bufNuevo, tReg* bufViejo, int cantaPasar){
+void Ordenador::correrBuffer (Ocurrencias* bufNuevo, Ocurrencias* bufViejo, int cantaPasar){
 
 
 	for (int i = 0,j = (tamBufOrd-cantaPasar); i < cantaPasar; i++,j++)
@@ -105,179 +82,121 @@ void Ordenador::correrBuffer (tReg* bufNuevo, tReg* bufViejo, int cantaPasar){
 	}
 };
 
-int Ordenador::ordenar (ifstream *arch, int cantRegistrosArchivo) {
 
-	ofstream informes (PATH_INFORMES,ios::app);
+int Ordenador::ordenar (ifstream *arch){
 
-	int tamHeap = this->tamBufOrd;
-	int ultimoID,tamUltHeap;
-	int nroPart = 0;
-	int lec = 0, esc = 0;
+    int tamHeap = tamBufOrd;
+    Ocurrencias ocurrencia, ultimoID;
+    int tamUltHeap;
+    int nroPart = 0;
 
     string filename = PATH_PARTICION + IntToStr(nroPart);
- 	ofstream *partNro = new ofstream [CANT_PARTICIONES];
+    ofstream *partNro = new ofstream [CANT_PARTICIONES];
 
- 	if (!partNro) cout << "No hay espacio en memoria" << endl;
- 	else
- 	{
- 		partNro[nroPart].open(filename.c_str(),ios::out | ios::binary);
+    if
+    	(!partNro) cout << "No hay espacio en memoria" << endl;
 
- 		if (!(*arch))  cout << "No se pudo abrir el archivo" << endl;
- 		else
- 		{
- 			tReg *bufferSort = new tReg [this->tamBufOrd];
- 			tReg *bufferLectura = new tReg [this->tamBufLec_Esc];
- 			tReg *bufferEscritura = new tReg [this->tamBufLec_Esc];
+    else  {
 
- 			if ((!bufferSort ) || (!bufferLectura) || (!bufferEscritura)) cout << "No hay espacio en memoria" << endl;
- 			else
- 			{
- 				this->cargaInicial(arch,bufferSort);
- 				cantRegistrosArchivo = cantRegistrosArchivo - (BUFFER_LEC_ESC_SORT * 10);
- 				this->myheapsort(bufferSort,tamHeap);
+    partNro[nroPart].open(filename.c_str(),ios::out | ios::binary);
 
- 				this->cargaBufferLectura(arch,bufferLectura,BUFFER_LEC_ESC_SORT);
- 				cantRegistrosArchivo = cantRegistrosArchivo - BUFFER_LEC_ESC_SORT;
+    if (!(*arch))  cout << "No se pudo abrir el archivo" << endl;
 
- 				while (cantRegistrosArchivo > 0 || lec != 0){
+    else {
 
- 					ultimoID = bufferSort[0].id;
+    	Ocurrencias *bufferSort = new Ocurrencias [tamBufOrd];
 
- 					this->copiarReg(&(bufferEscritura[esc]),&(bufferSort[0]));
- 					esc++;
+    if (!bufferSort ) cout << "No hay espacio en memoria" << endl;
+
+    else {
+
+       this->cargaInicial(arch,bufferSort);
+       this->myheapsort(bufferSort,tamHeap);
+
+       arch->read((char*)&ocurrencia,sizeof(Ocurrencias));
+
+       while (!arch->eof()) {
+
+          ultimoID = bufferSort[0];
+
+          partNro[nroPart].write((char*)&(bufferSort[0]),sizeof(Ocurrencias));
+
+          if (this->mayor(ocurrencia,ultimoID) == 1)
+        	  bufferSort[0] = ocurrencia;
+
+          else {
+             bufferSort[0] = bufferSort[tamHeap-1];
+             this->copiarReg(&(bufferSort[tamHeap-1]),&ocurrencia);
+             tamHeap = tamHeap - 1;
+          }
+
+          if (tamHeap == 1) {
+            partNro[nroPart].write((char*)&(bufferSort[0]),sizeof(Ocurrencias));
+            partNro[nroPart].close();
+            nroPart++;
+
+            arch->read((char*)&ocurrencia,sizeof(Ocurrencias));
+            bufferSort[0] = ocurrencia;
+
+            tamHeap = tamBufOrd;
+
+            string filename = PATH_PARTICION + IntToStr(nroPart);
+            partNro[nroPart].open(filename.c_str(),ios::out | ios::binary);
+            this->myheapsort(bufferSort,tamHeap);
+          }
+          else
+              this->myheapsort(bufferSort,tamHeap);
+
+          arch->read((char*)&ocurrencia,sizeof(Ocurrencias));
+       }
+
+       arch->close();
+
+    if (tamHeap < tamBufOrd )
+        tamUltHeap = (tamBufOrd - tamHeap);
+    else
+        tamUltHeap = tamBufOrd;
 
 
- 					if (esc == BUFFER_LEC_ESC_SORT) {
-						this->grabarBufferEscritura(&(partNro[nroPart]),bufferEscritura,esc);
-						esc = 0;
- 					}
 
- 					if (bufferLectura[lec].id > ultimoID) {
+    this->achicarMonticulo(bufferSort,tamHeap,&(partNro[nroPart]));
 
- 						this->copiarReg(&(bufferSort[0]),&(bufferLectura[lec]));
- 						lec++;
+    nroPart++;
+    string filename = PATH_PARTICION + IntToStr(nroPart);
+    partNro[nroPart].open(filename.c_str(),ios::out | ios::binary);
 
- 						if (lec == BUFFER_LEC_ESC_SORT) {
- 							if (cantRegistrosArchivo < BUFFER_LEC_ESC_SORT){
- 								this->cargaBufferLectura(arch,bufferLectura,cantRegistrosArchivo);
- 								cantRegistrosArchivo = 0;
- 							}
- 							else
- 							{
- 								this->cargaBufferLectura(arch,bufferLectura,BUFFER_LEC_ESC_SORT);
- 								cantRegistrosArchivo = cantRegistrosArchivo - BUFFER_LEC_ESC_SORT;
- 							}
- 							lec = 0;
- 						}
- 					}
- 					else
- 					{
- 						bufferSort[0] = bufferSort[tamHeap-1];
- 						this->copiarReg(&(bufferSort[tamHeap-1]),&(bufferLectura[lec]));
- 						lec++;
+    Ocurrencias *bufferUltHeap = new Ocurrencias [tamUltHeap];
 
- 						if (lec == BUFFER_LEC_ESC_SORT) {
- 							if (cantRegistrosArchivo < BUFFER_LEC_ESC_SORT){
- 								this->cargaBufferLectura(arch,bufferLectura,cantRegistrosArchivo);
- 								cantRegistrosArchivo = 0;
- 							}
- 							else
- 							{
- 								this->cargaBufferLectura(arch,bufferLectura,BUFFER_LEC_ESC_SORT);
- 								cantRegistrosArchivo = cantRegistrosArchivo - BUFFER_LEC_ESC_SORT;
- 							}
- 							lec = 0;
- 						}
+    this->correrBuffer(bufferUltHeap,bufferSort,tamUltHeap);
+    this->myheapsort(bufferUltHeap,tamHeap);
+    this->achicarMonticulo(bufferUltHeap,tamUltHeap,&(partNro[nroPart]));
 
- 						tamHeap = tamHeap - 1;
- 					}
+    delete []bufferSort;
+    delete []bufferUltHeap;
+    delete []partNro;
 
- 					if (tamHeap == 1) {
-
- 						this->copiarReg(&(bufferEscritura[esc]),&(bufferSort[0]));
- 						esc++;
-
- 						this->grabarBufferEscritura(&(partNro[nroPart]),bufferEscritura,esc);
- 						esc = 0;
-
- 						partNro[nroPart].close();
- 						nroPart++;
-
- 						this->copiarReg(&(bufferSort[0]),&(bufferLectura[lec]));
- 						lec++;
-
- 						if (lec == BUFFER_LEC_ESC_SORT) {
- 							if (cantRegistrosArchivo < BUFFER_LEC_ESC_SORT){
- 								this->cargaBufferLectura(arch,bufferLectura,cantRegistrosArchivo);
- 								cantRegistrosArchivo = 0;
- 							}
- 							else
- 							{
- 								this->cargaBufferLectura(arch,bufferLectura,BUFFER_LEC_ESC_SORT);
- 								cantRegistrosArchivo = cantRegistrosArchivo - BUFFER_LEC_ESC_SORT;
- 							}
- 							lec = 0;
- 						}
-
- 						tamHeap = this->tamBufOrd;
- 						string filename = PATH_PARTICION + IntToStr(nroPart);
- 						partNro[nroPart].open(filename.c_str(),ios::out | ios::binary);
- 						this->myheapsort(bufferSort,tamHeap);
- 					}
- 					else
- 					{
- 						this->myheapsort(bufferSort,tamHeap);
-
- 						if (lec == BUFFER_LEC_ESC_SORT) {
- 							if (cantRegistrosArchivo < BUFFER_LEC_ESC_SORT){
- 								this->cargaBufferLectura(arch,bufferLectura,cantRegistrosArchivo);
- 								cantRegistrosArchivo = 0;
- 							}
- 							else
- 							{
- 								this->cargaBufferLectura(arch,bufferLectura,BUFFER_LEC_ESC_SORT);
- 								cantRegistrosArchivo = cantRegistrosArchivo - BUFFER_LEC_ESC_SORT;
- 							}
- 							lec = 0;
- 						}
- 					 }
- 				   }
- 				}
-
- 				arch->close();
-
- 				if (tamHeap < this->tamBufOrd)
- 				    tamUltHeap = ((this->tamBufOrd) - tamHeap);
- 				else
- 				    tamUltHeap = this->tamBufOrd;
-
- 				this->grabarBufferEscritura(&(partNro[nroPart]),bufferEscritura,esc);
- 				esc = 0;
-
- 				this->achicarMonticulo(bufferSort,tamHeap,&(partNro[nroPart]));
-
- 				nroPart++;
- 				string filename = PATH_PARTICION + IntToStr(nroPart);
- 				partNro[nroPart].open(filename.c_str(),ios::out | ios::binary);
-
- 				tReg *bufferUltHeap = new tReg [tamUltHeap];
-
- 				this->correrBuffer(bufferUltHeap,bufferSort,tamUltHeap);
- 				this->myheapsort(bufferUltHeap,tamUltHeap);
- 				this->achicarMonticulo(bufferUltHeap,tamUltHeap,&(partNro[nroPart]));
-
-                informes << "Cantidad de particiones generadas:  " << nroPart+1 << endl;
-
- 				delete []bufferSort;
- 				delete []bufferUltHeap;
- 				delete []partNro;
- 				delete []bufferLectura;
- 				delete []bufferEscritura;
- 				informes.close();
- 			}
- 		}
- 	return nroPart + 1;
+    }
+  }
  }
+  return nroPart;
+};
+
+int Ordenador::mayor(Ocurrencias ocurrencia1, Ocurrencias ocurrencia2) {
+
+	if (ocurrencia1.idTermino > ocurrencia2.idTermino)
+		return 1;
+	else
+		if (ocurrencia1.idTermino < ocurrencia2.idTermino)
+			return 2;
+		else
+			if (ocurrencia1.idFrase >= ocurrencia2.idFrase)
+				return 1;
+			else
+				return 2;
+}
+
+void Ordenador::ordenamientoEnRam(ifstream* archivo) {
 
 
+}
 
