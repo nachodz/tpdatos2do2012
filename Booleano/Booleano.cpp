@@ -815,13 +815,13 @@ bool Booleano::buscarEnListaDocs (list <int> listaDoc, int nroDc){
    return encontrado;
 }
 
-// EN PROCESO....
 void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 
 	Normalizador normalizar;
 	list <int> listaDocsAux, listDocsTotal,listaDocsMerge;
 	list <int>::iterator it;
-	int numBloque, inicio, fin, docAux, cont;
+	int numBloque, docAux, cont;
+	float inicio, fin;
 
 	inicio = clock();
 
@@ -835,6 +835,12 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 			listDocsTotal.merge(listaDocsAux);
 		}
 	 }
+
+	if (cantTerm == 1 ) {
+		fin = clock();
+	    float tEjec = fin - inicio;
+	    this->mostrarEnTxt (listDocsTotal,cantTerm,listaTerminos,tEjec);
+	}else{
 	// LISTA CON TODOS LOS DOCS
 	if (!listDocsTotal.empty()){
 
@@ -853,14 +859,16 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 
    }else
     	cout << "No se encontraron estos terminos indexados, no se genero el archivoTxt" << endl;
-
 // LISTA FINAL CON LOS DOCS ENCONTRADOS EN TODAS LAS LISTAS
       if (!listaDocsMerge.empty()){
     	  fin = clock();
           float tEjec = fin - inicio;
     	  this->mostrarEnTxt (listaDocsMerge,cantTerm,listaTerminos,tEjec);
+    	  cout << "Se genero el archivo con exito" << endl;
       }else
     	  cout << "No se encontraron Registros con esos terminos, no se genero archivoTxt" << endl;
+	}
+
 }
 
 void Booleano::mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos, float t){
