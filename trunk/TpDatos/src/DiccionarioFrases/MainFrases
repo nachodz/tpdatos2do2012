@@ -1,0 +1,93 @@
+int main() {
+
+	bool ejecutando = true;
+
+	while(ejecutando){
+
+		int op;
+
+		cout << " " << endl;
+		cout << "MENU PRINCIPAL" << endl;
+		cout << " " << endl;
+		cout << "1)Crear y cargar archivo"  << endl;
+		cout << "2)Eliminar frase" << endl;
+		cout << "3)Agregar frase" << endl;
+		cout << "4)Exportar frases a un archivo de texto" << endl;
+		cout << "5)Salir" << endl;
+		cout << " " << endl;
+
+		cin >> op;
+		cin.ignore();
+
+		while ((op < 1) || (op > 5)){
+			cout << "La opcion ingresada es incorrecta, ingrese una opcion correcta" << endl;
+			cout << " " << endl;
+			cin >> op;
+			cin.ignore();
+		}
+
+		switch(op){
+			case 1: {
+				int archivoCreado = crearArchivoFrases();
+				if (archivoCreado == 0)
+					cout << "Archivo de frases creado correctamente" << endl;
+
+				else
+					cout << "Error al crear el archivo de frases" << endl;
+
+				int frases;
+				cout << " " << endl;
+				cout << "Ingrese el numero de frases celebres a importar desde el archivo 'Frases_Celebres.csv'" << endl;
+				cout << " " << endl;
+				cin >> frases;
+				cin.ignore();
+
+				while(frases >= ((TAMANIO_REGISTRO_FRASES-1)*8)) {
+					cout << "El numero de frase exede la capacidad total del archivo" << endl;
+					cout << " " << endl;
+					cin >> frases;
+					cin.ignore();
+				}
+
+				cargaInicial(frases);
+				cout << "Carga terminada" << endl;
+				cout << " " << endl;
+				;break;
+			}
+			case 2: {
+				int registro;
+				cout << "Ingrese el numero de registro de la frase a eliminar (Guiarse por el archivo de texto)" << endl;
+				cout << " " << endl;
+				cin >> registro;
+				cin.ignore();
+
+				while(registro >= ((TAMANIO_REGISTRO_FRASES-1)*8)) {
+					cout << "El numero de frase exede la capacidad total del archivo" << endl;
+					cout << " " << endl;
+					cin >> registro;
+					cin.ignore();
+				}
+				baja(registro);
+				;break;
+			}
+			case 3: {
+				string frase;
+				cout << "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo" << endl;
+				cout << " " << endl;
+				getline(cin,frase);
+				alta(frase);
+				;break;
+			}
+			case 4: {
+				listarEnTexto();
+				cout << "Importacion de frases completa" << endl;
+				cout << " " << endl;
+				;break;
+			}
+			case 5: ejecutando = false;break;
+			default: ;break;
+		}
+	}
+	return 0;
+}
+		
