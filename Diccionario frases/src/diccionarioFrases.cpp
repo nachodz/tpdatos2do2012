@@ -270,6 +270,7 @@ int main() {
 				cout << " " << endl;
 				getline(cin,frase);
 				alta(frase);
+
 				;break;
 			}
 			case 4: {
