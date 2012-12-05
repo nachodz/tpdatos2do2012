@@ -22,7 +22,19 @@
 
 
 //******************** Menu ***************************
+
 #define MP "MENU PRINCIPAL"
+#define MPTP1 "1) Menu TP1"
+#define MPTP2 "2) Menu TP2"
+
+#define MPTP1_TIT "MENU TP1"
+#define MPTP2_TIT "MENU TP2"
+
+#define DICC_FRASES "1) Operaciones sobre diccionario de frases"
+#define IDX_BOOLEANO "2) Operaciones sobre Índice Booleano"
+#define IDX_PORC_FIRMAS "3) Operaciones sobre Índice de Porciones de Firmas"
+#define IDX_COMP_ESTAD "4) Operaciones sobre el Componente de Estadísticas"
+
 #define MP_OP1 "1) Operaciones sobre Diccionario"
 #define MP_OP2 "2) Organizacion de Archivo"
 #define MP_OP3 "3) Componente de Estadísticas"
@@ -57,6 +69,23 @@
 #define MCE_OP3 "3) Tasa de fallos de términos"
 #define MCE_OP4 "4) Lista de terminos no encontrados"
 #define MCE_OP5 "5) Ranking de los N terminos mas populares"
+
+#define IDX_BOOLEANO_TIT "MENU INDICE BOOLEANO"
+#define IDX_BOOLEANO_CREACION "Se ha creado el índice booleano."
+#define IDX_BOOLEANO_ALTA_FRASE "1) Realizar un alta de una frase"
+#define IDX_BOOLEANO_BAJA_FRASE "2) Realizar una baja de una frase"
+#define IDX_BOOLEANO_MODIFICACION_FRASE "3) Realizar una modificación de una frase"
+#define IDX_BOOLEANO_BUSQUEDA_FRASE "4) Realizar la búsqueda de una frase"
+
+#define IDX_BOOLEANO_ALTA "ALTA DE UNA FRASE"
+#define IDX_BOOLEANO_ALTA_OK "El alta de la frase se ha realizado correctamente"
+#define IDX_BOOLEANO_ALTA_OPCION "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo"
+#define IDX_BOOLEANO_BAJA "BAJA DE UNA FRASE"
+#define IDX_BOOLEANO_BAJA_OK "El baja de la frase se ha realizado correctamente"
+#define IDX_BOOLEANO_BAJA_OPCION "Ingrese el numero de registro de la frase a eliminar (Guiarse por el archivo de texto)"
+#define IDX_BOOLEANO_BAJA_ERROR "El numero de frase exede la capacidad total del archivo"
+#define IDX_BOOLEANO_BUSQUEDA "BUSQUEDA DE LISTA DE TERMINOS"
+#define IDX_BOOLEANO_BUSQUEDA_OPCION "Ingrese la cantidad (mayor a 0): "
 
 #define ERR_RANGO "ERROR: Ingrese un numero válido"
 #define INF_ERR_RANGO " Usted ingreso: "
@@ -123,6 +152,31 @@
 #define ESTADISTICO_RANKING "Ranking de términos más populares"
 #define ESTADISTICO_TERMINOSPROMPORFRASE "Cantidad de términos promedio por frase: "
 
+/*******************DICCIONARIO DE FRASES**************/
+#define TAMANIO_REGISTRO_FRASES 256
+
+/****************IDX PORCIONES DE FIRMAS*******************/
+#define TOPE_CARGA 500
+#define TAMANIO_REGISTRO_FRASE 256
+#define BYTE 8
+#define TOPE_TERMINOS_RELEVANTES 30
+#define NUM_STOPWORDS 550
+#define TAM_PORCION 256
+
+/***************IDX BOOLEANO*******************************/
+#define TAMANIO_BLOQUE_LISTAS_INV 128
+#define TAMANIO_REGISTRO_FRASES 256
+#define CANT_STOPW 500
+#define UMBRAL 26
+#define PATH_ARCHIVO_TERMINOS_BOOLEANO "archivo_T.dat"
+#define PATH_ARCHIVO_FRASES "Frases celebres.dat"
+#define PATH_ARCHIVO_OCURRENCIAS "archivo_Ocurrencias.dat" //TODO: ver si lo usan los dos idx
+#define PATH_ARCHIVO_OCURRENCIAS_ORD "Particiones/particion0"
+#define PATH_ARCHIVO_INVERTIDAS "ls_invertidas.dat"
+#define PATH_ARCHIVO_BUSQUEDA "resultadoBusqueda.txt"
+
+/******************MAPA DE BITS***************************/
+#define TAMANIO_BINARIO 16
 
 /***********************Comunes************************/
 #define ERROR -1

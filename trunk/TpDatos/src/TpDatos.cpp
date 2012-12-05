@@ -10,6 +10,8 @@
 #include "Hash/Hash.h"
 #include "Hash/Autor.h"
 #include "ArbolBMas/ArbolBMas.h"
+#include "Booleano/Booleano.h"
+#include "DiccionarioFrases/DiccionarioFrases.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -381,15 +383,14 @@ void menuComponenteEstadisticas(){
 	}
 }
 
-int main() {
+void menuTp1(){
 
 	int op;
 	bool ejecutando = true;
 
 	while(ejecutando){
-
 		cout << " " << endl;
-		cout << MP << endl;
+		cout << MPTP1_TIT << endl;
 		cout << INGRESO << endl;
 		cout << MP_OP1 << endl;
 		cout << MP_OP2 << endl;
@@ -409,6 +410,181 @@ int main() {
 			case 2: menuOrganizacionArchivo();break;
 			case 3: menuComponenteEstadisticas();break;
 			case 4: ejecutando = false;break;
+			default: /*no hago nada*/;break;
+		}
+	}
+
+}
+
+void menuIdxBooleano(){
+	int op;
+	bool ejecutando = true;
+
+	Booleano indice;
+	DiccionarioFrases dicc;
+	indice.armarIndice();
+
+	cout << IDX_BOOLEANO_CREACION << endl;
+
+	while(ejecutando){
+		cout << " " << endl;
+		cout << IDX_BOOLEANO_TIT << endl;
+		cout << INGRESO << endl;
+		cout << IDX_BOOLEANO_ALTA_FRASE << endl;
+		cout << IDX_BOOLEANO_BAJA_FRASE << endl;
+		cout << IDX_BOOLEANO_MODIFICACION_FRASE << endl;
+		cout << IDX_BOOLEANO_BUSQUEDA_FRASE << endl;
+		cout << "5) " << SALIR << endl;
+
+		cin >> op;
+
+		while(op<1 || op>5){
+			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
+			cout << INGRESO << endl;
+			cin>> op;
+		}
+
+		switch(op){
+			case 1: {
+				cout << IDX_BOOLEANO_ALTA << endl;
+
+				string frase;
+
+				cout << IDX_BOOLEANO_ALTA_OPCION << endl;
+				//TODO: no  anda, no lee nada.
+				getline(cin,frase,'\n');
+				//cin >> frase;
+
+				DiccionarioFrases dicc;
+				int nroDocumento = dicc.alta(frase);
+				indice.agregar_frase(frase,nroDocumento);
+
+				cout << IDX_BOOLEANO_ALTA_OK << endl;
+				break;
+			}
+			case 2: {
+				cout << IDX_BOOLEANO_BAJA << endl;
+
+				int registro;
+				DiccionarioFrases dicc;
+
+				cout << IDX_BOOLEANO_BAJA_OPCION<< endl;
+				cout << " " << endl;
+				cin >> registro;
+				cin.ignore();
+
+				while(registro >= ((TAMANIO_REGISTRO_FRASES-1)*8)) {
+					cout << IDX_BOOLEANO_BAJA_ERROR << endl;
+					cout << " " << endl;
+					cin >> registro;
+					cin.ignore();
+				}
+
+				indice.quitar_frase(registro);
+				dicc.baja(registro);
+
+				cout << IDX_BOOLEANO_BAJA_OK << endl;
+				break;
+			}
+			case 3:{
+				cout << "TODO: lo de damian!!!" << endl;
+				break;
+			}
+			case 4: {
+				int cantTerm;
+
+				cout << IDX_BOOLEANO_BUSQUEDA << endl;
+
+				cout << IDX_BOOLEANO_BUSQUEDA_OPCION << endl;
+				cin >> cantTerm;
+				string *terminos = new string [cantTerm];
+
+				for (int i = 0; i < cantTerm; i++){
+				  cout << "Ingrese el termino " <<  (i + 1) << " : " << endl;
+				  cin >> terminos[i];
+				}
+
+				indice.buscarListaTerminos(terminos,cantTerm);
+
+				break;
+			}
+			case 5: ejecutando = false;break;
+			default: /*no hago nada*/;break;
+		}
+	}
+	indice.~Booleano();
+
+}
+
+void menuTp2(){
+
+	int op;
+	bool ejecutando = true;
+
+	DiccionarioFrases dicc;
+	dicc.crearArchivoFrases();
+	dicc.cargaInicial(CANTIDAD_DE_FRASES_A_CARGAR);
+
+	while(ejecutando){
+		cout << " " << endl;
+		cout << MPTP2_TIT << endl;
+		cout << INGRESO << endl;
+		cout << DICC_FRASES << endl;
+		cout << IDX_BOOLEANO << endl;
+		cout << IDX_PORC_FIRMAS << endl;
+		cout << IDX_COMP_ESTAD << endl;
+		cout << "5) " << SALIR << endl;
+
+		cin >> op;
+
+		while(op<1 || op>5){
+			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
+			cout << INGRESO << endl;
+			cin>> op;
+		}
+
+		switch(op){
+			case 1: //TODO: menuDiccFrases();
+				break;
+			case 2: menuIdxBooleano();break;
+			case 3: //TODO: menuIdxPorcionesFirmas();
+				break;
+			case 4: //TODO: menuIdxComponenteEstadisticas();
+				break;
+			case 5: ejecutando = false;break;
+			default: /*no hago nada*/;break;
+		}
+	}
+
+}
+
+
+int main() {
+
+	int op;
+	bool ejecutando = true;
+
+	while(ejecutando){
+
+		cout << " "<< endl;
+		cout << MP << endl;
+		cout << INGRESO << endl;
+		cout << MPTP1 << endl;
+		cout << MPTP2 << endl;
+		cout << "3) " << SALIR << endl;
+
+		cin >> op;
+
+		while(op<1 || op>4){
+			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
+			cout << INGRESO << endl;
+			cin>> op;
+		}
+
+		switch(op){
+			case 1: menuTp1();break;
+			case 2: menuTp2();break;
+			case 3: ejecutando = false;break;
 			default: /*no hago nada*/;break;
 		}
 
