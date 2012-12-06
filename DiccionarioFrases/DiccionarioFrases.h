@@ -30,6 +30,7 @@ public:
 	int crearArchivoFrases();
 	void baja (int numeroRegistro);
 	void alta(string frase);
+	void modificacion(int numeroRegistro, string nuevaFrase);
 	void cargaInicial(int numeroDeFrases);
 	void listarEnTexto();
 
