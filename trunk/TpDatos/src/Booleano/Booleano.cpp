@@ -847,6 +847,7 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 		fin = clock();
 	    float tEjec = fin - inicio;
 	    this->mostrarEnTxt (listDocsTotal,cantTerm,listaTerminos,tEjec);
+	    cout << "Se genero el archivo con exito" << endl;
 	}else{
 	// LISTA CON TODOS LOS DOCS
 	if (!listDocsTotal.empty()){
