@@ -454,7 +454,6 @@ void menuIdxBooleano(){
 				string frase;
 
 				cout << IDX_BOOLEANO_ALTA_OPCION << endl;
-				//TODO: no  anda, no lee nada.
 
 				cin.ignore();
 				getline(cin,frase);
@@ -496,9 +495,15 @@ void menuIdxBooleano(){
 			case 3:{
 				int nroReg;
                 string frase;
-				cout << "Ingrese Nro de Registro a modificar: " << endl;
-				cin >> nroReg;
-				cout << "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo: "<< endl;
+
+                cout << IDX_BOOLEANO_MODIFICACION << endl;
+
+				cout << IDX_BOOLEANO_MODIFICACION_OPCION1 << endl;
+
+                cin >> nroReg;
+
+                cout << IDX_BOOLEANO_MODIFICACION_OPCION2 << endl;
+
 				cin.ignore();
 				getline (cin,frase);
 				dicc.modificacion(nroReg,frase,&indice);
