@@ -85,7 +85,9 @@
 #define IDX_BOOLEANO_BAJA_ERROR "El numero de frase exede la capacidad total del archivo"
 #define IDX_BOOLEANO_BUSQUEDA "BUSQUEDA DE LISTA DE TERMINOS"
 #define IDX_BOOLEANO_BUSQUEDA_OPCION "Ingrese la cantidad (mayor a 0): "
-
+#define IDX_BOOLEANO_MODIFICACION "MODIFICACION DE UNA FRASE"
+#define IDX_BOOLEANO_MODIFICACION_OPCION1 "Ingrese Nro de Registro a modificar: "
+#define IDX_BOOLEANO_MODIFICACION_OPCION2 "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo: "
 
 #define IDX_FIRMAS_TIT "MENU INDICE DE PORCIONES DE FIRMAS"
 #define IDX_FIRMAS_CREACION "Se ha creado el índice de porciones de firmas"
@@ -129,7 +131,6 @@
 #define DICC_FRASES_BAJA_OK "La baja de la frase se ha realizado correctamente"
 #define DICC_FRASES_MOSTRAR_TIT "EXPORTAR EL DICCIONARIO DE FRASES A UN .TXT"
 #define DICC_FRASES_MOSTRAR_OK "Se ha exportado el diccionario correctamente a un .txt"
-
 
 
 #define ERR_RANGO "ERROR: Ingrese un numero válido"
