@@ -143,13 +143,14 @@ std::list<int> CodigoGamma::decodificarLista(std::string conversion){
 	}
 
 	cantDocs = interpretarConversion(s);
+	int aux = cantDocs;
 	listaDocs.push_front(cantDocs);
 	s = "";
 
 	// conversion de los nroDocs
 	posInicio = (numeroUnario*2);
 
-	while((unsigned int)posInicio < conversion.length()){
+	while((unsigned int)posInicio < conversion.length() && (aux > 0)){
 
 		for(int i = posInicio; (unsigned int)i < conversion.length(); i++){
 			s += conversion[i];
@@ -170,6 +171,7 @@ std::list<int> CodigoGamma::decodificarLista(std::string conversion){
 		listaDocs.push_back(nroDoc);
 		posInicio += (numeroUnario*2);                                                 /*(floor((int)log2(nroDoc)) * 2) + 1*/
 		s = "";
+		aux--;
 
 	}
 
