@@ -196,7 +196,7 @@ void DiccionarioFrases::listarEnTexto() {
 		cout << "El programa no hallo memoria disponible o existe algun error con los archivos" << endl;
 }
 
-list <string> ordenarTerminosEnLista(string frase){
+list<string> ordenarTerminosEnLista(string frase){
 
 	Normalizador normalizador;
 	char* palabra = NULL;
