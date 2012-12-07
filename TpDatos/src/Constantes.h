@@ -71,12 +71,11 @@
 #define MCE_OP5 "5) Ranking de los N terminos mas populares"
 
 #define IDX_BOOLEANO_TIT "MENU INDICE BOOLEANO"
-#define IDX_BOOLEANO_CREACION "Se ha creado el índice booleano."
+#define IDX_BOOLEANO_CREACION "Se ha creado el índice booleano"
 #define IDX_BOOLEANO_ALTA_FRASE "1) Realizar un alta de una frase"
 #define IDX_BOOLEANO_BAJA_FRASE "2) Realizar una baja de una frase"
 #define IDX_BOOLEANO_MODIFICACION_FRASE "3) Realizar una modificación de una frase"
-#define IDX_BOOLEANO_BUSQUEDA_FRASE "4) Realizar la búsqueda de una frase"
-
+#define IDX_BOOLEANO_BUSQUEDA_FRASE "4) Realizar la búsqueda de una lista de términos"
 #define IDX_BOOLEANO_ALTA "ALTA DE UNA FRASE"
 #define IDX_BOOLEANO_ALTA_OK "El alta de la frase se ha realizado correctamente"
 #define IDX_BOOLEANO_ALTA_OPCION "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo"
@@ -86,6 +85,52 @@
 #define IDX_BOOLEANO_BAJA_ERROR "El numero de frase exede la capacidad total del archivo"
 #define IDX_BOOLEANO_BUSQUEDA "BUSQUEDA DE LISTA DE TERMINOS"
 #define IDX_BOOLEANO_BUSQUEDA_OPCION "Ingrese la cantidad (mayor a 0): "
+
+
+#define IDX_FIRMAS_TIT "MENU INDICE DE PORCIONES DE FIRMAS"
+#define IDX_FIRMAS_CREACION "Se ha creado el índice de porciones de firmas"
+#define IDX_FIRMAS_CARGA_INICIAL "1) Realizar la carga inicial"
+#define IDX_FIRMAS_ALTA_FRASE "2) Realizar el alta de una frase"
+#define IDX_FIRMAS_BAJA_FRASE "3) Realizar la baja de una frase"
+#define IDX_FIRMAS_BUSQUEDA_PALABRAS_FRASE "4) Buscar términos en frases"
+#define IDX_FIRMAS_MOSTRAR_FRASES "5) Mostrar frases en archivo de texto"
+#define IDX_FIRMAS_MOSTRAR_FIRMA_TERMINO "6) Mostrar firma de un término"
+
+#define IDX_FIRMAS_CARGA_INI "CARGA INICIAL DEL INDICE DE FIRMAS"
+#define IDX_FIRMAS_CARGA_INI_OK "La carga inicial se ha realizado correctamente"
+#define IDX_FIRMAS_ALTA "ALTA DE UNA FRASE"
+#define IDX_FIRMAS_ALTA_OPCION "Insertar la frase a indexar anteponiendo su autor:"
+#define IDX_FIRMAS_ALTA_OK "El alta de la frase se ha realizado correctamente"
+#define IDX_FIRMAS_BAJA "BAJA DE UNA FRASE"
+#define IDX_FIRMAS_BAJA_OPCION1 "Inserte el número de frase que desea dar de baja:"
+#define IDX_FIRMAS_BAJA_OPCION2 "(Número que aparece al final de cada frase en el archivo de texto)"
+#define IDX_FIRMAS_BAJA_OK "La baja de la frase se ha realizado correctamente"
+#define IDX_FIRMAS_BUSQUEDA_PALABRAS "BUSQUEDA DE TERMINOS EN FRASE"
+#define IDX_FIRMAS_BUSQUEDA_PALABRAS_OPCION "Ingrese la lista de términos a buscar separadas por espacio: "
+#define IDX_FIRMAS_BUSQUEDA_PALABRAS_OK "La búsqueda se ha realizado correctamente"
+#define IDX_FIRMAS_MOSTRAR_FRASES_TIT "EXPORTAR FRASES A .TXT"
+#define IDX_FIRMAS_MOSTRAR_FRASES_OK "Las frases se han exportado correctamente"
+#define IDX_FIRMAS_MOSTRAR_FIRMA "MOSTRAR LA FIRMA DE UN TERMINO"
+#define IDX_FIRMAS_MOSTRAR_FIRMA_TERMINOS_OPCION "Ingrese un término: "
+#define IDX_FIRMAS_MOSTRAR_FIRMA_TERMINOS_OK "La firma se ha mostrado correctamente"
+
+#define DICC_FRASES_TIT "DICCIONARIO DE FRASES"
+#define DICC_FRASES_CARGA_INICIAL "1) Realizar carga inicial del diccionario de frases"
+#define DICC_FRASES_ALTA "2) Realizar alta de una frase"
+#define DICC_FRASES_BAJA "3) Realizar baja de una frase"
+#define DICC_FRASES_MOSTRAR "4) Exportar el diccionario a un .txt"
+#define DICC_FRASES_CARGA_INI "CARGA INICIAL DICCIONARIO FRASES"
+#define DICC_FRASES_CARGA_INI_OK "La carga inicial se ha realizado correctamente"
+#define DICC_FRASES_ALTA_TIT "ALTA DE UNA FRASE"
+#define DICC_FRASES_ALTA_OPCION "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo"
+#define DICC_FRASES_ALTA_OK "El alta de la frase se ha realizado correctamente"
+#define DICC_FRASES_BAJA_TIT "BAJA DE UNA FRASE"
+#define DICC_FRASES_BAJA_OPCION "Ingrese el numero de registro de la frase a eliminar (Guiarse por el archivo de texto)"
+#define DICC_FRASES_BAJA_OK "La baja de la frase se ha realizado correctamente"
+#define DICC_FRASES_MOSTRAR_TIT "EXPORTAR EL DICCIONARIO DE FRASES A UN .TXT"
+#define DICC_FRASES_MOSTRAR_OK "Se ha exportado el diccionario correctamente a un .txt"
+
+
 
 #define ERR_RANGO "ERROR: Ingrese un numero válido"
 #define INF_ERR_RANGO " Usted ingreso: "
@@ -108,7 +153,7 @@
 
 /* Avisos Árbol B+ */
 #define ARBOLBMAS_CARGAINICIAL "Se inicia carga inicial del Árbol B+"
-#define ARBOLBMAS_CARGAINICIALOK "La carga incial del Árbol B+ ha finalizado correctamente"
+#define ARBOLBMAS_CARGAINICIALOK "La carga inicial del Árbol B+ ha finalizado correctamente"
 #define ARBOLBMAS_INGRESARTERMINO "Ingrese un término: "
 #define ARBOLBMAS_INFORMETERMINO "El registro encontrado es el siguiente: "
 #define ARBOLBMAS_LISTARENPREORDEN "Se inicia listado en pre orden en un archivo de texto."
@@ -155,7 +200,27 @@
 /*******************DICCIONARIO DE FRASES**************/
 #define TAMANIO_REGISTRO_FRASES 256
 
+/***************IDX BOOLEANO*******************************/
+#define TAMANIO_BLOQUE_LISTAS_INV 128
+#define TAMANIO_REGISTRO_FRASES 256
+#define CANT_STOPW 500
+#define UMBRAL 26
+#define PATH_ARCHIVO_TERMINOS_BOOLEANO "terminos_booleano.dat"
+#define PATH_ARCHIVO_OCURRENCIAS "ocurrencias_booleano.dat"
+#define PATH_ARCHIVO_OCURRENCIAS_ORD "Particiones/particion0"
+#define PATH_ARCHIVO_INVERTIDAS "ls_invertidas.dat"
+#define PATH_ARCHIVO_BUSQUEDA "resultado_busqueda_booleano.txt"
+
 /****************IDX PORCIONES DE FIRMAS*******************/
+#define PATH_LEXICO "lexico.dat"
+#define PATH_FIRMAS "firmas.dat"
+#define PATH_TERMINOS "terminos_porciones_firmas.dat"
+#define PATH_OCURRENCIAS "ocurrencias_porciones_firmas.dat"
+#define PATH_INDICE "config.dat"
+#define PATH_FRASES_EN_TXT "Listado_frases.txt"
+#define PATH_RESULTADO_BUSQUEDA "resutado_busqueda_porciones_firmas.txt"
+#define PATH_OCURRENCIAS_ORDENADO "ocurrenciasOrdenado.dat"
+
 #define TOPE_CARGA 500
 #define TAMANIO_REGISTRO_FRASE 256
 #define BYTE 8
@@ -163,17 +228,8 @@
 #define NUM_STOPWORDS 550
 #define TAM_PORCION 256
 
-/***************IDX BOOLEANO*******************************/
-#define TAMANIO_BLOQUE_LISTAS_INV 128
-#define TAMANIO_REGISTRO_FRASES 256
-#define CANT_STOPW 500
-#define UMBRAL 26
-#define PATH_ARCHIVO_TERMINOS_BOOLEANO "archivo_T.dat"
-#define PATH_ARCHIVO_FRASES "Frases celebres.dat"
-#define PATH_ARCHIVO_OCURRENCIAS "archivo_Ocurrencias.dat" //TODO: ver si lo usan los dos idx
-#define PATH_ARCHIVO_OCURRENCIAS_ORD "Particiones/particion0"
-#define PATH_ARCHIVO_INVERTIDAS "ls_invertidas.dat"
-#define PATH_ARCHIVO_BUSQUEDA "resultadoBusqueda.txt"
+/**********Comun a ambos idx**********************/
+#define PATH_ARCHIVO_FRASES "Frases_celebres.dat"
 
 /******************MAPA DE BITS***************************/
 #define TAMANIO_BINARIO 16

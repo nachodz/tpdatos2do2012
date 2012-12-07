@@ -12,6 +12,7 @@
 #include "ArbolBMas/ArbolBMas.h"
 #include "Booleano/Booleano.h"
 #include "DiccionarioFrases/DiccionarioFrases.h"
+#include "IdxFirmas/indice.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -437,11 +438,13 @@ void menuIdxBooleano(){
 		cout << "5) " << SALIR << endl;
 
 		cin >> op;
+		cin.ignore();
 
 		while(op<1 || op>5){
 			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
 			cout << INGRESO << endl;
 			cin>> op;
+			cin.ignore();
 		}
 
 		switch(op){
@@ -452,7 +455,8 @@ void menuIdxBooleano(){
 
 				cout << IDX_BOOLEANO_ALTA_OPCION << endl;
 				//TODO: no  anda, no lee nada.
-				getline(cin,frase,'\n');
+				getline(cin,frase);
+				//cin.ignore();
 				//cin >> frase;
 
 				DiccionarioFrases dicc;
@@ -512,18 +516,253 @@ void menuIdxBooleano(){
 			default: /*no hago nada*/;break;
 		}
 	}
-	indice.~Booleano();
+	//indice.~Booleano();
 
+}
+
+void menuIdxPorcionesFirmas(){
+
+	int op;
+	bool ejecutando = true;
+
+	DiccionarioFrases dicc;
+	indice *indiceFirmas = new indice(PATH_ARBOL,PATH_TERMINOS,PATH_OCURRENCIAS,PATH_FIRMAS,TAM_PORCION);
+	indiceFirmas->recuperarInformacion();
+
+	cout << IDX_FIRMAS_CREACION << endl;
+
+	while(ejecutando){
+		cout << " " << endl;
+		cout << IDX_FIRMAS_TIT << endl;
+		cout << INGRESO << endl;
+		cout << IDX_FIRMAS_CARGA_INICIAL << endl;
+		cout << IDX_FIRMAS_ALTA_FRASE << endl;
+		cout << IDX_FIRMAS_BAJA_FRASE << endl;
+		cout << IDX_FIRMAS_BUSQUEDA_PALABRAS_FRASE << endl;
+		cout << IDX_FIRMAS_MOSTRAR_FRASES << endl;
+		cout << IDX_FIRMAS_MOSTRAR_FIRMA_TERMINO << endl;
+		cout << "7) " << SALIR << endl;
+
+		cin >> op;
+		cin.ignore();
+
+		while(op<1 || op>7){
+			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
+			cout << INGRESO << endl;
+			cin>> op;
+			cin.ignore();
+		}
+
+		switch(op){
+			case 1: {
+				cout << IDX_FIRMAS_CARGA_INI << endl;
+
+				indiceFirmas->cargaInicialIndice(PATH_ARCHIVO_FRASES);
+				indiceFirmas->guardarInformacion();
+
+				cout << IDX_FIRMAS_CARGA_INI_OK << endl;
+				break;
+			}
+			case 2: {
+				cout << IDX_FIRMAS_ALTA << endl;
+
+				string frase;
+
+				cout << IDX_FIRMAS_ALTA_OPCION << endl;
+
+				getline(cin,frase);
+
+				int registro = dicc.alta(frase);
+				if (registro != -1) {
+					indiceFirmas->agregarTerminosAlIndice(frase,registro);
+					cout << "Alta realizada con exito" << endl;
+				}
+				else
+					cout << "La carga no se pudo realizar" << endl;
+
+				indiceFirmas->guardarInformacion();
+
+				cout << IDX_FIRMAS_ALTA_OK << endl;
+				break;
+			}
+			case 3: {
+				cout << IDX_FIRMAS_BAJA << endl;
+
+				cout << IDX_FIRMAS_BAJA_OPCION1 << endl;
+				cout << IDX_FIRMAS_BAJA_OPCION2 << endl;
+
+				int registro;
+				cin >> registro;
+				cin.ignore();
+				string frase = dicc.baja(registro);
+				if (frase != " ") {
+					indiceFirmas->eliminarTerminosDelIndice(frase,registro);
+					cout << "Baja realizada con exito" << endl;
+				}
+				else
+					cout << "La frase ya esta dada de baja o no se pudo realizar la accion" << endl;
+
+				indiceFirmas->guardarInformacion();
+
+				cout << IDX_FIRMAS_BAJA_OK << endl;
+				break;
+			}
+			case 4:{
+				cout << IDX_FIRMAS_BUSQUEDA_PALABRAS << endl;
+
+				cout << IDX_FIRMAS_BUSQUEDA_PALABRAS_OPCION << endl;
+
+				string palabras;
+				getline(cin,palabras);
+				if (!palabras.length()>0)
+					cout << "No ingrego terminos para buscar" << endl;
+				else
+					indiceFirmas->buscarFrases(palabras);
+
+				indiceFirmas->guardarInformacion();
+
+				cout << IDX_FIRMAS_BUSQUEDA_PALABRAS_OK << endl;
+				break;
+			}
+			case 5: {
+				cout << IDX_FIRMAS_MOSTRAR_FRASES_TIT << endl;
+
+				dicc.listarEnTexto();
+
+				cout << IDX_FIRMAS_MOSTRAR_FRASES_OK << endl;
+
+				break;
+			}
+			case 6: {
+
+				cout << IDX_FIRMAS_MOSTRAR_FIRMA << endl;
+
+				cout << IDX_FIRMAS_MOSTRAR_FIRMA_TERMINOS_OPCION << endl;
+
+				string palabra;
+				cin >> palabra;
+				cin.ignore();
+				indiceFirmas->mostrarFirma(palabra);
+
+				cout << IDX_FIRMAS_MOSTRAR_FIRMA_TERMINOS_OK << endl;
+				;break;
+
+			}
+			case 7: ejecutando = false;break;
+			default: /*no hago nada*/;break;
+		}
+	}
+
+}
+
+void menuDiccFrases(){
+
+	int op;
+	bool ejecutando = true;
+
+	DiccionarioFrases dicc;
+
+	while(ejecutando){
+		cout << " " << endl;
+		cout << DICC_FRASES_TIT << endl;
+		cout << INGRESO << endl;
+		cout << DICC_FRASES_CARGA_INICIAL << endl;
+		cout << DICC_FRASES_ALTA << endl;
+		cout << DICC_FRASES_BAJA << endl;
+		cout << DICC_FRASES_MOSTRAR << endl;
+		cout << "5) " << SALIR << endl;
+
+		cin >> op;
+		cin.ignore();
+
+		while(op<1 || op>5){
+			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
+			cout << INGRESO << endl;
+			cin>> op;
+			cin.ignore();
+		}
+
+		switch(op){
+			case 1: {
+				cout << DICC_FRASES_CARGA_INI << endl;
+
+				int archivoCreado = dicc.crearArchivoFrases();
+				if (archivoCreado == 0)
+					cout << "Archivo de frases creado correctamente" << endl;
+
+				else
+					cout << "Error al crear el archivo de frases" << endl;
+
+				int frases;
+				cout << " " << endl;
+				cout << "Ingrese el numero de frases celebres a importar desde el archivo 'Frases_Celebres.csv'" << endl;
+				cout << " " << endl;
+				cin >> frases;
+				cin.ignore();
+
+				while(frases >= ((TAMANIO_REGISTRO_FRASES-1)*8)) {
+					cout << "El numero de frase exede la capacidad total del archivo" << endl;
+					cout << " " << endl;
+					cin >> frases;
+					cin.ignore();
+				}
+
+				dicc.cargaInicial(frases);
+
+				cout << DICC_FRASES_CARGA_INI_OK << endl;
+				break;
+			}
+			case 2: {
+				cout << DICC_FRASES_ALTA_TIT << endl;
+
+				cout << DICC_FRASES_ALTA_OPCION << endl;
+
+				string frase;
+				getline(cin,frase);
+				dicc.alta(frase);
+
+				cout << DICC_FRASES_ALTA_OK << endl;
+				break;
+			}
+			case 3: {
+				cout << DICC_FRASES_BAJA_TIT << endl;
+
+				cout << DICC_FRASES_BAJA_OPCION << endl;
+
+				int registro;
+				cin >> registro;
+				cin.ignore();
+
+				while(registro >= ((TAMANIO_REGISTRO_FRASES-1)*8)) {
+					cout << "El numero de frase exede la capacidad total del archivo" << endl;
+					cout << " " << endl;
+					cin >> registro;
+					cin.ignore();
+				}
+				dicc.baja(registro);
+				cout << DICC_FRASES_BAJA_OK << endl;
+				break;
+			}
+			case 4:{
+				cout << DICC_FRASES_MOSTRAR_TIT << endl;
+
+				dicc.listarEnTexto();
+
+				cout << DICC_FRASES_MOSTRAR_OK << endl;
+				break;
+			}
+			case 5: {
+				ejecutando = false;break;
+			}
+			default: /*no hago nada*/;break;
+		}
+	}
 }
 
 void menuTp2(){
 
 	int op;
 	bool ejecutando = true;
-
-	DiccionarioFrases dicc;
-	dicc.crearArchivoFrases();
-	dicc.cargaInicial(CANTIDAD_DE_FRASES_A_CARGAR);
 
 	while(ejecutando){
 		cout << " " << endl;
@@ -544,11 +783,9 @@ void menuTp2(){
 		}
 
 		switch(op){
-			case 1: //TODO: menuDiccFrases();
-				break;
+			case 1: menuDiccFrases();break;
 			case 2: menuIdxBooleano();break;
-			case 3: //TODO: menuIdxPorcionesFirmas();
-				break;
+			case 3: menuIdxPorcionesFirmas();break;
 			case 4: //TODO: menuIdxComponenteEstadisticas();
 				break;
 			case 5: ejecutando = false;break;

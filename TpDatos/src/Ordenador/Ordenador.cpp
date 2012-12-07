@@ -195,8 +195,40 @@ int Ordenador::mayor(Ocurrencias ocurrencia1, Ocurrencias ocurrencia2) {
 				return 2;
 }
 
-void Ordenador::ordenamientoEnRam(ifstream* archivo) {
+void Ordenador::ordenamientoEnRam(ifstream* arch) {
 
+    int tamHeap = this->tamBufOrd;
+    Ocurrencias ocurrencia;
+    ofstream archivoOrdenado;
+    archivoOrdenado.open(PATH_OCURRENCIAS_ORDENADO, ios::binary|ios::out);
 
+    if (!(*arch)||!(archivoOrdenado))  cout << "No se pudo abrir el archivo para el ordenamiento" << endl;
+
+    else {
+
+    	Ocurrencias *bufferSort = new Ocurrencias [tamBufOrd];
+
+    	if (!bufferSort ) cout << "No hay espacio en memoria para realizar el ordenamiento" << endl;
+
+    	else {
+
+    		this->cargaInicial(arch,bufferSort);
+    		this->myheapsort(bufferSort,tamHeap);
+
+    		while (tamHeap >= 1) {
+
+    			archivoOrdenado.write((char*)&(bufferSort[0]),sizeof(Ocurrencias));
+				bufferSort[0] = bufferSort[tamHeap-1];
+				this->copiarReg(&(bufferSort[tamHeap-1]),&ocurrencia);
+				tamHeap = tamHeap - 1;
+				this->myheapsort(bufferSort,tamHeap);
+    		}
+
+    		delete []bufferSort;
+    	}
+
+        arch->close();
+        archivoOrdenado.close();
+    }
 }
 
