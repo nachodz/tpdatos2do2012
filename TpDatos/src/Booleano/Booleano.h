@@ -11,7 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <time.h>
+#include <sys/time.h>
 #include <algorithm>
 #include <list>
 
@@ -95,7 +95,7 @@ public:
 
 	bool buscarEnListaDocs (list <int> listaDoc, int nroDc);
 
-	void buscarListaTerminos (string *listaTerminos, int cantTerm);
+	double buscarListaTerminos (string *listaTerminos, int cantTerm);
 
 	void mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos,double t);
 
