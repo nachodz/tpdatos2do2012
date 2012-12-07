@@ -275,12 +275,13 @@ void indice::eliminarTerminosDelIndice(string frase, int registro) {
 	frases.close();
 }
 
-void indice::buscarFrases(string frase) {
+double indice::buscarFrases(string frase) {
 
 	fstream frases;
 	frases.open(PATH_ARCHIVO_FRASES, ios::binary|ios::in|ios::out);
 	ofstream resultado;
 	resultado.open(PATH_RESULTADO_BUSQUEDA);
+	double tiempoFinal = 0;
 
 	if((!frases)&&(!resultado))
 		cout << "No se pudo abrir el archivo de frases para busquedas" << endl;
@@ -317,7 +318,7 @@ void indice::buscarFrases(string frase) {
 					}
 					else {
 						cout << "Ninguna frase contiene todos los terminos buscados" << endl;
-						return;
+						//return;
 					}
 				}
 
@@ -334,6 +335,9 @@ void indice::buscarFrases(string frase) {
 				gettimeofday(&tf, NULL);
 				tiempo = (tf.tv_sec - ti.tv_sec)*1000 + (tf.tv_usec - ti.tv_usec)/1000.0;
 				resultado << tiempo/1000 << " " << "segundos" << endl;
+
+				tiempoFinal = tiempo/1000;
+
 				char* serial = new char[TAMANIO_REGISTRO_FRASE];
 				if(registros == 0) {
 					cout << "Ninguna frase contiene el/los terminos buscados" << endl;
@@ -358,7 +362,9 @@ void indice::buscarFrases(string frase) {
 				delete[] serial;
 			}
 	}
+
 	frases.close();
+	return tiempoFinal;
 }
 
 int* indice::identificarRegistro(mapaBits* porciones, int numPorciones, int* registrosValidos) {

@@ -132,6 +132,24 @@
 #define DICC_FRASES_MOSTRAR_TIT "EXPORTAR EL DICCIONARIO DE FRASES A UN .TXT"
 #define DICC_FRASES_MOSTRAR_OK "Se ha exportado el diccionario correctamente a un .txt"
 
+#define COMP_ESTAD_TP2_TIT "COMPONENTE ESTADISTICO"
+#define COMP_ESTAD_TP2_BUSQ1 "1) Buscar 1 término"
+#define COMP_ESTAD_TP2_BUSQ2 "2) Buscar 2 términos"
+#define COMP_ESTAD_TP2_BUSQ3 "3) Buscar 3 términos"
+
+#define COMP_ESTAD_TP2_BUSQ1_TIT "BUSQUEDA DE UN TERMINO"
+#define COMP_ESTAD_TP2_BUSQ1_OPCION "Ingrese término a buscar: "
+#define COMP_ESTAD_TP2_BUSQ_OK "La búsqueda se ha realizado correctamente"
+
+#define COMP_ESTAD_TP2_BUSQ2_TIT "BUSQUEDA DE DOS TERMINOS"
+#define COMP_ESTAD_TP2_BUSQ2_OPCION1 "Ingrese el primer término a buscar: "
+#define COMP_ESTAD_TP2_BUSQ2_OPCION2 "Ingrese el segundo término a buscar: "
+
+#define COMP_ESTAD_TP2_BUSQ3_TIT "BUSQUEDA DE TRES TERMINOS"
+#define COMP_ESTAD_TP2_BUSQ3_OPCION1 "Ingrese el primer término a buscar: "
+#define COMP_ESTAD_TP2_BUSQ3_OPCION2 "Ingrese el segundo término a buscar: "
+#define COMP_ESTAD_TP2_BUSQ3_OPCION3 "Ingrese el tercer término a buscar: "
+
 
 #define ERR_RANGO "ERROR: Ingrese un numero válido"
 #define INF_ERR_RANGO " Usted ingreso: "

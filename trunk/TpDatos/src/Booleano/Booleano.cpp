@@ -820,7 +820,7 @@ bool Booleano::buscarEnListaDocs (list <int> listaDoc, int nroDc){
    return encontrado;
 }
 
-void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
+double Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 
 	Normalizador normalizar;
 	list <int> listaDocsAux, listDocsTotal,listaDocsMerge;
@@ -837,7 +837,7 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 
 		if ( this->obtenerListaIdT(listaTerminos[i],&listaDocsAux,&numBloque) ){
 			listaDocsAux.pop_front();
-			listaDocsAux.sort();cout << "Se genero el archivo con exito" << endl;
+			listaDocsAux.sort();
 			listDocsTotal.merge(listaDocsAux);
 		}
 	 }
@@ -883,6 +883,7 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
     	  cout << "No se encontraron Registros con esos terminos, no se genero archivoTxt" << endl;
 	}
 
+	return tiempo;
 }
 
 void Booleano::mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos, double t){

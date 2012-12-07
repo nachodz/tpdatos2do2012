@@ -53,7 +53,7 @@ public:
 	void recuperarInformacion();
 	void agregarTerminosAlIndice(string frase, int registro);
 	void eliminarTerminosDelIndice(string frase, int registro);
-	void buscarFrases(string frase);
+	double buscarFrases(string frase);
 	int* identificarRegistro(mapaBits* porciones, int numPorciones, int* registrosValidos);
 	void mostrarFirma(string palabra);
 };

@@ -774,6 +774,181 @@ void menuDiccFrases(){
 	}
 }
 
+void comparacionTamArch(double tiempoB, double tiempoF){
+
+	ifstream archlsB;
+	archlsB.open(PATH_ARCHIVO_INVERTIDAS,ios::binary);
+	archlsB.seekg(0,ios::end);
+	int tamlsB = archlsB.tellg();
+
+	ifstream archterB;
+	archterB.open(PATH_ARCHIVO_TERMINOS_BOOLEANO,ios::binary);
+	archterB.seekg(0,ios::end);
+	int tamterB = archterB.tellg();
+
+	ifstream archfirF;
+	archfirF.open(PATH_FIRMAS,ios::binary);
+	archfirF.seekg(0,ios::end);
+	int tamfirF = archfirF.tellg();
+
+	ifstream archterF;
+	archterF.open(PATH_TERMINOS,ios::binary);
+	archterF.seekg(0,ios::end);
+	int tamterF = archterF.tellg();
+
+	cout << endl;
+	cout << "INFORME COMPARATIVO" << endl;
+	cout << endl;
+	cout << "INDICE BOOLEANO" << endl;
+	cout << "Tamaño Archivo Términos: " << tamterB << " bytes" << endl;
+	cout << "Tamaño Archivo Listas Invertidas: " << tamlsB << " bytes" << endl;
+	cout << "Tiempo de búsqueda: " << tiempoB << " segundos" << endl;
+	cout << endl;
+	cout << "INDICE PORCIONES DE FIRMAS" << endl;
+	cout << "Tamaño Archivo Términos: " << tamterF << " bytes" << endl;
+	cout << "Tamaño Archivo de Firmas: " << tamfirF << " bytes" << endl;
+	cout << "Tiempo de búsqueda: " << tiempoF << " segundos" << endl;
+	cout << endl;
+
+	archlsB.close();
+	archterB.close();
+
+	archterF.close();
+	archfirF.close();
+}
+
+void menuIdxComponenteEstadisticas(){
+	int op;
+	bool ejecutando = true;
+
+	DiccionarioFrases dicc;
+
+	indice *indiceFirmas = new indice(PATH_ARBOL,PATH_TERMINOS,PATH_OCURRENCIAS,PATH_FIRMAS,TAM_PORCION);
+	indiceFirmas->recuperarInformacion();
+
+	ifstream arch;
+	arch.open(PATH_INDICE,ios::binary);
+	if(!arch){
+		indiceFirmas->cargaInicialIndice(PATH_ARCHIVO_FRASES);
+		indiceFirmas->guardarInformacion();
+	}
+
+	Booleano idxBooleano;
+	idxBooleano.armarIndice();
+
+
+	while(ejecutando){
+		cout << " " << endl;
+		cout << COMP_ESTAD_TP2_TIT << endl;
+		cout << INGRESO << endl;
+		cout << COMP_ESTAD_TP2_BUSQ1 << endl;
+		cout << COMP_ESTAD_TP2_BUSQ2 << endl;
+		cout << COMP_ESTAD_TP2_BUSQ3 << endl;
+		cout << "4) " << SALIR << endl;
+
+		cin >> op;
+		cin.ignore();
+
+		while(op<1 || op>4){
+			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
+			cout << INGRESO << endl;
+			cin>> op;
+			cin.ignore();
+		}
+		// PATH_ARCHIVO_BUSQUEDA resultado booleano
+		// PATH_ARCHIVO_INVERTIDAS ls booleano
+		// PATH_RESULTADO_BUSQUEDA resultado firmas
+		// PATH_FIRMAS firmas firmas
+		switch(op){
+			case 1: {
+				string termino;
+				string* terminosArray = new string[1];
+
+				cout << COMP_ESTAD_TP2_BUSQ1_TIT << endl;
+
+				cout << COMP_ESTAD_TP2_BUSQ1_OPCION << endl;
+
+				cin >> termino;
+
+				terminosArray[0] = termino;
+
+				double tiempoF = indiceFirmas->buscarFrases(termino);
+				double tiempoB = idxBooleano.buscarListaTerminos(terminosArray,1);
+
+				comparacionTamArch(tiempoB,tiempoF);
+
+				cout << COMP_ESTAD_TP2_BUSQ_OK << endl;
+				break;
+			}
+			case 2: {
+				string termino1,termino2,terminos;
+				string* terminosArray = new string[2];
+
+				cout << COMP_ESTAD_TP2_BUSQ2_TIT << endl;
+
+				cout << COMP_ESTAD_TP2_BUSQ2_OPCION1 << endl;
+
+				cin >> termino1;
+
+				cout << COMP_ESTAD_TP2_BUSQ2_OPCION2 << endl;
+
+				cin >> termino2;
+
+				terminos = termino1 +" "+ termino2;
+
+				double tiempoF = indiceFirmas->buscarFrases(terminos);
+
+				terminosArray[0] = termino1;
+				terminosArray[1] = termino2;
+
+				double tiempoB = idxBooleano.buscarListaTerminos(terminosArray,2);
+
+				comparacionTamArch(tiempoB,tiempoF);
+
+				cout << COMP_ESTAD_TP2_BUSQ_OK << endl;
+				break;
+			}
+			case 3: {
+				string termino1,termino2,termino3,terminos;
+				string* terminosArray = new string[3];
+
+				cout << COMP_ESTAD_TP2_BUSQ3_TIT << endl;
+
+				cout << COMP_ESTAD_TP2_BUSQ3_OPCION1 << endl;
+
+				cin >> termino1;
+
+				cout << COMP_ESTAD_TP2_BUSQ3_OPCION2 << endl;
+
+				cin >> termino2;
+
+				cout << COMP_ESTAD_TP2_BUSQ3_OPCION3 << endl;
+
+				cin >> termino3;
+
+				terminos = termino1 +" "+ termino2 +" "+ termino3;
+
+				double tiempoF = indiceFirmas->buscarFrases(terminos);
+
+				terminosArray[0] = termino1;
+				terminosArray[1] = termino2;
+				terminosArray[2] = termino3;
+
+				double tiempoB = idxBooleano.buscarListaTerminos(terminosArray,3);
+
+				comparacionTamArch(tiempoB,tiempoF);
+
+				cout << COMP_ESTAD_TP2_BUSQ_OK << endl;
+				break;
+			}
+			case 4:{
+				ejecutando = false;break;
+			}
+			default: ;break;
+		}
+	}
+}
+
 void menuTp2(){
 
 	int op;
@@ -801,15 +976,13 @@ void menuTp2(){
 			case 1: menuDiccFrases();break;
 			case 2: menuIdxBooleano();break;
 			case 3: menuIdxPorcionesFirmas();break;
-			case 4: //TODO: menuIdxComponenteEstadisticas();
-				break;
+			case 4: menuIdxComponenteEstadisticas();break;
 			case 5: ejecutando = false;break;
 			default: /*no hago nada*/;break;
 		}
 	}
 
 }
-
 
 int main() {
 

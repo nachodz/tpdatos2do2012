@@ -11,7 +11,7 @@ HandlerArchivoDeTerminos::HandlerArchivoDeTerminos(string rutaArchivo) {
 	this->cantidadTerminos = 0;
 	this->rutaArchivo = rutaArchivo;
 	fstream archivoTerminos;
-	archivoTerminos.open((this->rutaArchivo).c_str(),ios::binary|ios::out);
+	archivoTerminos.open((this->rutaArchivo).c_str(),ios::binary|ios::in|ios::out);
 	archivoTerminos.close();
 }
 
