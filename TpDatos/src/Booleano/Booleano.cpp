@@ -826,9 +826,10 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 	list <int> listaDocsAux, listDocsTotal,listaDocsMerge;
 	list <int>::iterator it;
 	int numBloque, docAux, cont;
-	double inicio, fin;
 
-	inicio = clock();
+	timeval ti,tf;
+    double tiempo;
+    gettimeofday(&ti, NULL);
 
 	for(int i = 0; i < cantTerm; i++){
 
@@ -842,10 +843,15 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 	 }
 
 	if (cantTerm == 1 ) {
-		fin = clock();
-	    double tEjec = fin - inicio;
-	    this->mostrarEnTxt (listDocsTotal,cantTerm,listaTerminos,tEjec);
+		if (!listDocsTotal.empty()){
+
+			gettimeofday(&tf, NULL);
+			tiempo = (tf.tv_sec - ti.tv_sec)*1000 + (tf.tv_usec - ti.tv_usec)/1000.0;
+
+	    this->mostrarEnTxt (listDocsTotal,cantTerm,listaTerminos,tiempo);
 	    cout << "Se genero el archivo con exito" << endl;
+		}else
+			cout << "No se encontraron estos terminos indexados, no se genero el archivoTxt" << endl;
 	}else{
 	// LISTA CON TODOS LOS DOCS
 	if (!listDocsTotal.empty()){
@@ -867,9 +873,11 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
     	cout << "No se encontraron estos terminos indexados, no se genero el archivoTxt" << endl;
 // LISTA FINAL CON LOS DOCS ENCONTRADOS EN TODAS LAS LISTAS
       if (!listaDocsMerge.empty()){
-    	  fin = clock();
-          float tEjec = fin - inicio;
-    	  this->mostrarEnTxt (listaDocsMerge,cantTerm,listaTerminos,tEjec);
+
+    	  gettimeofday(&tf, NULL);
+          tiempo = (tf.tv_sec - ti.tv_sec)*1000 + (tf.tv_usec - ti.tv_usec)/1000.0;
+
+    	  this->mostrarEnTxt (listaDocsMerge,cantTerm,listaTerminos,tiempo);
     	  cout << "Se genero el archivo con exito" << endl;
       }else
     	  cout << "No se encontraron Registros con esos terminos, no se genero archivoTxt" << endl;
