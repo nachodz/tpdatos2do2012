@@ -11,6 +11,9 @@
 #include <iostream>
 #include <fstream>
 #include "../Comun/mapaBits.h"
+#include <list>
+#include "../Normalizador/Normalizador.h"
+#include "../Booleano/Booleano.h"
 #include <string>
 #include <sstream>
 
