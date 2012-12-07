@@ -26,6 +26,7 @@ public:
 	int alta(string frase);
 	void cargaInicial(int numeroDeFrases);
 	void listarEnTexto();
+	void modificacion(int numeroRegistro, string nuevaFrase, Booleano *indice);
 
 };
 

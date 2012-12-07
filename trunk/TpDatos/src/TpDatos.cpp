@@ -455,9 +455,9 @@ void menuIdxBooleano(){
 
 				cout << IDX_BOOLEANO_ALTA_OPCION << endl;
 				//TODO: no  anda, no lee nada.
+
+				cin.ignore();
 				getline(cin,frase);
-				//cin.ignore();
-				//cin >> frase;
 
 				DiccionarioFrases dicc;
 				int nroDocumento = dicc.alta(frase);
@@ -477,22 +477,32 @@ void menuIdxBooleano(){
 				cin >> registro;
 				cin.ignore();
 
-				while(registro >= ((TAMANIO_REGISTRO_FRASES-1)*8)) {
+				while(registro >= TAMANIO_REGISTRO_FRASES-1) {
 					cout << IDX_BOOLEANO_BAJA_ERROR << endl;
 					cout << " " << endl;
 					cin >> registro;
 					cin.ignore();
 				}
-
-				indice.quitar_frase(registro);
-				dicc.baja(registro);
-
-				cout << IDX_BOOLEANO_BAJA_OK << endl;
+				string fraseBaja = dicc.baja(registro);
+				if ( fraseBaja != " " ){
+					indice.quitar_frase(registro,fraseBaja);
+					cout << IDX_BOOLEANO_BAJA_OK << endl;
+				}
+//				indice.quitar_frase(registro);
+//				dicc.baja(registro);
+//                cout << IDX_BOOLEANO_BAJA_OK << endl;
 				break;
 			}
 			case 3:{
-				cout << "TODO: lo de damian!!!" << endl;
-				break;
+				int nroReg;
+                string frase;
+				cout << "Ingrese Nro de Registro a modificar: " << endl;
+				cin >> nroReg;
+				cout << "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo: "<< endl;
+				cin.ignore();
+				getline (cin,frase);
+				dicc.modificacion(nroReg,frase,&indice);
+		       break;
 			}
 			case 4: {
 				int cantTerm;

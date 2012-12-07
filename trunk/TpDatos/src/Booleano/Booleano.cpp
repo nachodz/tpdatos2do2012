@@ -577,14 +577,9 @@ void Booleano::baja (string terminoBaja, int nroDocBaja){
     delete arbol;
 }
 
-void Booleano::quitar_frase (int nroDoc){
+void Booleano::quitar_frase (int nroDoc, string fraseBaja){
 
-	ifstream arch_frases (PATH_ARCHIVO_FRASES,ios::binary | ios::in);
-	char *fraseProcesar = new char [TAMANIO_REGISTRO_FRASES];
-
-	arch_frases.seekg(nroDoc*TAMANIO_REGISTRO_FRASES, ios::beg);
-	arch_frases.read (fraseProcesar,TAMANIO_REGISTRO_FRASES);
-
+	char *fraseProcesar = strdup (fraseBaja.c_str());
 	char *palabra = strtok (fraseProcesar," .,;:¿?_-<>/!	");
 
 	while (palabra != NULL) {
@@ -595,7 +590,7 @@ void Booleano::quitar_frase (int nroDoc){
 
 		palabra = strtok (NULL," .,;:¿?_-<>/!	");
 	}
-	arch_frases.close();
+
 	delete []fraseProcesar;
 }
 
@@ -739,13 +734,16 @@ bool Booleano::obtenerListaIdT (string termino,list <int> *listaDocs,int *nroBlo
 
     	 int idTer = atoi(unElemento->getN()->toString().c_str());
          *nroBloque = bloqueLista;
+         encontrado = this->buscarEnBloque(idTer,bloqueLista,&listaCod,&offsetLista);
 
-         if ( this->buscarEnBloque(idTer,bloqueLista,&listaCod,&offsetLista) )
-             *listaDocs = gamma.decodificarLista(gamma.convertirAString(strdup(listaCod.c_str())));
-     }else
-    	  encontrado = false;
-   }
-    return encontrado;
+         if (encontrado)
+            *listaDocs = gamma.decodificarLista(gamma.convertirAString(strdup(listaCod.c_str())));
+         }else{
+			  encontrado = false;
+			  return encontrado;
+         }
+       }
+   	return encontrado;
 }
 
 //cout << gamma.convertirAString(strdup(listaCod.c_str())) << endl;
@@ -828,7 +826,7 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 	list <int> listaDocsAux, listDocsTotal,listaDocsMerge;
 	list <int>::iterator it;
 	int numBloque, docAux, cont;
-	float inicio, fin;
+	double inicio, fin;
 
 	inicio = clock();
 
@@ -838,14 +836,14 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 
 		if ( this->obtenerListaIdT(listaTerminos[i],&listaDocsAux,&numBloque) ){
 			listaDocsAux.pop_front();
-			listaDocsAux.sort();
+			listaDocsAux.sort();cout << "Se genero el archivo con exito" << endl;
 			listDocsTotal.merge(listaDocsAux);
 		}
 	 }
 
 	if (cantTerm == 1 ) {
 		fin = clock();
-	    float tEjec = fin - inicio;
+	    double tEjec = fin - inicio;
 	    this->mostrarEnTxt (listDocsTotal,cantTerm,listaTerminos,tEjec);
 	    cout << "Se genero el archivo con exito" << endl;
 	}else{
@@ -879,7 +877,7 @@ void Booleano::buscarListaTerminos (string *listaTerminos, int cantTerm){
 
 }
 
-void Booleano::mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos, float t){
+void Booleano::mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos, double t){
 
 	list <int>::iterator it;
 	ifstream frases (PATH_ARCHIVO_FRASES,ios::binary | ios::in);

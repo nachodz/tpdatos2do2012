@@ -8,9 +8,6 @@
 #ifndef BOOLEANO_H_
 #define BOOLEANO_H_
 
-//#define CANTIDAD_DE_FRASES_A_CARGAR 60
-
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -100,9 +97,9 @@ public:
 
 	void buscarListaTerminos (string *listaTerminos, int cantTerm);
 
-	void mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos,float t);
+	void mostrarEnTxt (list <int> listaDocs, int cantTerm, string *listaTerminos,double t);
 
-	void quitar_frase (int nroDoc);
+	void quitar_frase (int nroDoc,string fraseBaja);
 };
 
 
