@@ -38,49 +38,57 @@ void indice::cargaInicialIndice(string rutaCarga) {
 			cout << "Error al crear el interprete de frases" << endl;
 
 		else {
+
 			int nroRegistros = interprete->elementosAleer();
 			int elementosLeidos = 0;
+			int lecturas = 0;
 			frases.seekp(TAMANIO_REGISTRO_FRASE);
-			fraseConAutor = interprete->leerFrase(&frases);
+			bool leyo;
+			fraseConAutor = interprete->leerFrase(&frases,&leyo);
 
 			while(elementosLeidos < nroRegistros) {
+				lecturas++;
+				if (leyo) {
+					string fraseCompleta(fraseConAutor);
+					int cantidadElementos;
+					string* vectorTerminos = interprete->parsearFrase(fraseCompleta,&cantidadElementos);
 
-				string fraseCompleta(fraseConAutor);
-				int cantidadElementos;
-				string* vectorTerminos = interprete->parsearFrase(fraseCompleta,&cantidadElementos);
+					interprete->normalizarTerminos(vectorTerminos,cantidadElementos);
+					string* vectorFiltrado = interprete->filtroStopword(vectorTerminos, &cantidadElementos);
 
-				interprete->normalizarTerminos(vectorTerminos,cantidadElementos);
-				string* vectorFiltrado = interprete->filtroStopword(vectorTerminos, &cantidadElementos);
+					for (int i = 0; i < cantidadElementos; i++) {
+						regOcurrencia ocurrencia;
+						ocurrencia.idRegistro = lecturas;
 
-				for (int i = 0; i < cantidadElementos; i++) {
-					regOcurrencia ocurrencia;
-					ocurrencia.idRegistro = elementosLeidos+1;
+						bool encontro;
+						Elementos *elemento = this->buscarEnArbol(vectorFiltrado[i],this->lexico,&encontro);
 
-					bool encontro;
-					Elementos *elemento = this->buscarEnArbol(vectorFiltrado[i],this->lexico,&encontro);
+						if(!encontro){
+							this->gestorArchivoTerminos->agregarTermino(vectorFiltrado[i]);
+							ocurrencia.idTermino = (this->gestorArchivoTerminos->getCantidadElementos()-1);
+							Clave *clave = new Clave(vectorFiltrado[i]);
 
-					if(!encontro){
-						this->gestorArchivoTerminos->agregarTermino(vectorFiltrado[i]);
-						ocurrencia.idTermino = (this->gestorArchivoTerminos->getCantidadElementos()-1);
-						Clave *clave = new Clave(vectorFiltrado[i]);
+							Persistencia *termino = new Persistencia(vectorFiltrado[i]);
+							Persistencia *posicion = new Persistencia(intToString(ocurrencia.idTermino));
+							Persistencia *fantasma = new Persistencia("0");
+							Elementos *elemento = new Elementos(clave,termino,posicion,fantasma);
+							this->lexico->insertar(elemento);
+						}
+						else {
+							string aux = elemento->getN()->toString();
+							ocurrencia.idTermino = atoi(aux.c_str());
+						}
 
-						Persistencia *termino = new Persistencia(vectorFiltrado[i]);
-						Persistencia *posicion = new Persistencia(intToString(ocurrencia.idTermino));
-						Persistencia *fantasma = new Persistencia("0");
-						Elementos *elemento = new Elementos(clave,termino,posicion,fantasma);
-						this->lexico->insertar(elemento);
+						this->gestorArchivoDeOcurrencias->grabarRegistro(ocurrencia.idTermino,ocurrencia.idRegistro = lecturas);
 					}
-					else {
-						string aux = elemento->getN()->toString();
-						ocurrencia.idTermino = atoi(aux.c_str());
-					}
-
-					this->gestorArchivoDeOcurrencias->grabarRegistro(ocurrencia.idTermino,ocurrencia.idRegistro = elementosLeidos+1);
+					delete[] vectorTerminos;
+					delete[] vectorFiltrado;
+					fraseConAutor = interprete->leerFrase(&frases,&leyo);
+					elementosLeidos++;
 				}
-				delete[] vectorTerminos;
-				delete[] vectorFiltrado;
-				fraseConAutor = interprete->leerFrase(&frases);
-				elementosLeidos++;
+				else
+					fraseConAutor = interprete->leerFrase(&frases,&leyo);
+
 			}
 
 			this->gestorArchivoDeOcurrencias->sort(this->gestorArchivoDeOcurrencias->getNumeroOcurrencias());
@@ -277,6 +285,7 @@ double indice::buscarFrases(string frase) {
 	ofstream resultado;
 	resultado.open(PATH_RESULTADO_BUSQUEDA);
 	double tiempoFinal = 0;
+	int registros = 0;
 
 	if((!frases)&&(!resultado))
 		cout << "No se pudo abrir el archivo de frases para busquedas" << endl;
@@ -313,53 +322,59 @@ double indice::buscarFrases(string frase) {
 					}
 					else {
 						cout << "Ninguna frase contiene todos los terminos buscados" << endl;
-						//return;
+						registros = -1;
 					}
 				}
 
-				resultado << endl;
-				resultado << endl;
-				resultado << "Tiempo de busqueda:" << endl;
 
-				int registros = 0;
-
-				timeval ti,tf;
-				double tiempo;
-				gettimeofday(&ti, NULL);
-				int* ocurrencias = this->identificarRegistro(porciones,cantidadElementos,&registros);
-				gettimeofday(&tf, NULL);
-				tiempo = (tf.tv_sec - ti.tv_sec)*1000 + (tf.tv_usec - ti.tv_usec)/1000.0;
-				resultado << tiempo/1000 << " " << "segundos" << endl;
-
-				tiempoFinal = tiempo/1000;
-
-				char* serial = new char[TAMANIO_REGISTRO_FRASE];
-				if(registros == 0) {
-					cout << "Ninguna frase contiene el/los terminos buscados" << endl;
+				if(registros == -1) {
 					resultado.close();
 					remove(PATH_RESULTADO_BUSQUEDA);
+					return 0;
 				}
 				else {
-
 					resultado << endl;
-					resultado << "Frases encontradas:" << endl;
 					resultado << endl;
+					resultado << "Tiempo de busqueda:" << endl;
 
-					for(int j = 0; j < registros; j++) {
-						frases.seekg(TAMANIO_REGISTRO_FRASE * ocurrencias[j]);
-						frases.read(serial,TAMANIO_REGISTRO_FRASE);
-						cout << "(" << ocurrencias[j] << ")" << " " << serial << endl;
-						resultado << "(" << ocurrencias[j] << ")" << " " << serial << endl;
+					timeval ti,tf;
+					double tiempo;
+					gettimeofday(&ti, NULL);
+					int* ocurrencias = this->identificarRegistro(porciones,cantidadElementos,&registros);
+					gettimeofday(&tf, NULL);
+					tiempo = (tf.tv_sec - ti.tv_sec)*1000 + (tf.tv_usec - ti.tv_usec)/1000.0;
+					resultado << tiempo/1000 << " " << "segundos" << endl;
+
+					tiempoFinal = tiempo/1000;
+
+					char* serial = new char[TAMANIO_REGISTRO_FRASE];
+
+					if(registros == 0) {
+						cout << "Ninguna frase contiene el/los terminos buscados" << endl;
+						resultado.close();
+						remove(PATH_RESULTADO_BUSQUEDA);
 					}
-				}
-				resultado.close();
-				delete[] ocurrencias;
-				delete[] serial;
-			}
-	}
+					else {
 
-	frases.close();
-	return tiempoFinal;
+						resultado << endl;
+						resultado << "Frases encontradas:" << endl;
+						resultado << endl;
+						for(int j = 0; j < registros; j++) {
+							frases.seekg(TAMANIO_REGISTRO_FRASE * ocurrencias[j]);
+							frases.read(serial,TAMANIO_REGISTRO_FRASE);
+							cout << "(" << ocurrencias[j] << ")" << " " << serial << endl;
+							resultado << "(" << ocurrencias[j] << ")" << " " << serial << endl;
+						}
+					}
+					resultado.close();
+					delete[] ocurrencias;
+					delete[] serial;
+				}
+			}
+		}
+
+		frases.close();
+		return tiempoFinal;
 }
 
 int* indice::identificarRegistro(mapaBits* porciones, int numPorciones, int* registrosValidos) {
