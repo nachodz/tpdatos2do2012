@@ -1,9 +1,3 @@
-/*
- * DiccionarioFrases.cpp
- *
- *  Created on: 05/12/2012
- *      Author: ignacio
- */
 
 #include "DiccionarioFrases.h"
 

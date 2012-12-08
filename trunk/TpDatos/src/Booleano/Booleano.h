@@ -1,9 +1,3 @@
-/*
- * Booleano.h
- *
- *  Created on: 19/11/2012
- *      Author: ignacio
- */
 
 #ifndef BOOLEANO_H_
 #define BOOLEANO_H_

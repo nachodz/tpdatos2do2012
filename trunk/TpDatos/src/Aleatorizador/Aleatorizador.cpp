@@ -1,11 +1,3 @@
-/*
- * Aleatorizador.cpp
-
- *
- *  Created on: 15/09/2012
- *      Author: francisco
- */
-
 #include "Aleatorizador.h"
 
 

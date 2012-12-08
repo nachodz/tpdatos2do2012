@@ -1,9 +1,3 @@
-/*
- * indice.cpp
- *
- *  Created on: 23/11/2012
- *      Author: francisco
- */
 
 #include "indice.h"
 
