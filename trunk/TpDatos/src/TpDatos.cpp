@@ -570,9 +570,15 @@ void menuIdxPorcionesFirmas(){
 		switch(op){
 			case 1: {
 				cout << IDX_FIRMAS_CARGA_INI << endl;
-				indiceFirmas->cargaInicialIndice(PATH_ARCHIVO_FRASES);
-				indiceFirmas->guardarInformacion();
-				cout << IDX_FIRMAS_CARGA_INI_OK << endl;
+				ifstream arch;
+				arch.open(PATH_INDICE,ios::binary);
+				if(!arch){
+					indiceFirmas->cargaInicialIndice(PATH_ARCHIVO_FRASES);
+					indiceFirmas->guardarInformacion();
+					cout << IDX_FIRMAS_CARGA_INI_OK << endl;
+				}
+				else
+					cout << "El indice ya esta cargado" << endl;
 				break;
 			}
 			case 2: {
