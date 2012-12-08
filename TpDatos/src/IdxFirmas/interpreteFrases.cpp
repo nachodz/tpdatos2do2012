@@ -21,19 +21,19 @@ interpreteFrases::~interpreteFrases() {
 	(this->mapa)->~mapaBits();
 }
 
-char* interpreteFrases::leerFrase(fstream* archivoFrases) {
+char* interpreteFrases::leerFrase(fstream* archivoFrases, bool* leyo) {
 
 	char*frase = new char[TAMANIO_REGISTRO_FRASE];
-
+    *leyo = false;
 	if (!frase)
 		cout << "El programa no encontro memoria disponible" << endl;
 
 	else {
 
 		int posicion = archivoFrases->tellg()/TAMANIO_REGISTRO_FRASE;
-
+		archivoFrases->read(frase,TAMANIO_REGISTRO_FRASE);
 		if (!(this->mapa)->libre(posicion)) {
-			archivoFrases->read(frase,TAMANIO_REGISTRO_FRASE);
+			*leyo = true;
 			this->aumentarLecturas();
 		}
 	}
@@ -63,6 +63,8 @@ string* interpreteFrases::parsearFrase(string frase, int* cantidadTerminos) {
     while (palabra != NULL) {
 
 		palabraStr = string (palabra);
+	    if (palabraStr.at(0) == '\t')
+			palabraStr = palabraStr.substr(1,palabraStr.size());
 		vectorPalabras[i] = palabraStr;
 		i++;
 		palabra = strtok (NULL," .,;:?_-</>");
