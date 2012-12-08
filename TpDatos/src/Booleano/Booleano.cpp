@@ -1,10 +1,3 @@
-/*
- * Booleano.cpp
- *
- *  Created on: 19/11/2012
- *      Author: ignacio
- */
-
 #include "Booleano.h"
 
 Booleano::Booleano() {
@@ -525,18 +518,18 @@ void Booleano::alta (string termino, int nroDoc){
 
 	      }
 		  else{
-			   cout << "El termino: "<< termino <<" no esta Indexado" << endl;
+			   //cout << "El termino: "<< termino <<" no esta Indexado" << endl;
 
 	           this->agregar_a_archivoT(termino,&idT);
 	           this->agregarNuevaListaInvertidas(idT,nroDoc,&bloqueLista);
 	           bool modificar = false;
 	           this->agregar_a_Arbol(idT,bloqueLista,arbol,modificar);
 
-	           cout << "El termino: "<< termino <<" ahora esta Indexado" << endl;
+	           //cout << "El termino: "<< termino <<" ahora esta Indexado" << endl;
 		      }
 		}
 	    else
-	    	cout <<"Es una StopWord" << endl;
+	    	//cout <<"Es una StopWord" << endl;
 
      delete arbol;
 }

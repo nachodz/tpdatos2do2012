@@ -1,9 +1,3 @@
-/*
- * interpreteFrases.cpp
- *
- *  Created on: 22/11/2012
- *      Author: francisco
- */
 
 #include "interpreteFrases.h"
 

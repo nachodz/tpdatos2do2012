@@ -1,9 +1,3 @@
-/*
- * HandlerArchivoDeTerminos.cpp
- *
- *  Created on: 21/11/2012
- *      Author: francisco
- */
 
 #include "HandlerArchivoDeTerminos.h"
 

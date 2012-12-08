@@ -455,7 +455,7 @@ void menuIdxBooleano(){
 
 				cout << IDX_BOOLEANO_ALTA_OPCION << endl;
 
-				cin.ignore();
+				//cin.ignore();
 				getline(cin,frase);
 
 				DiccionarioFrases dicc;
@@ -504,7 +504,7 @@ void menuIdxBooleano(){
 
                 cout << IDX_BOOLEANO_MODIFICACION_OPCION2 << endl;
 
-				cin.ignore();
+				//cin.ignore();
 				getline (cin,frase);
 				dicc.modificacion(nroReg,frase,&indice);
 		       break;
@@ -645,7 +645,7 @@ void menuIdxPorcionesFirmas(){
 
 						if (!mapa->libre(nroReg)){
 							cout << IDX_FIRMAS_MODIFICACION_OPCION3 << endl;
-							cin.ignore();
+						//	cin.ignore();
 							getline (cin,frase);
 							dicc.modificacionFirmas(nroReg,frase,indiceFirmas);
 							cout << IDX_FIRMAS_MODIFICACION_OK << endl;
