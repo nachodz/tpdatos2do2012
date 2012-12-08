@@ -544,8 +544,6 @@ void menuIdxPorcionesFirmas(){
 	indice *indiceFirmas = new indice(PATH_ARBOL,PATH_TERMINOS,PATH_OCURRENCIAS,PATH_FIRMAS,TAM_PORCION);
 	indiceFirmas->recuperarInformacion();
 
-	cout << IDX_FIRMAS_CREACION << endl;
-
 	while(ejecutando){
 		cout << " " << endl;
 		cout << IDX_FIRMAS_TIT << endl;
@@ -553,15 +551,16 @@ void menuIdxPorcionesFirmas(){
 		cout << IDX_FIRMAS_CARGA_INICIAL << endl;
 		cout << IDX_FIRMAS_ALTA_FRASE << endl;
 		cout << IDX_FIRMAS_BAJA_FRASE << endl;
+		cout << IDX_FIRMAS_MODIFICACION_FRASE << endl;
 		cout << IDX_FIRMAS_BUSQUEDA_PALABRAS_FRASE << endl;
 		cout << IDX_FIRMAS_MOSTRAR_FRASES << endl;
 		cout << IDX_FIRMAS_MOSTRAR_FIRMA_TERMINO << endl;
-		cout << "7) " << SALIR << endl;
+		cout << "8) " << SALIR << endl;
 
 		cin >> op;
 		cin.ignore();
 
-		while(op<1 || op>7){
+		while(op<1 || op>8){
 			cout<< ERR_RANGO << INF_ERR_RANGO << op << endl;
 			cout << INGRESO << endl;
 			cin>> op;
@@ -571,10 +570,8 @@ void menuIdxPorcionesFirmas(){
 		switch(op){
 			case 1: {
 				cout << IDX_FIRMAS_CARGA_INI << endl;
-
 				indiceFirmas->cargaInicialIndice(PATH_ARCHIVO_FRASES);
 				indiceFirmas->guardarInformacion();
-
 				cout << IDX_FIRMAS_CARGA_INI_OK << endl;
 				break;
 			}
@@ -590,14 +587,11 @@ void menuIdxPorcionesFirmas(){
 				int registro = dicc.alta(frase);
 				if (registro != -1) {
 					indiceFirmas->agregarTerminosAlIndice(frase,registro);
-					cout << "Alta realizada con exito" << endl;
+					indiceFirmas->guardarInformacion();
+					cout << IDX_FIRMAS_ALTA_OK << endl;
 				}
 				else
 					cout << "La carga no se pudo realizar" << endl;
-
-				indiceFirmas->guardarInformacion();
-
-				cout << IDX_FIRMAS_ALTA_OK << endl;
 				break;
 			}
 			case 3: {
@@ -613,16 +607,51 @@ void menuIdxPorcionesFirmas(){
 				if (frase != " ") {
 					indiceFirmas->eliminarTerminosDelIndice(frase,registro);
 					cout << "Baja realizada con exito" << endl;
+					indiceFirmas->guardarInformacion();
+					cout << IDX_FIRMAS_BAJA_OK << endl;
 				}
 				else
 					cout << "La frase ya esta dada de baja o no se pudo realizar la accion" << endl;
 
-				indiceFirmas->guardarInformacion();
-
-				cout << IDX_FIRMAS_BAJA_OK << endl;
 				break;
 			}
 			case 4:{
+				int nroReg;
+
+                string frase;
+
+                cout << IDX_FIRMAS_MODIFICACION << endl;
+
+				cout << IDX_FIRMAS_MODIFICACION_OPCION1 << endl;
+				cout << IDX_FIRMAS_MODIFICACION_OPCION2 << endl;
+
+                cin >> nroReg;
+
+    			mapaBits *mapa = new mapaBits(TAMANIO_REGISTRO_FRASES*BYTE);
+    			char *serial = new char[TAMANIO_REGISTRO_FRASES];
+    			fstream frases;
+    			frases.open(PATH_ARCHIVO_FRASES, ios::binary|ios::in|ios::out);
+
+    			if ((mapa)&&(serial)&&(frases)) {
+
+						frases.read(serial,TAMANIO_REGISTRO_FRASES);
+						mapa->hidratar(serial);
+
+						if (!mapa->libre(nroReg)){
+							cout << IDX_FIRMAS_MODIFICACION_OPCION3 << endl;
+							cin.ignore();
+							getline (cin,frase);
+							dicc.modificacionFirmas(nroReg,frase,indiceFirmas);
+							cout << IDX_FIRMAS_MODIFICACION_OK << endl;
+						}
+						else
+							cout << "El registro a modificar esta libre" << endl;
+    			}
+    			else
+    				cout << "El archivo de frases no pudo ser abierto, o el programa no encuentra memoria disponible" << endl;
+    			break;
+			}
+			case 5:{
 				cout << IDX_FIRMAS_BUSQUEDA_PALABRAS << endl;
 
 				cout << IDX_FIRMAS_BUSQUEDA_PALABRAS_OPCION << endl;
@@ -631,24 +660,21 @@ void menuIdxPorcionesFirmas(){
 				getline(cin,palabras);
 				if (!palabras.length()>0)
 					cout << "No ingrego terminos para buscar" << endl;
-				else
+				else {
 					indiceFirmas->buscarFrases(palabras);
-
+					cout << IDX_FIRMAS_BUSQUEDA_PALABRAS_OK << endl;
+				}
 				indiceFirmas->guardarInformacion();
-
-				cout << IDX_FIRMAS_BUSQUEDA_PALABRAS_OK << endl;
 				break;
 			}
-			case 5: {
+			case 6: {
 				cout << IDX_FIRMAS_MOSTRAR_FRASES_TIT << endl;
 
 				dicc.listarEnTexto();
 
-				cout << IDX_FIRMAS_MOSTRAR_FRASES_OK << endl;
-
 				break;
 			}
-			case 6: {
+			case 7: {
 
 				cout << IDX_FIRMAS_MOSTRAR_FIRMA << endl;
 
@@ -657,13 +683,13 @@ void menuIdxPorcionesFirmas(){
 				string palabra;
 				cin >> palabra;
 				cin.ignore();
-				indiceFirmas->mostrarFirma(palabra);
-
-				cout << IDX_FIRMAS_MOSTRAR_FIRMA_TERMINOS_OK << endl;
+				if (indiceFirmas->mostrarFirma(palabra))
+					cout << IDX_FIRMAS_MOSTRAR_FIRMA_TERMINOS_OK << endl;
+				else
+					cout << "El termino no se encuentra indexado" << endl;
 				;break;
-
 			}
-			case 7: ejecutando = false;break;
+			case 8: ejecutando = false;break;
 			default: /*no hago nada*/;break;
 		}
 	}
@@ -763,7 +789,6 @@ void menuDiccFrases(){
 
 				dicc.listarEnTexto();
 
-				cout << DICC_FRASES_MOSTRAR_OK << endl;
 				break;
 			}
 			case 5: {

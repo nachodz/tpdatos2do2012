@@ -94,9 +94,10 @@
 #define IDX_FIRMAS_CARGA_INICIAL "1) Realizar la carga inicial"
 #define IDX_FIRMAS_ALTA_FRASE "2) Realizar el alta de una frase"
 #define IDX_FIRMAS_BAJA_FRASE "3) Realizar la baja de una frase"
-#define IDX_FIRMAS_BUSQUEDA_PALABRAS_FRASE "4) Buscar términos en frases"
-#define IDX_FIRMAS_MOSTRAR_FRASES "5) Mostrar frases en archivo de texto"
-#define IDX_FIRMAS_MOSTRAR_FIRMA_TERMINO "6) Mostrar firma de un término"
+#define IDX_FIRMAS_MODIFICACION_FRASE "4) Realizar la modificaci�n de una frase"
+#define IDX_FIRMAS_BUSQUEDA_PALABRAS_FRASE "5) Buscar términos en frases"
+#define IDX_FIRMAS_MOSTRAR_FRASES "6) Mostrar frases en archivo de texto"
+#define IDX_FIRMAS_MOSTRAR_FIRMA_TERMINO "7) Mostrar firma de un término"
 
 #define IDX_FIRMAS_CARGA_INI "CARGA INICIAL DEL INDICE DE FIRMAS"
 #define IDX_FIRMAS_CARGA_INI_OK "La carga inicial se ha realizado correctamente"
@@ -107,6 +108,13 @@
 #define IDX_FIRMAS_BAJA_OPCION1 "Inserte el número de frase que desea dar de baja:"
 #define IDX_FIRMAS_BAJA_OPCION2 "(Número que aparece al final de cada frase en el archivo de texto)"
 #define IDX_FIRMAS_BAJA_OK "La baja de la frase se ha realizado correctamente"
+
+#define IDX_FIRMAS_MODIFICACION "MODIFICACI�N DE UNA FRASE"
+#define IDX_FIRMAS_MODIFICACION_OPCION1 "Inserte el n�mero de frase que desea modificar:"
+#define IDX_FIRMAS_MODIFICACION_OPCION2 "(Número que aparece al final de cada frase en el archivo de texto)"
+#define IDX_FIRMAS_MODIFICACION_OPCION3 "Ingrese la frase, anteponiendo su autor, en caso de no conocerlo poner Anonimo: "
+#define IDX_FIRMAS_MODIFICACION_OK "La baja de la frase se ha realizado correctamente"
+
 #define IDX_FIRMAS_BUSQUEDA_PALABRAS "BUSQUEDA DE TERMINOS EN FRASE"
 #define IDX_FIRMAS_BUSQUEDA_PALABRAS_OPCION "Ingrese la lista de términos a buscar separadas por espacio: "
 #define IDX_FIRMAS_BUSQUEDA_PALABRAS_OK "La búsqueda se ha realizado correctamente"
@@ -243,7 +251,7 @@
 #define TOPE_CARGA 500
 #define TAMANIO_REGISTRO_FRASE 256
 #define BYTE 8
-#define TOPE_TERMINOS_RELEVANTES 30
+#define TOPE_TERMINOS_RELEVANTES 100
 #define NUM_STOPWORDS 550
 #define TAM_PORCION 256
 
