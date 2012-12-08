@@ -191,6 +191,7 @@ void DiccionarioFrases::listarEnTexto() {
 		frases.close();
 		delete[] serial;
 		mapa->~mapaBits();
+		cout << DICC_FRASES_MOSTRAR_OK << endl;
 	}
 	else
 		cout << "El programa no hallo memoria disponible o existe algun error con los archivos" << endl;
