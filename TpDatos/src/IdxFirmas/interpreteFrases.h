@@ -25,7 +25,7 @@ private:
 public:
 	interpreteFrases(fstream* archivoFrases);
 	virtual ~interpreteFrases();
-	char* leerFrase(fstream* archivoFrases);
+	char* leerFrase(fstream* archivoFrases, bool* leyo);
 	int getLecturas();
 	void aumentarLecturas();
 	string* parsearFrase(string frase, int* cantidadTerminos);
