@@ -83,13 +83,14 @@ void indice::cargaInicialIndice(string rutaCarga) {
 
 					this->gestorArchivoDeOcurrencias->grabarRegistro(ocurrencia.idTermino,ocurrencia.idRegistro = elementosLeidos+1);
 				}
+				delete[] vectorTerminos;
+				delete[] vectorFiltrado;
 				fraseConAutor = interprete->leerFrase(&frases);
 				elementosLeidos++;
 			}
 
 			this->gestorArchivoDeOcurrencias->sort(this->gestorArchivoDeOcurrencias->getNumeroOcurrencias());
 			rename(PATH_OCURRENCIAS_ORDENADO,PATH_OCURRENCIAS);
-			rename(PATH_ALEATORIO,PATH_OCURRENCIAS);
 			this->generarFirmas();
 			delete[] fraseConAutor;
 			interprete->~interpreteFrases();
@@ -392,17 +393,18 @@ int* indice::identificarRegistro(mapaBits* porciones, int numPorciones, int* reg
 	return ocurrencias;
 }
 
-void indice::mostrarFirma(string palabra) {
+bool indice::mostrarFirma(string palabra) {
 	bool encontro;
 	Elementos *elemento = this->buscarEnArbol(palabra,this->lexico,&encontro);
 	if(!encontro)
-		cout << "No se puede devolver la forma del termino ya que el mismo no se encuentra indexado" << endl;
+		return false;
 	else {
 		int registro;
 		string aux = elemento->getN()->toString();
 		registro = atoi(aux.c_str());
 		mapaBits* firma = this->gestorArchivoDePorciones->obtenerFirma(registro);
 		firma->mostrar();
+		return true;
 	}
 }
 
