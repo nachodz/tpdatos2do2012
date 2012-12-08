@@ -62,33 +62,11 @@ void HandlerArchivoOcurrencias::sort(int carga) {
 
 	ifstream archivo;
 	archivo.open((this->rutaArchivo).c_str(),ios::binary|ios::in);
-	int particiones;
 
 	if (archivo) {
-
-		if (carga > TOPE_CARGA) {
-			//mkdir(DIRECTORIO_PARTICIONES,S_IRWXU|S_IRGRP|S_IXGRP);
-			Ordenador* unOrdenador = new Ordenador(carga);
-			particiones = unOrdenador->ordenar(&archivo);
-
-			string* paths = new string[particiones];
-			string raiz = "Particiones/particion";
-
-			for (int i = 0; i < particiones; i++) {
-				paths[i] = raiz + intToStr(i);
-			}
-
-			Fusionador unFusionador(paths,REGISTROS_POR_BUFFER,particiones);
-
-			unFusionador.merge();
-			this->eliminarArchivo();
-			delete []paths;
-		}
-		else {
-			Ordenador* unOrdenador = new Ordenador(carga);
-			unOrdenador->ordenamientoEnRam(&archivo);
-			this->eliminarArchivo();
-		}
+		Ordenador* unOrdenador = new Ordenador(carga);
+		unOrdenador->ordenamientoEnRam(&archivo);
+		this->eliminarArchivo();
 	}
 
 	else
