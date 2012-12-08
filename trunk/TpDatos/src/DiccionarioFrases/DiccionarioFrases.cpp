@@ -275,15 +275,64 @@ void crearAltasyBajas(list<string> listaVieja, list<string> listaNueva, int nroD
 
 }
 
+void crearAltasyBajasFirmas(list<string> listaVieja, list<string> listaNueva, int nroDoc, indice *indice){
+
+	string terminoNuevo, terminoViejo;
+	//list<string> listaAltas, listaBajas;
+
+	list<string>::iterator itVieja = listaVieja.begin();
+	list<string>::iterator itNueva = listaNueva.begin();
+	terminoNuevo = *itNueva;
+	terminoViejo = *itVieja;
+
+	while((itVieja != listaVieja.end()) && (itNueva != listaNueva.end())){
+
+		if(terminoNuevo == terminoViejo){
+			itNueva++;
+			itVieja++;
+			terminoNuevo = *itNueva;
+			terminoViejo = *itVieja;
+		}
+		else
+			if(terminoNuevo < terminoViejo){
+				indice->agregarTerminosAlIndice(terminoNuevo,nroDoc);
+				itNueva++;
+				terminoNuevo = *itNueva;
+			}
+			else{ //terminoNuevo > terminoViejo
+				//listaBajas.push_back(terminoViejo);
+				indice->eliminarTerminosDelIndice(terminoViejo, nroDoc);
+				itVieja++;
+				terminoViejo = *itVieja;
+			}
+	}
+
+	while(itNueva != listaNueva.end()){
+	//si es mas grande la nueva, agrego lo que queda.
+		//listaAltas.push_back(terminoNuevo);
+		indice->agregarTerminosAlIndice(terminoNuevo, nroDoc);
+		itNueva++;
+		terminoNuevo = *itNueva;
+	}
+
+	while(itVieja != listaVieja.end()){
+		//listaBajas.push_back(terminoViejo);
+		indice->eliminarTerminosDelIndice(terminoViejo, nroDoc);
+		itVieja++;
+		terminoViejo = *itVieja;
+	}
+
+}
+
 void DiccionarioFrases::modificacion(int numeroRegistro, string nuevaFrase, Booleano *indice){
 	string viejaFrase;
-	char viejaFraseCStr[256];
+	char viejaFraseCStr[TAMANIO_REGISTRO_FRASE];
 	list<string> listaVieja, listaNueva, listaBajas, listaAltas;
 
 	if (numeroRegistro == 0)
 			cout << "No se puede eliminar este registro debido a que contiene metadata del archivo" << endl;
 		else {
-			mapaBits *mapa = new mapaBits(TAMANIO_REGISTRO_FRASES);
+			mapaBits *mapa = new mapaBits(TAMANIO_REGISTRO_FRASES*BYTE);
 			char *serial = new char[TAMANIO_REGISTRO_FRASES];
 			fstream frases;
 			frases.open(PATH_ARCHIVO_FRASES, ios::binary|ios::in|ios::out);
@@ -304,6 +353,50 @@ void DiccionarioFrases::modificacion(int numeroRegistro, string nuevaFrase, Bool
 					listaVieja = ordenarTerminosEnLista(viejaFrase);
 					listaNueva = ordenarTerminosEnLista(nuevaFrase);
 					crearAltasyBajas(listaVieja, listaNueva, numeroRegistro,indice);
+
+					frases.seekp(numeroRegistro*TAMANIO_REGISTRO_FRASES, ios::beg);
+					frases.write(nuevaFrase.c_str(),TAMANIO_REGISTRO_FRASES);
+					frases.flush();
+					serial = mapa->serializar();
+					frases.seekp(0,ios::beg);
+					frases.write(serial,TAMANIO_REGISTRO_FRASES);
+					frases.flush();
+				}
+			}else
+				cout << "El programa no hallo memoria disponible o existe algun error con los archivos" << endl;
+		}
+
+}
+
+void DiccionarioFrases::modificacionFirmas(int numeroRegistro, string nuevaFrase, indice *indice){
+	string viejaFrase;
+	char viejaFraseCStr[TAMANIO_REGISTRO_FRASE];
+	list<string> listaVieja, listaNueva, listaBajas, listaAltas;
+
+	if (numeroRegistro == 0)
+			cout << "No se puede eliminar este registro debido a que contiene metadata del archivo" << endl;
+		else {
+			mapaBits *mapa = new mapaBits(TAMANIO_REGISTRO_FRASES*BYTE);
+			char *serial = new char[TAMANIO_REGISTRO_FRASES];
+			fstream frases;
+			frases.open(PATH_ARCHIVO_FRASES, ios::binary|ios::in|ios::out);
+
+			if ((mapa)&&(serial)&&(frases)) {
+
+				frases.read(serial,TAMANIO_REGISTRO_FRASES);
+				mapa->hidratar(serial);
+
+				if (mapa->libre(numeroRegistro))
+					cout << "No se puede modificar, pues el registro esta libre" << endl;
+				else {
+					frases.seekg(numeroRegistro*TAMANIO_REGISTRO_FRASES, ios::beg);
+					strcpy(viejaFraseCStr, viejaFrase.c_str());
+					frases.read(viejaFraseCStr,TAMANIO_REGISTRO_FRASES);
+					viejaFrase = viejaFraseCStr;
+
+					listaVieja = ordenarTerminosEnLista(viejaFrase);
+					listaNueva = ordenarTerminosEnLista(nuevaFrase);
+					crearAltasyBajasFirmas(listaVieja,listaNueva,numeroRegistro,indice);
 
 					frases.seekp(numeroRegistro*TAMANIO_REGISTRO_FRASES, ios::beg);
 					frases.write(nuevaFrase.c_str(),TAMANIO_REGISTRO_FRASES);

@@ -14,6 +14,7 @@
 #include <list>
 #include "../Normalizador/Normalizador.h"
 #include "../Booleano/Booleano.h"
+#include "../IdxFirmas/indice.h"
 #include <string>
 #include <sstream>
 
@@ -30,7 +31,7 @@ public:
 	void cargaInicial(int numeroDeFrases);
 	void listarEnTexto();
 	void modificacion(int numeroRegistro, string nuevaFrase, Booleano *indice);
-
+	void modificacionFirmas(int numeroRegistro, string nuevaFrase, indice *indice);
 };
 
 #endif /* DICCIONARIOFRASES_H_ */
