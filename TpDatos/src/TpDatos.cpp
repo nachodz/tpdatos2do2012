@@ -854,6 +854,9 @@ void menuIdxComponenteEstadisticas(){
 
 	DiccionarioFrases dicc;
 
+	Booleano idxBooleano;
+	idxBooleano.armarIndice();
+
 	indice *indiceFirmas = new indice(PATH_ARBOL,PATH_TERMINOS,PATH_OCURRENCIAS,PATH_FIRMAS,TAM_PORCION);
 	indiceFirmas->recuperarInformacion();
 
@@ -863,10 +866,6 @@ void menuIdxComponenteEstadisticas(){
 		indiceFirmas->cargaInicialIndice(PATH_ARCHIVO_FRASES);
 		indiceFirmas->guardarInformacion();
 	}
-
-	Booleano idxBooleano;
-	idxBooleano.armarIndice();
-
 
 	while(ejecutando){
 		cout << " " << endl;
