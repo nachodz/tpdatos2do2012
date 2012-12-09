@@ -645,7 +645,7 @@ void menuIdxPorcionesFirmas(){
 
 						if (!mapa->libre(nroReg)){
 							cout << IDX_FIRMAS_MODIFICACION_OPCION3 << endl;
-						//	cin.ignore();
+				        	cin.ignore();
 							getline (cin,frase);
 							dicc.modificacionFirmas(nroReg,frase,indiceFirmas);
 							cout << IDX_FIRMAS_MODIFICACION_OK << endl;
