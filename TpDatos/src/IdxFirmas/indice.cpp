@@ -362,8 +362,10 @@ double indice::buscarFrases(string frase) {
 						for(int j = 0; j < registros; j++) {
 							frases.seekg(TAMANIO_REGISTRO_FRASE * ocurrencias[j]);
 							frases.read(serial,TAMANIO_REGISTRO_FRASE);
-							cout << "(" << ocurrencias[j] << ")" << " " << serial << endl;
-							resultado << "(" << ocurrencias[j] << ")" << " " << serial << endl;
+							if(ocurrencias[j] != TAMANIO_REGISTRO_FRASES) {
+								cout << "(" << ocurrencias[j] << ")" << " " << serial << endl;
+								resultado << "(" << ocurrencias[j] << ")" << " " << serial << endl;
+							}
 						}
 					}
 					resultado.close();
